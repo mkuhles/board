@@ -1,37 +1,31 @@
 import { useMemo, useRef, useState, useCallback } from "react";
-import { STATUSES, DEFAULT_STATUS } from "../constants/statuses";
-import { arrayMove } from "@dnd-kit/sortable";
-import { groupByStatus, normalizeOrders } from "../lib/project";
-import { generateNextSimpleId } from "../lib/ticketIds";
+import { STATUSES } from "../constants/statuses";
+import { groupByStatus } from "../lib/project";
+
+import { ensureClientIds } from "../lib/kanban/clientIds";
+import { applyDragToItems } from "../lib/kanban/dnd";
+import {
+  createItemInProject,
+  updateItemInProject,
+  deleteItemInProject,
+} from "../lib/kanban/items";
 
 function findItemByCid(items, cid) {
   return items.find((i) => i._cid === cid);
 }
 
-function statusFromOverId(overId, project) {
-  const str = String(overId);
-
-  if (str.startsWith("col:")) return str.replace("col:", "");
-
-  if (str.startsWith("item:")) {
-    const overCid = str.replace("item:", "");
-    const overItem = project.items.find((i) => i._cid === overCid);
-    return (overItem?.status || DEFAULT_STATUS);
-  }
-
-  return null;
-}
-
 export function useKanbanBoard(project, setProject, { onChange } = {}) {
   const [activeCid, setActiveCid] = useState(null);
-  const cidCounter = useRef(1);
 
-  const ensureClientIds = useCallback((loadedProject) => {
-    const items = (loadedProject.items ?? []).map((it) =>
-      it._cid ? it : { ...it, _cid: `c${cidCounter.current++}` }
-    );
-    return { ...loadedProject, items };
-  }, []);
+  // Session-only counter for stable React keys / dnd.
+  // Keep it simple: c1, c2, c3...
+  const cidCounter = useRef(1);
+  const nextCid = useCallback(() => `c${cidCounter.current++}`, []);
+
+  const ensureClientIdsForLoadedProject = useCallback(
+    (loadedProject) => ensureClientIds(loadedProject, nextCid),
+    [nextCid]
+  );
 
   const columns = useMemo(
     () => groupByStatus(project?.items ?? [], STATUSES),
@@ -49,123 +43,86 @@ export function useKanbanBoard(project, setProject, { onChange } = {}) {
     setActiveCid(cid);
   }, []);
 
-  const statusIds = STATUSES.map(s => s.id);
+  const onDragEnd = useCallback(
+    (event) => {
+      // Always cleanup drag-state, even if we early-return.
+      setActiveCid(null);
 
-  function getStatusOfItem(item) {
-    return item.status || DEFAULT_STATUS;
-  }
+      const nextItems = applyDragToItems({
+        items: project?.items ?? [],
+        event,
+        statuses: STATUSES,
+      });
 
-  const onDragEnd = useCallback((event) => {
-    const { active, over } = event;
-    // setActiveCid(null) bei dir vorhanden
+      if (!nextItems) return;
 
-    if (!active?.id || !over?.id || !project?.items) return;
+      const nextProject = { ...project, items: nextItems };
+      setProject(nextProject);
+      onChange?.(nextProject);
+    },
+    [project, setProject, onChange]
+  );
 
-    const activeCid = String(active.id).replace("item:", "");
-    const activeItem = project.items.find((i) => i._cid === activeCid);
-    if (!activeItem) return;
+  const createItem = useCallback(
+    (payload) => {
+      const nextProject = createItemInProject({
+        project,
+        payload,
+        nextCid,
+        statuses: STATUSES,
+      });
 
-    const fromStatus = activeItem.status || DEFAULT_STATUS;
-    const toStatus = statusFromOverId(over.id, project);
-    if (!toStatus) return;
+      if (!nextProject) return;
 
-    const byStatus = groupByStatus(project.items, STATUSES);
+      setProject(nextProject);
+      onChange?.(nextProject);
+    },
+    [project, setProject, onChange, nextCid]
+  );
 
-    // ✅ Duplikat-Schutz: aktives Item aus from UND to entfernen
-    const fromList = (byStatus[fromStatus] ?? []).filter((i) => i._cid !== activeCid);
-    const toBase = (byStatus[toStatus] ?? []).filter((i) => i._cid !== activeCid);
+  const updateItem = useCallback(
+    (cid, payload) => {
+      const nextProject = updateItemInProject({
+        project,
+        cid,
+        payload,
+        statuses: STATUSES,
+      });
 
-    // Insert-Index: drop auf Item => vor dieses Item; drop auf Spalte => ans Ende
-    let insertIndex = toBase.length;
-    if (String(over.id).startsWith("item:")) {
-      const overCid = String(over.id).replace("item:", "");
-      const idx = toBase.findIndex((i) => i._cid === overCid);
-      if (idx >= 0) insertIndex = idx;
-    }
+      if (!nextProject) return;
 
-    const moved = { ...activeItem, status: toStatus };
-    const toList = [...toBase];
-    toList.splice(insertIndex, 0, moved);
+      setProject(nextProject);
+      onChange?.(nextProject);
+    },
+    [project, setProject, onChange]
+  );
 
-    // Update Status-Listen
-    byStatus[fromStatus] = fromList;
-    byStatus[toStatus] = toList;
+  const deleteItem = useCallback(
+    (item) => {
+      const cid = item?._cid;
+      if (!cid || !project?.items) return;
 
-    // Flatten in STATUSES-Reihenfolge
-    const nextItems = [];
-    for (const s of STATUSES) nextItems.push(...(byStatus[s.id] ?? []));
+      const ok = window.confirm(
+        `"${item.title || item.id || "Item"}" wirklich löschen?`
+      );
+      if (!ok) return;
 
-    // ✅ orders neu 0..n pro Status
-    const nextProject = normalizeOrders({ ...project, items: nextItems }, STATUSES);
+      const nextProject = deleteItemInProject({
+        project,
+        cid,
+        statuses: STATUSES,
+      });
 
-    setProject(nextProject);
-    onChange?.(nextProject);
-  }, [project, setProject, onChange]);
+      if (!nextProject) return;
 
-  const createItem = useCallback((payload) => {
-    if (!project) return;
-
-    const id = generateNextSimpleId(project, payload.type);
-
-    const newItem = {
-      id,
-      title: payload.title,
-      description: payload.description || "",
-      type: payload.type,
-      area_id: payload.area_id,
-      relates_to: payload.relates_to || [],
-      status: DEFAULT_STATUS, // backlog
-      order: 0,               // normalizeOrders will set correct order
-      _cid: `c${cidCounter.current++}`,
-    };
-
-    const nextProject = normalizeOrders(
-      { ...project, items: [...(project.items ?? []), newItem] },
-      STATUSES
-    );
-
-    setProject(nextProject);
-    onChange?.(nextProject);
-  }, [project, setProject, onChange]);
-
-  const updateItem = useCallback((cid, payload) => {
-    if (!project) return;
-
-    const nextItems = (project.items ?? []).map((it) => {
-      if (it._cid !== cid) return it;
-      return {
-        ...it,
-        title: payload.title,
-        description: payload.description || "",
-        type: payload.type,
-        area_id: payload.area_id,
-        relates_to: payload.relates_to || [],
-        // id stays unchanged for edits
-      };
-    });
-
-    const nextProject = normalizeOrders({ ...project, items: nextItems }, STATUSES);
-
-    setProject(nextProject);
-    onChange?.(nextProject);
-  }, [project, setProject, onChange]);
-
-
-  const deleteItem = useCallback((item) => {
-    if (!item?._cid || !project?.items) return;
-
-    const ok = window.confirm(`"${item.title || item.id || "Item"}" wirklich löschen?`);
-    if (!ok) return;
-
-    const nextItems = project.items.filter((i) => i._cid !== item._cid);
-    const nextProject = normalizeOrders({ ...project, items: nextItems }, STATUSES);
-
-    setProject(nextProject);
-    onChange?.(nextProject);
-  }, [project, setProject, onChange]);
+      setProject(nextProject);
+      onChange?.(nextProject);
+    },
+    [project, setProject, onChange]
+  );
 
   return {
-    ensureClientIds,
+    ensureClientIds: ensureClientIdsForLoadedProject,
     columns,
     activeItem,
     dnd: { onDragStart, onDragEnd },

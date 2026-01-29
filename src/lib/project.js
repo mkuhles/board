@@ -25,30 +25,43 @@ export function sortByOrder(items) {
 export function groupByStatus(items, statuses) {
   const grouped = Object.fromEntries(statuses.map((s) => [s.id, []]));
   for (const it of items) {
-    const st = it.status || DEFAULT_STATUS;
-    (grouped[st] ??= []).push(it);
+    const st = grouped[it.status] ? it.status : DEFAULT_STATUS;
+    grouped[st].push(it);
   }
   // innerhalb jeder Spalte sortieren
   for (const key of Object.keys(grouped)) grouped[key] = sortByOrder(grouped[key]);
   return grouped;
 }
 
-// setzt order = 0..n innerhalb jeder Spalte
-export function normalizeOrders(project, statuses) {
-  const items = project.items ?? [];
-  const nextItems = [];
+export function normalizeOrdersItems(items, statuses) {
+  const byStatus = groupByStatus(items ?? [], statuses);
 
   for (const s of statuses) {
-    // wichtig: KEIN sortieren hier – wir behalten die aktuelle Reihenfolge
-    const col = items.filter((it) => (it.status || DEFAULT_STATUS) === s.id);
-
-    col.forEach((it, idx) => {
-      nextItems.push({ ...it, order: idx });
+    const list = byStatus[s.id] ?? [];
+    list.forEach((it, idx) => {
+      it.order = idx; // mutating copy below? see note
     });
   }
 
-  return { ...project, items: nextItems };
+  // groupByStatus liefert bei dir vermutlich schon Kopien / sortiert nach `order`.
+  // Um sicher zu sein, bauen wir ein neues Array in Status-Reihenfolge:
+  const flattened = [];
+  for (const s of statuses) flattened.push(...(byStatus[s.id] ?? []));
+
+  return flattened;
 }
+
+/**
+ * Backward compatible wrapper:
+ * takes a project, returns a project (same behavior as before)
+ */
+export function normalizeOrders(project, statuses) {
+  return {
+    ...project,
+    items: normalizeOrdersItems(project?.items ?? [], statuses),
+  };
+}
+
 
 export function stripClientFields(project) {
   const items = (project.items ?? []).map(({ _cid, ...rest }) => rest);
