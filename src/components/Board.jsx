@@ -5,7 +5,7 @@ import { Column } from "./Column";
 import { ItemCard } from "./ItemCard";
 import { useHashHighlight } from "../hooks/useHashHighlight";
 import css from "./Board.module.css";
-import { ItemModal } from "./ItemModal";
+import { ItemModal } from "./ItemModal/ItemModal";
 
 export function Board({
   columns,

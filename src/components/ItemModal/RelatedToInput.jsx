@@ -11,6 +11,7 @@ export function RelatedToInput({
   onChangeIds,       // (nextIds) => void
   excludeId,         // current item id (so you can't relate to yourself)
   placeholder = "Type to search by ID or title…",
+  ...inputProps
 }) {
   const [q, setQ] = useState("");
   const [open, setOpen] = useState(false);
@@ -80,7 +81,7 @@ export function RelatedToInput({
   };
 
   return (
-    <div className={css.wrap}>
+    <div className={css.wrap} >
       <div className={css.chips}>
         {(valueIds || []).map((id) => (
           <button
@@ -95,6 +96,7 @@ export function RelatedToInput({
         ))}
 
         <input
+          {...inputProps}
           ref={inputRef}
           className={css.input}
           value={q}
