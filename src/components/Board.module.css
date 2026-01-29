@@ -1,0 +1,19 @@
+.board {
+  margin-top: 12px;
+  display: flex;
+  gap: 12px;
+  align-items: stretch;
+
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+/* Jede normale Spalte darf wachsen und nimmt möglichst viel Platz */
+.columnGrow {
+  flex: 1 0 320px; /* wächst, Minimum 320px */
+}
+
+/* Collapsed bleibt schmal und wächst NICHT */
+.columnCollapsedWrap {
+  flex: 0 0 72px; /* fix 72px */
+}

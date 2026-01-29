@@ -1,0 +1,34 @@
+import React from "react";
+import css from "./TopBar.module.css";
+
+export function TopBar({ supportOk, projectLoaded, isSaving, onOpen, onSave, onSaveAs }) {
+  return (
+    <header className={css.header}>
+      <div>
+        <div className={css.title}>Projekt Board</div>
+        <div className={css.sub}>Lokales JSON öffnen → verschieben → speichern</div>
+        {!supportOk ? (
+          <div className={css.subError}>
+            Browser-Support fehlt. Nutze Chrome/Edge/Brave oder später Electron/Tauri.
+          </div>
+        ) : null}
+      </div>
+
+      <div className={css.actions}>
+        <button className={css.btn} onClick={onOpen} disabled={!supportOk}>
+          Datei öffnen
+        </button>
+        <button
+          className={`${css.btn} ${css.btnPrimary}`}
+          onClick={onSave}
+          disabled={!projectLoaded || isSaving}
+        >
+          Speichern
+        </button>
+        <button className={css.btn} onClick={onSaveAs} disabled={!projectLoaded || isSaving || !supportOk}>
+          Speichern unter…
+        </button>
+      </div>
+    </header>
+  );
+}

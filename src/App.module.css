@@ -1,0 +1,33 @@
+.page {
+  min-height: 100vh;
+  background: #1f1f1f;
+  color: #f2f2f2;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  padding: 16px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.alertError {
+  background: #3b1515;
+  border: 1px solid #6a2a2a;
+  color: #ffd0d0;
+  padding: 12px;
+  border-radius: 12px;
+  margin: 12px 0;
+  white-space: pre-wrap;
+}
+
+.alertInfo {
+  background: #10253c;
+  border: 1px solid #1b4670;
+  color: #cfe6ff;
+  padding: 12px;
+  border-radius: 12px;
+  margin: 12px 0;
+  white-space: pre-wrap;
+}
+
