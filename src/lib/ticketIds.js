@@ -8,7 +8,7 @@ function escapeRegExp(s) {
  * Old IDs like "US1.3" are ignored.
  */
 export function generateNextSimpleId(project, type) {
-  const typeCode = project?.typeCodes?.[type].prefix;
+  const typeCode = project?.typeCodes?.[type]?.prefix;
   if (!typeCode) {
     throw new Error(`Missing typeCodes mapping for type "${type}".`);
   }

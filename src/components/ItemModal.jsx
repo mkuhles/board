@@ -3,18 +3,8 @@ import css from "./ItemModal.module.css";
 import { useAreas, useTypeCodes } from "../context/ProjectContext";
 import { RelatedToInput } from "./RelatedToInput";
 
-function parseRelatesTo(input) {
-  return String(input || "")
-    .split(/[,\n]/g)
-    .map((s) => s.trim())
-    .filter(Boolean);
-}
-
-function relatesToToText(arr) {
-  return Array.isArray(arr) ? arr.join(", ") : "";
-}
-
 const DEFAULT_TYPE = 'task';
+const fallbackType = Object.keys(typeCodes ?? {})[0] ?? DEFAULT_TYPE;
 
 export function ItemModal({
   isOpen,
@@ -32,11 +22,10 @@ export function ItemModal({
   const [description, setDescription] = useState("");
   const [type, setType] = useState(DEFAULT_TYPE);
   const [areaId, setAreaId] = useState("");
-  const [relatesTo, setRelatesTo] = useState("");
   const [error, setError] = useState("");
   const [relatesToIds, setRelatesToIds] = useState([]);
 
-  const typeCodePreview = useMemo(() => typeCodes?.[type].prefix || "", [typeCodes, type]);
+  const typeCodePreview = useMemo(() => typeCodes?.[type]?.prefix || "", [typeCodes, type]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -46,13 +35,13 @@ export function ItemModal({
     if (isEdit && initialItem) {
       setTitle(initialItem.title ?? "");
       setDescription(initialItem.description ?? "");
-      setType(initialItem.type ?? DEFAULT_TYPE);
+      setType(initialItem?.type ?? fallbackType);
       setAreaId(initialItem.area_id ?? "");
       setRelatesToIds(Array.isArray(initialItem.relates_to) ? initialItem.relates_to : []);
     } else {
       setTitle("");
       setDescription("");
-      setType(DEFAULT_TYPE);
+      setType(fallbackType);
       // default: first area if exists
       setAreaId((areas?.[0]?.id) ?? "");
       setRelatesToIds([]);
@@ -107,9 +96,9 @@ export function ItemModal({
           <label className={css.label}>
             <span>Type *</span>
             <select className={css.input} value={type} onChange={(e) => setType(e.target.value)}>
-              {Object.keys(typeCodes).map((key) => (
-                <option key={typeCodes[key].id} value={typeCodes[key].id}>
-                  {typeCodes[key].label} ({[typeCodes[key].prefix] ?? "?"})
+              {Object.keys(typeCodes).map(([typeKey, cfg]) => (
+                <option key={typeKey} value={typeKey}>
+                  {cfg.label} ({[cfg.prefix] ?? "?"})
                 </option>
               ))}
             </select>
