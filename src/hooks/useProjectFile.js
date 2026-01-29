@@ -1,6 +1,5 @@
 import { useCallback, useState } from "react";
-import { openJsonFile, saveAsJsonFile, saveJsonFile, isFileSystemApiSupported } from "../lib/fileSystem";
-import { stripClientFields } from "../lib/project";
+import { openJsonFile, saveAsJsonFile, saveJsonFile, isFileSystemApiSupported, stripClientFields } from "../lib/storage";
 import { migrateAreasOnOpen } from "../lib/migrateAreas";
 
 export function useProjectFile() {

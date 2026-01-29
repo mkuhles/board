@@ -1,4 +1,5 @@
-import { ensureDefaults, safeJsonParse } from "./project";
+import { ensureDefaults } from "../project";
+import { safeJsonParse } from "./json";
 
 export function isFileSystemApiSupported() {
   return Boolean(window.showOpenFilePicker && window.showSaveFilePicker);

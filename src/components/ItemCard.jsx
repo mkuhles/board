@@ -2,8 +2,8 @@ import React from "react";
 import css from "./ItemCard.module.css";
 import { AreaChip } from "./AreaChip";
 import { useAreas } from "../context/ProjectContext";
-import { getAreaById } from "../lib/areas";
 import { AnchorLink } from "./AnchorLink";
+import { getAreaById } from "../lib/project";
 
 export function ItemCard({ item, onDelete, onEdit }) {
   const areas = useAreas();

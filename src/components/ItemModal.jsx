@@ -4,7 +4,6 @@ import { useAreas, useTypeCodes } from "../context/ProjectContext";
 import { RelatedToInput } from "./RelatedToInput";
 
 const DEFAULT_TYPE = 'task';
-const fallbackType = Object.keys(typeCodes ?? {})[0] ?? DEFAULT_TYPE;
 
 export function ItemModal({
   isOpen,
@@ -17,6 +16,7 @@ export function ItemModal({
   const isEdit = mode === "edit";
   const areas = useAreas();
   const typeCodes = useTypeCodes();
+  const fallbackType = Object.keys(typeCodes ?? {})[0] ?? DEFAULT_TYPE;
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");

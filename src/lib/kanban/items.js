@@ -1,6 +1,5 @@
 import { DEFAULT_STATUS } from "../../constants/statuses";
-import { normalizeOrders } from "../project";
-import { generateNextSimpleId } from "../ticketIds";
+import { generateNextSimpleId, normalizeOrders } from "../project";
 
 export function createItemInProject({ project, payload, nextCid, statuses }) {
   if (!project) return null;
