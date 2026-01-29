@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useMemo } from "react";
 import css from "./App.module.css";
 import { useProjectFile } from "./hooks/useProjectFile";
 import { useKanbanBoard } from "./hooks/useKanbanBoard";
 import { TopBar } from "./components/TopBar";
 import { EmptyState } from "./components/EmptyState";
 import { Board } from "./components/Board";
+import { ProjectProvider } from "./context/ProjectContext";
 
 export default function App() {
   const file = useProjectFile();
@@ -15,6 +16,13 @@ export default function App() {
 
   const handleOpen = () => file.open(board.ensureClientIds);
 
+
+  const projectMeta = useMemo(() => ({
+    name: file.project?.name ?? '',
+    areas: file.project?.areas ?? [],
+    typeCodes: file.project?.typeCodes ?? {}
+  }), [file.project?.name, file.project?.areas, file.project?.typeCodes]);
+  
   return (
     <div className={css.page}>
       <div className={css.container}>
@@ -33,13 +41,16 @@ export default function App() {
         {!file.project ? (
           <EmptyState />
         ) : (
-          <Board
-            columns={board.columns}
-            activeItem={board.activeItem}
-            onDragStart={board.dnd.onDragStart}
-            onDragEnd={board.dnd.onDragEnd}
-            onDeleteItem={board.deleteItem}
-          />
+          <ProjectProvider value={projectMeta}>
+            <Board
+              columns={board.columns}
+              activeItem={board.activeItem}
+              onDragStart={board.dnd.onDragStart}
+              onDragEnd={board.dnd.onDragEnd}
+              onDeleteItem={board.deleteItem}
+            />
+          </ProjectProvider>
+          
         )}
       </div>
     </div>

@@ -1,0 +1,22 @@
+.chip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-size: 12px;
+  line-height: 1.4;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.filled {
+  background: #fafafa;
+  border: 1px solid #ddd;
+  color: #111;
+}
+
+.outline {
+  background: transparent;
+  border: 1px solid #ddd;
+  color: #111;
+}

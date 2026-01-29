@@ -47,7 +47,11 @@ export function Column({
             strategy={verticalListSortingStrategy}
           >
             {items.map((item) => (
-              <DraggableItem key={item._cid} item={item} onDelete={onDeleteItem} />
+              <DraggableItem
+                key={item._cid}
+                item={item}
+                onDelete={onDeleteItem}
+              />
             ))}
           </SortableContext>
         </div>

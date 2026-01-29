@@ -79,3 +79,14 @@
   background: #ffecec;
   border-color: #ffb8b8;
 }
+
+/* anchor click Hihglight */
+@keyframes flashHighlight {
+  0%   { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
+  10%  { box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.65); }
+  100% { box-shadow: 0 0 0 10px rgba(255, 215, 0, 0); }
+}
+
+:global(.highlight) {
+  animation: flashHighlight 900ms ease-out;
+}

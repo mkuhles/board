@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react";
 import { openJsonFile, saveAsJsonFile, saveJsonFile, isFileSystemApiSupported } from "../lib/fileSystem";
 import { stripClientFields } from "../lib/project";
+import { migrateAreasOnOpen } from "../lib/migrateAreas";
 
 export function useProjectFile() {
   const [fileHandle, setFileHandle] = useState(null);
@@ -17,9 +18,19 @@ export function useProjectFile() {
     setInfo("");
     try {
       const { handle, project: loaded } = await openJsonFile();
+
+      const prepared = prepareProject ? prepareProject(loaded) : loaded;
+      const { project: migrated, changed } = migrateAreasOnOpen(prepared);
+
       setFileHandle(handle);
-      setProject(prepareProject ? prepareProject(loaded) : loaded);
-      setInfo("Datei geöffnet.");
+      setProject(migrated);
+
+      if (changed) {
+        await saveJsonFile(handle, stripClientFields(migrated));
+        setInfo("File opened and migrated (area → area_id).");
+      } else {
+        setInfo("File opened.");
+      }
     } catch (e) {
       setError(`Öffnen fehlgeschlagen: ${e?.message || String(e)}`);
     }

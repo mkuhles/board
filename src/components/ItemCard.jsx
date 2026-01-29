@@ -1,9 +1,16 @@
 import React from "react";
 import css from "./ItemCard.module.css";
+import { AreaChip } from "./AreaChip";
+import { useAreas } from "../context/ProjectContext";
+import { getAreaById } from "../lib/areas";
+import { AnchorLink } from "./AnchorLink";
 
 export function ItemCard({ item, onDelete }) {
+  const areas = useAreas();
+  const area = getAreaById(areas, item.area_id);
+
   return (
-    <div className={css.card}>
+    <div id={item.id} className={css.card}>
       <div className={css.meta}>
         <span className={css.badge}>{item.id || "—"}</span>
 
@@ -24,13 +31,12 @@ export function ItemCard({ item, onDelete }) {
       {item.description ? <div className={css.desc}>{item.description}</div> : null}
 
       <div className={css.chips}>
-        {item.area ? <span className={css.chip}>{item.area}</span> : null}
-        <span className={css.chip}>status: {item.status}</span>
+        <AreaChip area={area} />
         {Array.isArray(item.relates_to)
           ? item.relates_to.slice(0, 6).map((r) => (
-              <span key={r} className={css.chip}>
+              <AnchorLink key={r} toId={r} className={css.chip}>
                 {r}
-              </span>
+              </AnchorLink>
             ))
           : null}
       </div>

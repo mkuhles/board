@@ -3,13 +3,15 @@ import { DndContext, DragOverlay, PointerSensor, closestCenter, useSensor, useSe
 import { STATUSES } from "../constants/statuses";
 import { Column } from "./Column";
 import { ItemCard } from "./ItemCard";
+import { useHashHighlight } from "../hooks/useHashHighlight";
 import css from "./Board.module.css";
 
 export function Board({ columns, activeItem, onDragStart, onDragEnd, onDeleteItem }) {
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 6 } }));
 
   const [collapsed, setCollapsed] = useState({ backlog: false });
-
+  useHashHighlight();
+  
   return (
     <DndContext
         sensors={sensors}
