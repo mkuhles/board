@@ -22,7 +22,7 @@ export default function App() {
     areas: file.project?.areas ?? [],
     typeCodes: file.project?.typeCodes ?? {}
   }), [file.project?.name, file.project?.areas, file.project?.typeCodes]);
-  
+
   return (
     <div className={css.page}>
       <div className={css.container}>
@@ -48,6 +48,8 @@ export default function App() {
               onDragStart={board.dnd.onDragStart}
               onDragEnd={board.dnd.onDragEnd}
               onDeleteItem={board.deleteItem}
+              onCreateItem={board.createItem}
+              onUpdateItem={board.updateItem}
             />
           </ProjectProvider>
           

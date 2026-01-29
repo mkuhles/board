@@ -215,6 +215,25 @@ the application automatically:
 
 This happens transparently when opening a project.
 
+## Ticket ID Structure
+
+New ticket IDs use a simple format:
+```
+<TYPECODE><NUMBER>
+```
+
+Examples:
+
+- `US1`, `US2`, `US3`
+- `TECH1`, `TECH2`
+
+The counter increments per type (`US` and `TECH` have separate sequences).
+
+### Backward compatibility
+
+Older projects may contain legacy IDs such as `US1.3`. These are kept as-is.
+Only newly created items will receive the new ID format.
+
 ## Possible Future Improvements
 
 Potential enhancements:

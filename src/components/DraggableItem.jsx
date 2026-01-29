@@ -3,7 +3,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { ItemCard } from "./ItemCard";
 
-export function DraggableItem({ item, onDelete }) {
+export function DraggableItem({ item, onDelete, onEdit }) {
   const id = `item:${item._cid}`;
 
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
@@ -18,7 +18,7 @@ export function DraggableItem({ item, onDelete }) {
 
   return (
     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      <ItemCard item={item} onDelete={onDelete} />
+      <ItemCard item={item} onDelete={onDelete} onEdit={onEdit} />
     </div>
   );
 }

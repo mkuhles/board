@@ -1,0 +1,110 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  z-index: 50;
+}
+
+.modal {
+  width: min(760px, 100%);
+  background: #111;
+  color: #f2f2f2;
+  border: 1px solid #2a2a2a;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+  padding: 14px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.sub {
+  margin-top: 4px;
+  font-size: 13px;
+  color: #bdbdbd;
+}
+
+.iconBtn {
+  border: 1px solid #2a2a2a;
+  background: #161616;
+  color: #fff;
+  border-radius: 10px;
+  width: 34px;
+  height: 34px;
+  cursor: pointer;
+}
+
+.error {
+  margin-top: 10px;
+  background: #3b1515;
+  border: 1px solid #6a2a2a;
+  color: #ffd0d0;
+  padding: 10px;
+  border-radius: 12px;
+  white-space: pre-wrap;
+}
+
+.grid {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: 1fr 220px 220px;
+  gap: 12px;
+}
+
+.label, .labelWide {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  color: #d8d8d8;
+}
+
+.labelWide { grid-column: 1 / -1; }
+
+.input, .textarea {
+  border-radius: 12px;
+  border: 1px solid #2a2a2a;
+  background: #0b0b0b;
+  color: #f2f2f2;
+  padding: 10px 12px;
+  font-size: 14px;
+}
+
+.textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.footer {
+  margin-top: 14px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.btn {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #3a3a3a;
+  background: #fff;
+  color: #111;
+  cursor: pointer;
+}
+
+.btnPrimary {
+  border: 1px solid #111;
+  font-weight: 900;
+}

@@ -2,6 +2,7 @@ import { useMemo, useRef, useState, useCallback } from "react";
 import { STATUSES, DEFAULT_STATUS } from "../constants/statuses";
 import { arrayMove } from "@dnd-kit/sortable";
 import { groupByStatus, normalizeOrders } from "../lib/project";
+import { generateNextSimpleId } from "../lib/ticketIds";
 
 function findItemByCid(items, cid) {
   return items.find((i) => i._cid === cid);
@@ -101,6 +102,55 @@ export function useKanbanBoard(project, setProject, { onChange } = {}) {
     onChange?.(nextProject);
   }, [project, setProject, onChange]);
 
+  const createItem = useCallback((payload) => {
+    if (!project) return;
+
+    const id = generateNextSimpleId(project, payload.type);
+
+    const newItem = {
+      id,
+      title: payload.title,
+      description: payload.description || "",
+      type: payload.type,
+      area_id: payload.area_id,
+      relates_to: payload.relates_to || [],
+      status: DEFAULT_STATUS, // backlog
+      order: 0,               // normalizeOrders will set correct order
+      _cid: `c${cidCounter.current++}`,
+    };
+
+    const nextProject = normalizeOrders(
+      { ...project, items: [...(project.items ?? []), newItem] },
+      STATUSES
+    );
+
+    setProject(nextProject);
+    onChange?.(nextProject);
+  }, [project, setProject, onChange]);
+
+  const updateItem = useCallback((cid, payload) => {
+    if (!project) return;
+
+    const nextItems = (project.items ?? []).map((it) => {
+      if (it._cid !== cid) return it;
+      return {
+        ...it,
+        title: payload.title,
+        description: payload.description || "",
+        type: payload.type,
+        area_id: payload.area_id,
+        relates_to: payload.relates_to || [],
+        // id stays unchanged for edits
+      };
+    });
+
+    const nextProject = normalizeOrders({ ...project, items: nextItems }, STATUSES);
+
+    setProject(nextProject);
+    onChange?.(nextProject);
+  }, [project, setProject, onChange]);
+
+
   const deleteItem = useCallback((item) => {
     if (!item?._cid || !project?.items) return;
 
@@ -120,5 +170,7 @@ export function useKanbanBoard(project, setProject, { onChange } = {}) {
     activeItem,
     dnd: { onDragStart, onDragEnd },
     deleteItem,
+    createItem,
+    updateItem,
   };
 }

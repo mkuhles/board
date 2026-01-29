@@ -17,3 +17,19 @@
 .columnCollapsedWrap {
   flex: 0 0 72px; /* fix 72px */
 }
+
+.toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.smallBtn {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #3a3a3a;
+  background: #fff;
+  color: #111;
+  cursor: pointer;
+  font-weight: 800;
+}

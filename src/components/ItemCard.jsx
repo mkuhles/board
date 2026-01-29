@@ -5,12 +5,12 @@ import { useAreas } from "../context/ProjectContext";
 import { getAreaById } from "../lib/areas";
 import { AnchorLink } from "./AnchorLink";
 
-export function ItemCard({ item, onDelete }) {
+export function ItemCard({ item, onDelete, onEdit }) {
   const areas = useAreas();
   const area = getAreaById(areas, item.area_id);
 
   return (
-    <div id={item.id} className={css.card}>
+    <div id={item.id} className={css.card} onDoubleClick={() => onEdit?.(item)}>
       <div className={css.meta}>
         <span className={css.badge}>{item.id || "—"}</span>
 
