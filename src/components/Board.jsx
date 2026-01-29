@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { DndContext, DragOverlay, PointerSensor, closestCenter, useSensor, useSensors } from "@dnd-kit/core";
 import { STATUSES } from "../constants/statuses";
 import { Column } from "./Column";
@@ -24,9 +24,10 @@ export function Board({
   const [modalOpen, setModalOpen] = useState(false);
   const [editCid, setEditCid] = useState(null);
 
+  const allItems = useMemo(() => Object.values(columns).flat(), [columns]);
   const editingItem =
     editCid
-      ? Object.values(columns).flat().find((it) => it._cid === editCid) ?? null
+      ? allItems.find((it) => it._cid === editCid) ?? null
       : null;
 
   const openCreate = () => {
@@ -115,6 +116,7 @@ export function Board({
         initialItem={editingItem}
         onCancel={closeModal}
         onSubmit={submitModal}
+        allItems={allItems}
       />
     </>
   );

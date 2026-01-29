@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import css from "./ItemModal.module.css";
 import { useAreas, useTypeCodes } from "../context/ProjectContext";
+import { RelatedToInput } from "./RelatedToInput";
 
 function parseRelatesTo(input) {
   return String(input || "")
@@ -21,6 +22,7 @@ export function ItemModal({
   initialItem, // item for edit, or null
   onCancel,
   onSubmit, // (payload) => void
+  allItems,
 }) {
   const isEdit = mode === "edit";
   const areas = useAreas();
@@ -32,6 +34,7 @@ export function ItemModal({
   const [areaId, setAreaId] = useState("");
   const [relatesTo, setRelatesTo] = useState("");
   const [error, setError] = useState("");
+  const [relatesToIds, setRelatesToIds] = useState([]);
 
   const typeCodePreview = useMemo(() => typeCodes?.[type].prefix || "", [typeCodes, type]);
 
@@ -45,14 +48,14 @@ export function ItemModal({
       setDescription(initialItem.description ?? "");
       setType(initialItem.type ?? DEFAULT_TYPE);
       setAreaId(initialItem.area_id ?? "");
-      setRelatesTo(relatesToToText(initialItem.relates_to));
+      setRelatesToIds(Array.isArray(initialItem.relates_to) ? initialItem.relates_to : []);
     } else {
       setTitle("");
       setDescription("");
       setType(DEFAULT_TYPE);
       // default: first area if exists
       setAreaId((areas?.[0]?.id) ?? "");
-      setRelatesTo("");
+      setRelatesToIds([]);
     }
   }, [isOpen, isEdit, initialItem, areas]);
 
@@ -70,7 +73,7 @@ export function ItemModal({
       description: description.trim(),
       type,
       area_id: areaId,
-      relates_to: parseRelatesTo(relatesTo),
+      relates_to: relatesToIds,
     };
 
     onSubmit(payload);
@@ -132,12 +135,12 @@ export function ItemModal({
           </label>
 
           <label className={css.labelWide}>
-            <span>Relates to (comma or newline separated IDs)</span>
-            <input
-              className={css.input}
-              value={relatesTo}
-              onChange={(e) => setRelatesTo(e.target.value)}
-              placeholder="US3, TECH2, US1.4"
+            <span>Relates to</span>
+            <RelatedToInput
+                allItems={allItems}
+                valueIds={relatesToIds}
+                onChangeIds={setRelatesToIds}
+                excludeId={initialItem?.id}
             />
           </label>
         </div>

@@ -1,0 +1,77 @@
+.wrap { position: relative; }
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+
+  border-radius: 12px;
+  border: 1px solid #2a2a2a;
+  background: #0b0b0b;
+  padding: 8px 10px;
+}
+
+.chip {
+  border: 1px solid #2a2a2a;
+  background: #161616;
+  color: #f2f2f2;
+  border-radius: 999px;
+  padding: 4px 10px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.x { opacity: 0.7; margin-left: 6px; }
+
+.input {
+  flex: 1;
+  min-width: 220px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #f2f2f2;
+  padding: 6px 4px;
+  font-size: 14px;
+}
+
+.dropdown {
+  position: absolute;
+  z-index: 60;
+  left: 0;
+  right: 0;
+  margin-top: 6px;
+  border: 1px solid #2a2a2a;
+  background: #111;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.item {
+  width: 100%;
+  text-align: left;
+  padding: 10px 10px;
+  border: none;
+  background: transparent;
+  color: #f2f2f2;
+  cursor: pointer;
+}
+
+.item:hover, .active {
+  background: #1b1b1b;
+}
+
+.itemTop {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+}
+
+.itemId {
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.itemTitle {
+  opacity: 0.85;
+}
