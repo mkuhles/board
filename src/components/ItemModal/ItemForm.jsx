@@ -1,6 +1,7 @@
 import { RelatedToInput } from "./RelatedToInput";
 import { Field } from "./Field";
 import css from "./ItemModal.module.css";
+import { Markdown } from "../Markdown";
 
 export function ItemForm({
   title, setTitle,
@@ -54,6 +55,13 @@ export function ItemForm({
           onChange={(e) => setDescription(e.target.value)}
         />
       </Field>
+
+      {description?.trim() ? (
+        <div className={css.preview}>
+          <div className={css.previewLabel}>Preview</div>
+          <Markdown className={css.markdown}>{description}</Markdown>
+        </div>
+      ) : null}
 
       <Field label="Relates to" inputId="item-relates" wide>
         <RelatedToInput

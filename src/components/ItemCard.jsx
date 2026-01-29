@@ -4,6 +4,7 @@ import { AreaChip } from "./AreaChip";
 import { useAreas } from "../context/ProjectContext";
 import { AnchorLink } from "./AnchorLink";
 import { getAreaById } from "../lib/project";
+import { Markdown } from "./Markdown";
 
 export function ItemCard({ item, onDelete, onEdit }) {
   const areas = useAreas();
@@ -28,7 +29,9 @@ export function ItemCard({ item, onDelete, onEdit }) {
       </div>
 
       <div className={css.title}>{item.title || "(ohne Titel)"}</div>
-      {item.description ? <div className={css.desc}>{item.description}</div> : null}
+      <Markdown className={css.cardMarkdown}>
+        {item.description || ""}
+      </Markdown>
 
       <div className={css.chips}>
         <AreaChip area={area} />
