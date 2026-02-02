@@ -120,10 +120,20 @@
   padding: 10px;
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.04);
+
+  display: flex;
+  flex-direction: column;
+  min-height: 0;          /* wichtig, falls parent flex/grid ist */
 }
 
 .previewLabel {
   font-size: 12px;
   opacity: 0.8;
   margin-bottom: 6px;
+}
+
+.previewBody {
+  overflow: auto;
+  max-height: 45vh;       /* feinjustieren */
+  min-height: 0;          /* wichtig */
 }

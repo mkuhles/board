@@ -59,7 +59,7 @@ export function ItemForm({
       {description?.trim() ? (
         <div className={css.preview}>
           <div className={css.previewLabel}>Preview</div>
-          <Markdown className={css.markdown}>{description}</Markdown>
+          <Markdown className={css.previewBody}>{description}</Markdown>
         </div>
       ) : null}
 
