@@ -12,7 +12,10 @@ export function Column({
   collapsible = false,
   collapsed = false,
   onToggleCollapse,
-  onEditItem
+  onEditItem,
+  onUpdateItem,
+  onAddItemToSprint,
+  canAddItemToSprint
 }) {
   const droppableId = `col:${statusId}`;
   const { setNodeRef, isOver } = useDroppable({ id: droppableId });
@@ -53,6 +56,9 @@ export function Column({
                 item={item}
                 onDelete={onDeleteItem}
                 onEdit={onEditItem}
+                onUpdate={onUpdateItem}
+                onAddToSprint={onAddItemToSprint}
+                canAddToSprint={canAddItemToSprint}
               />
             ))}
           </SortableContext>

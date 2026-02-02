@@ -1,11 +1,11 @@
 import React from "react";
 import css from "./TopBar.module.css";
 
-export function TopBar({ supportOk, projectLoaded, isSaving, onOpen, onSave, onSaveAs }) {
+export function TopBar({ supportOk, projectLoaded, projectName, isSaving, onOpen, onSave, onSaveAs }) {
   return (
     <header className={css.header}>
       <div>
-        <div className={css.title}>Projekt Board</div>
+        <div className={css.title}>Projekt {projectName ?? "Board"}</div>
         <div className={css.sub}>Lokales JSON öffnen → verschieben → speichern</div>
         {!supportOk ? (
           <div className={css.subError}>

@@ -1,0 +1,14 @@
+.sprintFilter {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.sprintFilter select {
+  margin-left: 0.25rem;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #3a3a3a;
+  background: #fff;
+  color: #111;
+  font-weight: 800;
+}

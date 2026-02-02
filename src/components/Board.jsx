@@ -2,10 +2,11 @@ import React, { useMemo, useState } from "react";
 import { DndContext, DragOverlay, PointerSensor, closestCenter, useSensor, useSensors } from "@dnd-kit/core";
 import { STATUSES } from "../constants/statuses";
 import { Column } from "./Column";
-import { ItemCard } from "./ItemCard";
+import { ItemCard } from "./ItemCard/ItemCard";
 import { useHashHighlight } from "../hooks/useHashHighlight";
 import css from "./Board.module.css";
 import { ItemModal } from "./ItemModal/ItemModal";
+import { SprintFilter } from "./Scrum/SprintFilter";
 
 export function Board({
   columns,
@@ -15,6 +16,12 @@ export function Board({
   onDeleteItem,
   onCreateItem,
   onUpdateItem,
+
+  sprints,
+  onSprintChange,
+  onAddItemToSprint,
+  canAddItemToSprint,
+  activeSprintId
  }) {
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 6 } }));
 
@@ -62,6 +69,13 @@ export function Board({
   return (
     <>  
       <div className={css.toolbar}>
+        {sprints && sprints.length > 0 && onSprintChange ? (
+          <SprintFilter
+            sprints={sprints}
+            activeSprintId={activeSprintId}
+            onSprintChange={onSprintChange} />
+        ) : null}
+
         <button className={css.smallBtn} onClick={openCreate} type="button">
           + New item
         </button>
@@ -95,6 +109,8 @@ export function Board({
                     setCollapsed((prev) => ({ ...prev, backlog: !prev.backlog }))
                   }
                   onEditItem={openEdit}
+                  onAddItemToSprint={onAddItemToSprint}
+                  canAddItemToSprint={canAddItemToSprint}
                 />
               </div>
             )

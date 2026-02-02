@@ -29,15 +29,22 @@ export function updateItemInProject({ project, cid, payload, statuses }) {
 
   const nextItems = (project.items ?? []).map((it) => {
     if (it._cid !== cid) return it;
-    return {
-      ...it,
-      title: payload.title,
-      description: payload.description || "",
-      type: payload.type,
-      area_id: payload.area_id,
-      relates_to: payload.relates_to || [],
-      // id stays unchanged
-    };
+
+    const next = { ...it };
+
+    // Only update fields that exist on payload (patch semantics)
+    if ("title" in payload) next.title = payload.title;
+    if ("description" in payload) next.description = payload.description ?? "";
+    if ("type" in payload) next.type = payload.type;
+    if ("area_id" in payload) next.area_id = payload.area_id;
+    if ("relates_to" in payload) next.relates_to = payload.relates_to ?? [];
+
+    // ✅ sprint + status support
+    if ("sprintId" in payload) next.sprintId = payload.sprintId; // allow null to remove
+    if ("status" in payload) next.status = payload.status;
+    if ("order" in payload) next.order = payload.order;
+
+    return next;
   });
 
   return normalizeOrders({ ...project, items: nextItems }, statuses);

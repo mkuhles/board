@@ -64,18 +64,18 @@
   gap: 8px;
 }
 
-.deleteBtn {
+.actionBtn {
   border: 1px solid #ddd;
   background: #fff;
   color: #111;
   border-radius: 10px;
-  width: 34px;
+  min-width: 34px;
   height: 34px;
   cursor: pointer;
   line-height: 1;
 }
 
-.deleteBtn:hover {
+.actionBtn:hover {
   background: #ffecec;
   border-color: #ffb8b8;
 }

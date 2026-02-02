@@ -1,9 +1,9 @@
 import React from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { ItemCard } from "./ItemCard";
+import { ItemCard } from "./ItemCard/ItemCard";
 
-export function DraggableItem({ item, onDelete, onEdit }) {
+export function DraggableItem({ item, onDelete, onEdit, onAddToSprint, canAddToSprint }) {
   const id = `item:${item._cid}`;
 
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
@@ -18,7 +18,13 @@ export function DraggableItem({ item, onDelete, onEdit }) {
 
   return (
     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      <ItemCard item={item} onDelete={onDelete} onEdit={onEdit} />
+      <ItemCard
+        item={item}
+        onEdit={onEdit}
+        onDelete={onDelete}
+        onAddToSprint={onAddToSprint}
+        canAddToSprint={canAddToSprint}
+      />
     </div>
   );
 }

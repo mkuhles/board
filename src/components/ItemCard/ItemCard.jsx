@@ -1,12 +1,15 @@
 import React from "react";
 import css from "./ItemCard.module.css";
-import { AreaChip } from "./AreaChip";
-import { useAreas } from "../context/ProjectContext";
-import { AnchorLink } from "./AnchorLink";
-import { getAreaById } from "../lib/project";
-import { Markdown } from "./Markdown";
+import { AreaChip } from "../AreaChip";
+import { useAreas } from "../../context/ProjectContext";
+import { AnchorLink } from "../AnchorLink";
+import { getAreaById } from "../../lib/project";
+import { Markdown } from "../Markdown";
+import { DeleteButton } from "./ItemCardActionButtons";
+import { AddToSprintButton } from "./ItemCardActionButtons";
+import { Chip } from "../Chip";
 
-export function ItemCard({ item, onDelete, onEdit }) {
+export function ItemCard({ item, onDelete, onEdit, canAddToSprint, onAddToSprint }) {
   const areas = useAreas();
   const area = getAreaById(areas, item.area_id);
 
@@ -17,14 +20,11 @@ export function ItemCard({ item, onDelete, onEdit }) {
 
         <div className={css.metaRight}>
           <span className={css.muted}>{item.type || ""}</span>
-          <button
-            className={css.deleteBtn}
-            type="button"
-            title="Löschen"
-            onClick={() => onDelete?.(item)}
-          >
-            🗑️
-          </button>
+          {item.sprintId && <Chip label={item.sprintId} title={item.sprintId} />}
+          <DeleteButton item={item} onDelete={onDelete} />
+          {canAddToSprint && !item.sprintId ? (
+            <AddToSprintButton item={item} onAddToSprint={onAddToSprint} />
+          ) : null }
         </div>
       </div>
 

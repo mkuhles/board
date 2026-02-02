@@ -1,5 +1,5 @@
 import React from "react";
-import css from "./AreaChip.module.css";
+import {Chip} from "./Chip";
 
 /**
  * Props:
@@ -14,8 +14,6 @@ export function AreaChip({ area, variant = "filled", showNumber = false }) {
   const label = showNumber && number !== null ? `${area.title} (${number})` : area.title;
 
   return (
-    <div className={`${css.chip} ${variant === "outline" ? css.outline : css.filled}`} title={area.id}>
-      {label}
-    </div>
+    <Chip variant={variant} title={area.id} label={label} />
   );
 }
