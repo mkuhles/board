@@ -1,0 +1,135 @@
+import React from "react";
+import css from "./ItemModal.module.css";
+import { formatLocalDateTime } from "../../lib/time";
+
+export function TimeEntriesSection({
+  timeWrapRef,
+  isTimeOpen,
+  setIsTimeOpen,
+  timeEntries,
+  timeEntryCount,
+  totalMinutes,
+  timeStart,
+  timeMinutes,
+  timeComment,
+  timeTags,
+  timeBillable,
+  onChangeStart,
+  onChangeMinutes,
+  onChangeComment,
+  onChangeTags,
+  onChangeBillable,
+  onAddTimeEntry,
+  timeDirty,
+}) {
+  return (
+    <div className={css.timeWrap} ref={timeWrapRef}>
+      <details
+        className={css.accordion}
+        open={isTimeOpen}
+        onToggle={(e) => setIsTimeOpen(e.currentTarget.open)}
+      >
+        <summary className={css.accordionSummary}>
+          Time entries
+          <span className={css.accordionMeta}>
+            {timeEntryCount} entries · {totalMinutes} min
+          </span>
+        </summary>
+
+        {(timeEntries ?? []).length ? (
+          <div className={css.timeList}>
+            {(timeEntries ?? []).map((entry, idx) => (
+              <div key={`${entry.start_at || "t"}-${idx}`} className={css.timeRow}>
+                <div className={css.timeWhen}>{formatLocalDateTime(entry.start_at)}</div>
+                <div className={css.timeMinutes}>{entry.minutes} min</div>
+                {entry.comment ? (
+                  <div className={css.timeComment}>{entry.comment}</div>
+                ) : null}
+                {(entry.tags ?? []).length ? (
+                  <div className={css.timeTags}>
+                    {(entry.tags ?? []).map((tag) => (
+                      <span key={`${tag}-${idx}`} className={css.timeTag}>
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                ) : null}
+                {entry.billable ? (
+                  <span className={css.timeBillable}>billable</span>
+                ) : null}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className={css.timeEmpty}>No time entries yet.</div>
+        )}
+
+        <div className={css.timeForm}>
+          <div className={css.timeField}>
+            <label className={css.timeLabel} htmlFor="time-start">Start</label>
+            <input
+              id="time-start"
+              className={css.input}
+              type="datetime-local"
+              value={timeStart}
+              onChange={(e) => onChangeStart(e.target.value)}
+            />
+          </div>
+
+          <div className={css.timeField}>
+            <label className={css.timeLabel} htmlFor="time-minutes">Minutes</label>
+            <input
+              id="time-minutes"
+              className={css.input}
+              type="number"
+              min="1"
+              value={timeMinutes}
+              onChange={(e) => onChangeMinutes(e.target.value)}
+            />
+          </div>
+
+          <div className={css.timeFieldWide}>
+            <label className={css.timeLabel} htmlFor="time-comment">Comment</label>
+            <input
+              id="time-comment"
+              className={css.input}
+              value={timeComment}
+              onChange={(e) => onChangeComment(e.target.value)}
+              placeholder="What did you do?"
+            />
+          </div>
+
+          <div className={css.timeFieldWide}>
+            <label className={css.timeLabel} htmlFor="time-tags">Tags</label>
+            <input
+              id="time-tags"
+              className={css.input}
+              value={timeTags}
+              onChange={(e) => onChangeTags(e.target.value)}
+              placeholder="dev, research, meeting"
+            />
+          </div>
+
+          <label className={css.timeCheckbox}>
+            <input
+              type="checkbox"
+              checked={timeBillable}
+              onChange={(e) => onChangeBillable(e.target.checked)}
+            />
+            Billable
+          </label>
+
+          <button className={css.timeAddBtn} type="button" onClick={onAddTimeEntry}>
+            Add time entry
+          </button>
+
+          {timeDirty ? (
+            <div className={css.timeHint}>
+              Pending entry will be included on Save changes.
+            </div>
+          ) : null}
+        </div>
+      </details>
+    </div>
+  );
+}
