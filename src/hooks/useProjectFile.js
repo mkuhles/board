@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react";
 import { openJsonFile, saveAsJsonFile, saveJsonFile, isFileSystemApiSupported, stripClientFields } from "../lib/storage";
 import { migrateAreasOnOpen } from "../lib/migrateAreas";
+import { normalizeProject } from "../lib/models";
 
 export function useProjectFile() {
   const [fileHandle, setFileHandle] = useState(null);
@@ -20,12 +21,13 @@ export function useProjectFile() {
 
       const prepared = prepareProject ? prepareProject(loaded) : loaded;
       const { project: migrated, changed } = migrateAreasOnOpen(prepared);
+      const normalized = normalizeProject(migrated);
 
       setFileHandle(handle);
-      setProject(migrated);
+      setProject(normalized);
 
       if (changed) {
-        await saveJsonFile(handle, stripClientFields(migrated));
+        await saveJsonFile(handle, stripClientFields(normalized));
         setInfo("File opened and migrated (area → area_id).");
       } else {
         setInfo("File opened.");
