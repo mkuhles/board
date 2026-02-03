@@ -94,6 +94,16 @@
   border-color: #ffb8b8;
 }
 
+.actionBtn svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 
 /* anchor click Hihglight */
 @keyframes flashHighlight {

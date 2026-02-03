@@ -1,50 +1,84 @@
 import css from "./ItemCard.module.css";
 
-export function DeleteButton({ item, onDelete }) {
+function IconButton({ title, ariaLabel, onClick, children }) {
   return (
     <button
       className={css.actionBtn}
       type="button"
+      title={title}
+      aria-label={ariaLabel || title}
+      onClick={(e) => {
+        e.stopPropagation();
+        onClick?.(e);
+      }}
+      onPointerDown={(e) => e.stopPropagation()}
+    >
+      {children}
+    </button>
+  );
+}
+
+function TrashIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M4 7h16" />
+      <path d="M9 7V5h6v2" />
+      <path d="M7 7l1 12h8l1-12" />
+      <path d="M10 11v6M14 11v6" />
+    </svg>
+  );
+}
+
+function PlusIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 5v14M5 12h14" />
+    </svg>
+  );
+}
+
+function ClockIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="12" cy="12" r="8" />
+      <path d="M12 8v5l3 2" />
+    </svg>
+  );
+}
+
+export function DeleteButton({ item, onDelete }) {
+  return (
+    <IconButton
       title="Löschen"
-      aria-label="Löschen"
       onClick={() => onDelete?.(item)}
     >
-      🗑️
-    </button>
+      <TrashIcon />
+    </IconButton>
   );
 }
 
 export function AddToSprintButton({ item, onAddToSprint }) {
   return (
-    <button
-      className={css.actionBtn}
-      type="button"
+    <IconButton
       title="Zum aktiven Sprint hinzufügen"
-      aria-label="Zum aktiven Sprint hinzufügen"
-      onClick={(e) => {
-        e.stopPropagation();
+      onClick={() => {
         onAddToSprint?.(item);
       }}
     >
-      ➕ Sprint
-    </button>
+      <PlusIcon />
+    </IconButton>
   );
 }
 
 export function AddTimeButton({ item, onAddTime }) {
   return (
-    <button
-      className={css.actionBtn}
-      type="button"
+    <IconButton
       title="Zeit erfassen"
-      aria-label="Zeit erfassen"
-      onClick={(e) => {
-        e.stopPropagation();
+      onClick={() => {
         onAddTime?.(item);
       }}
-      onPointerDown={(e) => e.stopPropagation()}
     >
-      🕒
-    </button>
+      <ClockIcon />
+    </IconButton>
   );
 }
