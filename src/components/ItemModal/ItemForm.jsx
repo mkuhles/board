@@ -3,6 +3,12 @@ import { RelatedToInput } from "./RelatedToInput";
 import { Field } from "./Field";
 import css from "./ItemModal.module.css";
 import { Markdown } from "../Markdown";
+import {
+  addTimeEntry,
+  buildTimeEntry,
+  parseTags,
+  summarizeTimeEntries,
+} from "../../lib/time";
 
 function toLocalInputValue(date = new Date()) {
   const tzOffset = date.getTimezoneOffset() * 60000;
@@ -74,20 +80,15 @@ export function ItemForm({
       const minutesNum = Number(timeMinutes);
       if (!Number.isFinite(minutesNum) || minutesNum <= 0) return null;
 
-      const tags = timeTags
-        .split(",")
-        .map((t) => t.trim())
-        .filter(Boolean);
-
-      const entry = {
+      const entry = buildTimeEntry({
         start_at: fromLocalInputValue(timeStart) || new Date().toISOString(),
         minutes: minutesNum,
-        comment: timeComment.trim(),
-        tags,
+        comment: timeComment,
+        tags: parseTags(timeTags),
         billable: Boolean(timeBillable),
-      };
+      });
 
-      setTimeEntries([...(timeEntries ?? []), entry]);
+      setTimeEntries(addTimeEntry(timeEntries, entry));
       setTimeComment("");
       setTimeTags("");
       setTimeBillable(false);
@@ -109,29 +110,22 @@ export function ItemForm({
     setTimeEntries,
   ]);
 
-  const totalMinutes = (timeEntries ?? []).reduce(
-    (sum, entry) => sum + (Number(entry?.minutes) || 0),
-    0
-  );
+  const { totalMinutes, count: timeEntryCount } =
+    summarizeTimeEntries(timeEntries);
 
-  const addTimeEntry = () => {
+  const handleAddTimeEntry = () => {
     if (!setTimeEntries) return;
     const minutesNum = Number(timeMinutes);
     if (!Number.isFinite(minutesNum) || minutesNum <= 0) return;
 
-    const tags = timeTags
-      .split(",")
-      .map((t) => t.trim())
-      .filter(Boolean);
-
-    const entry = {
+    const entry = buildTimeEntry({
       start_at: fromLocalInputValue(timeStart) || new Date().toISOString(),
       minutes: minutesNum,
-      comment: timeComment.trim(),
-      tags,
+      comment: timeComment,
+      tags: parseTags(timeTags),
       billable: Boolean(timeBillable),
-    };
-    setTimeEntries([...(timeEntries ?? []), entry]);
+    });
+    setTimeEntries(addTimeEntry(timeEntries, entry));
     setTimeComment("");
     setTimeTags("");
     setTimeBillable(false);
@@ -229,7 +223,7 @@ export function ItemForm({
           <summary className={css.accordionSummary}>
             Time entries
             <span className={css.accordionMeta}>
-              {timeEntries?.length || 0} entries · {totalMinutes} min
+              {timeEntryCount} entries · {totalMinutes} min
             </span>
           </summary>
 
@@ -331,7 +325,7 @@ export function ItemForm({
               Billable
             </label>
 
-            <button className={css.timeAddBtn} type="button" onClick={addTimeEntry}>
+            <button className={css.timeAddBtn} type="button" onClick={handleAddTimeEntry}>
               Add time entry
             </button>
 

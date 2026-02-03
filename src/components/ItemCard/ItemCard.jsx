@@ -7,7 +7,7 @@ import { getAreaById } from "../../lib/project";
 import { Markdown } from "../Markdown";
 import { AddTimeButton, AddToSprintButton, DeleteButton } from "./ItemCardActionButtons";
 import { Chip } from "../Chip";
-import { formatRelativeTime } from "../../lib/time";
+import { formatRelativeTime, summarizeTimeEntries } from "../../lib/time";
 import { useBoardActions } from "../../context/BoardActionsContext";
 
 export function ItemCard({
@@ -24,11 +24,8 @@ export function ItemCard({
   const area = getAreaById(areas, item.area_id);
   const timestamp = item.updated_at || item.created_at || "";
   const timeEntries = Array.isArray(item.time_entries) ? item.time_entries : [];
-  const totalMinutes = timeEntries.reduce(
-    (sum, entry) => sum + (Number(entry?.minutes) || 0),
-    0
-  );
-  const billableCount = timeEntries.filter((entry) => entry?.billable).length;
+  const { totalMinutes, billableCount, count: timeEntryCount } =
+    summarizeTimeEntries(timeEntries);
 
   return (
     <div id={item.id} className={css.card} onDoubleClick={() => onEditItem?.(item)}>
@@ -64,9 +61,9 @@ export function ItemCard({
       <div className={css.timeRow}>
         <div className={css.timeMeta}>
           {timestamp ? <>Updated: {formatRelativeTime(timestamp)}</> : null}
-          {timeEntries.length ? (
+          {timeEntryCount ? (
             <>
-              {" · "}Time: {timeEntries.length} entries · {totalMinutes} min
+              {" · "}Time: {timeEntryCount} entries · {totalMinutes} min
               {billableCount ? ` · ${billableCount} billable` : ""}
             </>
           ) : null}
