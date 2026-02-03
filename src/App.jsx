@@ -4,7 +4,7 @@ import { useProjectFile } from "./hooks/useProjectFile";
 import { useKanbanBoard } from "./hooks/useKanbanBoard";
 import { TopBar } from "./components/TopBar";
 import { EmptyState } from "./components/EmptyState";
-import { Board } from "./components/Board";
+import { Board } from "./components/Board/Board";
 import { ProjectProvider } from "./context/ProjectContext";
 import { filterItemsBySprint } from "./lib/scrum/filterItemsBySprint"
 import { useEffect } from "react";
