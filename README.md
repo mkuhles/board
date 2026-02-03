@@ -58,6 +58,12 @@ src/
   App.jsx         Main application entry
 ```
 
+## Board Actions (UI Pattern)
+
+The board uses a context (`BoardActionsContext`) to avoid prop drilling.
+Components like `ItemCard` and `DraggableItem` read actions (edit, delete, add time, add to sprint)
+from context instead of receiving them via multiple layers of props.
+
 ## Project File Format (.json)
 
 A project is stored as a JSON file containing a list of items.

@@ -12,5 +12,6 @@ export function BoardActionsProvider({ value, children }) {
 
 export function useBoardActions() {
   const ctx = useContext(BoardActionsContext);
+  // Intent: keep Item/Column components dumb by sourcing actions from context.
   return ctx || {};
 }
