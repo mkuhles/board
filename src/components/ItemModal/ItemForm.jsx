@@ -4,16 +4,24 @@ import css from "./ItemModal.module.css";
 import { Markdown } from "../Markdown";
 
 export function ItemForm({
-  title, setTitle,
-  description, setDescription,
-  type, setType,
-  areaId, setAreaId,
-  relatesToIds, setRelatesToIds,
+  draft,
   typeCodes,
   areas,
   allItems,
   excludeId,
+  statuses,
+  sprints=[],
 }) {
+  const {
+    title, setTitle,
+    description, setDescription,
+    type, setType,
+    areaId, setAreaId,
+    relatesToIds, setRelatesToIds,
+    sprintId, setSprintId,
+    status, setStatus,
+  } = draft ?? {};
+
   return (
     <div className={css.grid}>
       <Field label="Title" inputId="item-title" required>
@@ -35,6 +43,16 @@ export function ItemForm({
         </select>
       </Field>
 
+      <Field label="Status" inputId="item-status" required>
+        <select className={css.input} value={status} onChange={(e) => setStatus(e.target.value)}>
+          {statuses.map((stat) => (
+            <option key={stat.id} value={stat.id}>
+              {stat.title}
+            </option>
+          ))}
+        </select>
+      </Field>
+
       <Field label="Area" inputId="item-area" required>
         <select className={css.input} value={areaId} onChange={(e) => setAreaId(e.target.value)}>
           <option value="" disabled>
@@ -47,6 +65,17 @@ export function ItemForm({
           ))}
         </select>
       </Field>
+
+      {sprints && (<Field label="Sprint" inputId="item-strint">
+        <select className={css.input} value={sprintId} onChange={(e) => setSprintId(e.target.value)}>
+          <option key="none" value="">none</option>
+          {Object.entries(sprints).map(([typeKey, cfg]) => (
+            <option key={cfg.id} value={cfg.id}>
+              {cfg.title} ({cfg.start})
+            </option>
+          ))}
+        </select>
+      </Field>)}
 
       <Field label="Description" inputId="item-desc" wide>
         <textarea

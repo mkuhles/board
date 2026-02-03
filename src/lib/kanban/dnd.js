@@ -2,6 +2,7 @@
 import { arrayMove } from "@dnd-kit/sortable";
 import { DEFAULT_STATUS } from "../../constants/statuses";
 import { groupByStatus, normalizeOrdersItems } from "../project";
+import { nowIso } from "../time";
 
 function statusFromOverId(overId, items, statuses) {
   const str = String(overId);
@@ -59,7 +60,11 @@ export function applyDragToItems({ items, event, statuses }) {
       if (idx >= 0) insertIndex = idx;
     }
 
-    const moved = { ...activeItem, status: toStatus };
+    const moved = {
+      ...activeItem,
+      status: toStatus,
+      updated_at: nowIso(),
+    };
     const toList = [...toBase];
     toList.splice(insertIndex, 0, moved);
 

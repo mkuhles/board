@@ -3,6 +3,7 @@ export const STATUSES = [
   { id: "todo", title: "ToDo"},
   { id: "doing", title: "Doing" },
   { id: "done", title: "Done" },
+  { id: "archived", title: "Archived" },
 ];
 
 export const DEFAULT_STATUS = "backlog";

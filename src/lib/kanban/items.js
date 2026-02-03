@@ -1,10 +1,13 @@
 import { DEFAULT_STATUS } from "../../constants/statuses";
 import { generateNextSimpleId, normalizeOrders } from "../project";
+import { buildCreateTimestamps, computeUpdatedAtForPayload } from "../time";
 
 export function createItemInProject({ project, payload, nextCid, statuses }) {
   if (!project) return null;
 
   const id = generateNextSimpleId(project, payload.type);
+
+  const { created_at, updated_at } = buildCreateTimestamps(payload);
 
   const newItem = {
     id,
@@ -16,6 +19,10 @@ export function createItemInProject({ project, payload, nextCid, statuses }) {
     status: DEFAULT_STATUS,
     order: 0,
     _cid: nextCid(),
+    status: payload.status ?? DEFAULT_STATUS,
+    sprintId: payload.sprintId ?? undefined,
+    created_at,
+    updated_at,
   };
 
   return normalizeOrders(
@@ -38,11 +45,12 @@ export function updateItemInProject({ project, cid, payload, statuses }) {
     if ("type" in payload) next.type = payload.type;
     if ("area_id" in payload) next.area_id = payload.area_id;
     if ("relates_to" in payload) next.relates_to = payload.relates_to ?? [];
-
-    // ✅ sprint + status support
     if ("sprintId" in payload) next.sprintId = payload.sprintId; // allow null to remove
     if ("status" in payload) next.status = payload.status;
     if ("order" in payload) next.order = payload.order;
+    if ("created_at" in payload) next.created_at = payload.created_at;
+    const computedUpdatedAt = computeUpdatedAtForPayload(payload);
+    if (computedUpdatedAt !== undefined) next.updated_at = computedUpdatedAt;
 
     return next;
   });

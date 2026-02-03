@@ -133,6 +133,8 @@ export function Board({
         onCancel={closeModal}
         onSubmit={submitModal}
         allItems={allItems}
+        sprints={sprints ?? []}
+        statuses={STATUSES}
       />
     </>
   );

@@ -8,10 +8,12 @@ import { Markdown } from "../Markdown";
 import { DeleteButton } from "./ItemCardActionButtons";
 import { AddToSprintButton } from "./ItemCardActionButtons";
 import { Chip } from "../Chip";
+import { formatRelativeTime } from "../../lib/time";
 
 export function ItemCard({ item, onDelete, onEdit, canAddToSprint, onAddToSprint }) {
   const areas = useAreas();
   const area = getAreaById(areas, item.area_id);
+  const timestamp = item.updated_at || item.created_at || "";
 
   return (
     <div id={item.id} className={css.card} onDoubleClick={() => onEdit?.(item)}>
@@ -43,6 +45,12 @@ export function ItemCard({ item, onDelete, onEdit, canAddToSprint, onAddToSprint
             ))
           : null}
       </div>
+
+      {timestamp ? (
+        <div className={css.timeMeta}>
+          Updated: {formatRelativeTime(timestamp)}
+        </div>
+      ) : null}
     </div>
   );
 }
