@@ -1,15 +1,12 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { DEFAULT_STATUS } from "../../constants/statuses";
 import { nowIso } from "../time";
+import { normalizeItem } from "../models";
 
 const DEFAULT_TYPE = "task";
 
 export function ensureDefaults(item) {
-  return {
-    status: DEFAULT_STATUS,
-    order: Number.isFinite(item?.order) ? item.order : 0,
-    ...item,
-  };
+  return normalizeItem(item, { defaultStatus: DEFAULT_STATUS });
 }
 
 export function sortByOrder(items) {
@@ -60,17 +57,19 @@ export function useItemDraft({
     setError("");
 
     if (isEdit && initialItem) {
-      setTitle(initialItem.title ?? "");
-      setDescription(initialItem.description ?? "");
-      setType(initialItem?.type ?? fallbackType);
-      setAreaId(initialItem.area_id ?? "");
-      setRelatesToIds(Array.isArray(initialItem.relates_to) ? initialItem.relates_to : []);
-      setStatus(initialItem.status ?? DEFAULT_STATUS);
-      setSprintId(initialItem.sprintId ?? "");
-      setTimeEntries(Array.isArray(initialItem.time_entries) ? initialItem.time_entries : []);
+      const normalized = normalizeItem(initialItem, { defaultStatus: DEFAULT_STATUS });
 
-      const existingCreated = initialItem.created_at ?? "";
-      const existingUpdated = initialItem.updated_at ?? "";
+      setTitle(normalized.title ?? "");
+      setDescription(normalized.description ?? "");
+      setType(normalized?.type ?? fallbackType);
+      setAreaId(normalized.area_id ?? "");
+      setRelatesToIds(normalized.relates_to ?? []);
+      setStatus(normalized.status ?? DEFAULT_STATUS);
+      setSprintId(normalized.sprintId ?? "");
+      setTimeEntries(normalized.time_entries ?? []);
+
+      const existingCreated = normalized.created_at ?? "";
+      const existingUpdated = normalized.updated_at ?? "";
 
       setCreatedAt(existingCreated || nowIso());
       setUpdatedAt(existingUpdated || existingCreated || nowIso());
