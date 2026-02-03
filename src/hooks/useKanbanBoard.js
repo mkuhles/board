@@ -2,13 +2,13 @@ import { useMemo, useRef, useState, useCallback } from "react";
 import { STATUSES } from "../constants/statuses";
 import { groupByStatus } from "../lib/project";
 
-import { ensureClientIds } from "../lib/kanban/clientIds";
-import { applyDragToItems } from "../lib/kanban/dnd";
 import {
+  ensureClientIds,
+  applyDragToItems,
   createItemInProject,
   updateItemInProject,
   deleteItemInProject,
-} from "../lib/kanban/items";
+} from "../lib/kanban";
 
 function findItemByCid(items, cid) {
   return items.find((i) => i._cid === cid);
