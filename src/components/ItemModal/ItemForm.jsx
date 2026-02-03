@@ -11,8 +11,6 @@ import { useTimeEntryDraft } from "../../hooks/useTimeEntryDraft";
 export function ItemForm({
   draft,
   defaultTimeOpen = false,
-  isEdit = false,
-  onQuickSave,
   registerBeforeSubmit,
   typeCodes,
   areas,
@@ -54,8 +52,6 @@ export function ItemForm({
     timeEntries,
     setTimeEntries,
     defaultOpen: defaultTimeOpen,
-    isEdit,
-    onQuickSave,
     registerBeforeSubmit,
   });
 

@@ -12,8 +12,6 @@ export function useTimeEntryDraft({
   timeEntries,
   setTimeEntries,
   defaultOpen = false,
-  isEdit = false,
-  onQuickSave,
   registerBeforeSubmit,
 } = {}) {
   const [timeStart, setTimeStart] = useState(toLocalInputValue());
@@ -95,7 +93,6 @@ export function useTimeEntryDraft({
     setTimeStart(toLocalInputValue());
     setTimeDirty(false);
     setIsTimeOpen(true);
-    if (isEdit && typeof onQuickSave === "function") onQuickSave();
   };
 
   return {

@@ -45,13 +45,6 @@ export function ItemModal({
     onSubmit(payload);
   };
 
-  const quickSave = () => {
-    if (!isEdit) return;
-    const payload = draft.validateAndBuildPayload();
-    if (!payload) return;
-    onSubmit(payload, { keepOpen: true });
-  };
-
   return (
     <ModalShell onCancel={onCancel}>
       <ItemModalHeader
@@ -68,8 +61,6 @@ export function ItemModal({
       <ItemForm
         draft={draft}
         defaultTimeOpen={defaultTimeOpen}
-        isEdit={isEdit}
-        onQuickSave={quickSave}
         registerBeforeSubmit={(fn) => {
           beforeSubmitRef.current = fn;
         }}
