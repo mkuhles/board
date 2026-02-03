@@ -35,9 +35,9 @@ export function ItemCard({
         <div className={css.metaRight}>
           <span className={css.muted}>{item.type || ""}</span>
           {item.sprintId && <Chip label={item.sprintId} title={item.sprintId} />}
-          <DeleteButton item={item} onDelete={onDeleteItem} />
+          <DeleteButton item={item} />
           {canAddItemToSprint && !item.sprintId ? (
-            <AddToSprintButton item={item} onAddToSprint={onAddItemToSprint} />
+            <AddToSprintButton item={item} />
           ) : null }
         </div>
       </div>
@@ -69,12 +69,7 @@ export function ItemCard({
           ) : null}
         </div>
 
-        {onAddTime ? (
-          <AddTimeButton
-            item={item}
-            onAddTime={onAddTime}
-          />
-        ) : null}
+        {onAddTime ? <AddTimeButton item={item} /> : null}
       </div>
     </div>
   );

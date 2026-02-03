@@ -1,4 +1,5 @@
 import css from "./ItemCard.module.css";
+import { useBoardActions } from "../../context/BoardActionsContext";
 
 function IconButton({ title, ariaLabel, onClick, children }) {
   return (
@@ -46,23 +47,25 @@ function ClockIcon() {
   );
 }
 
-export function DeleteButton({ item, onDelete }) {
+export function DeleteButton({ item }) {
+  const { onDeleteItem } = useBoardActions();
   return (
     <IconButton
       title="Löschen"
-      onClick={() => onDelete?.(item)}
+      onClick={() => onDeleteItem?.(item)}
     >
       <TrashIcon />
     </IconButton>
   );
 }
 
-export function AddToSprintButton({ item, onAddToSprint }) {
+export function AddToSprintButton({ item }) {
+  const { onAddItemToSprint } = useBoardActions();
   return (
     <IconButton
       title="Zum aktiven Sprint hinzufügen"
       onClick={() => {
-        onAddToSprint?.(item);
+        onAddItemToSprint?.(item);
       }}
     >
       <PlusIcon />
@@ -70,7 +73,8 @@ export function AddToSprintButton({ item, onAddToSprint }) {
   );
 }
 
-export function AddTimeButton({ item, onAddTime }) {
+export function AddTimeButton({ item }) {
+  const { onAddTime } = useBoardActions();
   return (
     <IconButton
       title="Zeit erfassen"
