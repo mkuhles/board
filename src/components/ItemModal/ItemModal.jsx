@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useRef } from "react";
 import css from "./ItemModal.module.css";
 import { useAreas, useTypeCodes } from "../../context/ProjectContext";
 import { ModalShell } from "./ModalShell";
@@ -12,6 +12,7 @@ export function ItemModal({
   isOpen,
   mode, // "create" | "edit"
   initialItem,
+  defaultTimeOpen = false,
   onCancel,
   onSubmit,
   allItems,
@@ -21,6 +22,7 @@ export function ItemModal({
   const isEdit = mode === "edit";
   const areas = useAreas();
   const typeCodes = useTypeCodes();
+  const beforeSubmitRef = useRef(null);
 
   const draft = useItemDraft({ isOpen, isEdit, initialItem, areas, typeCodes, sprints, statuses });
 
@@ -34,9 +36,20 @@ export function ItemModal({
   if (!isOpen) return null;
 
   const submit = () => {
+    const pendingEntry = beforeSubmitRef.current?.();
     const payload = draft.validateAndBuildPayload();
     if (!payload) return;
+    if (pendingEntry) {
+      payload.time_entries = [...(draft.timeEntries ?? []), pendingEntry];
+    }
     onSubmit(payload);
+  };
+
+  const quickSave = () => {
+    if (!isEdit) return;
+    const payload = draft.validateAndBuildPayload();
+    if (!payload) return;
+    onSubmit(payload, { keepOpen: true });
   };
 
   return (
@@ -54,6 +67,12 @@ export function ItemModal({
 
       <ItemForm
         draft={draft}
+        defaultTimeOpen={defaultTimeOpen}
+        isEdit={isEdit}
+        onQuickSave={quickSave}
+        registerBeforeSubmit={(fn) => {
+          beforeSubmitRef.current = fn;
+        }}
         typeCodes={typeCodes}
         areas={areas}
         allItems={allItems}

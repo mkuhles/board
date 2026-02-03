@@ -48,6 +48,7 @@ export function useItemDraft({
   const [relatesToIds, setRelatesToIds] = useState([]);
   const [status, setStatus] = useState(DEFAULT_STATUS);
   const [sprintId, setSprintId] = useState("");
+  const [timeEntries, setTimeEntries] = useState([]);
 
   // timestamps (in draft state)
   const [createdAt, setCreatedAt] = useState("");
@@ -66,6 +67,7 @@ export function useItemDraft({
       setRelatesToIds(Array.isArray(initialItem.relates_to) ? initialItem.relates_to : []);
       setStatus(initialItem.status ?? DEFAULT_STATUS);
       setSprintId(initialItem.sprintId ?? "");
+      setTimeEntries(Array.isArray(initialItem.time_entries) ? initialItem.time_entries : []);
 
       const existingCreated = initialItem.created_at ?? "";
       const existingUpdated = initialItem.updated_at ?? "";
@@ -80,6 +82,7 @@ export function useItemDraft({
       setRelatesToIds([]);
       setStatus(DEFAULT_STATUS);
       setSprintId("");
+      setTimeEntries([]);
 
       const ts = nowIso();
       setCreatedAt(ts);
@@ -113,6 +116,7 @@ export function useItemDraft({
       relates_to: relatesToIds,
       status,
       sprintId,
+      time_entries: timeEntries,
 
       // neue Felder im JSON
       created_at: nextCreatedAt,
@@ -129,6 +133,7 @@ export function useItemDraft({
     sprintId,
     isEdit,
     createdAt,
+    timeEntries,
   ]);
 
   return {
@@ -139,6 +144,7 @@ export function useItemDraft({
     relatesToIds, setRelatesToIds,
     status, setStatus,
     sprintId, setSprintId,
+    timeEntries, setTimeEntries,
 
     createdAt, setCreatedAt,
     updatedAt, setUpdatedAt,

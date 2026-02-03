@@ -50,10 +50,18 @@
 }
 
 .timeMeta {
-  margin-top: 8px;
   font-size: 12px;
   color: #777;
 }
+
+.timeRow {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
 
 .chip {
   font-size: 12px;
@@ -85,6 +93,7 @@
   background: #ffecec;
   border-color: #ffb8b8;
 }
+
 
 /* anchor click Hihglight */
 @keyframes flashHighlight {

@@ -21,6 +21,7 @@ export function createItemInProject({ project, payload, nextCid, statuses }) {
     _cid: nextCid(),
     status: payload.status ?? DEFAULT_STATUS,
     sprintId: payload.sprintId ?? undefined,
+    time_entries: Array.isArray(payload.time_entries) ? payload.time_entries : [],
     created_at,
     updated_at,
   };
@@ -48,6 +49,8 @@ export function updateItemInProject({ project, cid, payload, statuses }) {
     if ("sprintId" in payload) next.sprintId = payload.sprintId; // allow null to remove
     if ("status" in payload) next.status = payload.status;
     if ("order" in payload) next.order = payload.order;
+    if ("time_entries" in payload)
+      next.time_entries = Array.isArray(payload.time_entries) ? payload.time_entries : [];
     if ("created_at" in payload) next.created_at = payload.created_at;
     const computedUpdatedAt = computeUpdatedAtForPayload(payload);
     if (computedUpdatedAt !== undefined) next.updated_at = computedUpdatedAt;

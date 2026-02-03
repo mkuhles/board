@@ -20,6 +20,7 @@ export function computeUpdatedAtForPayload(payload) {
     "relates_to",
     "status",
     "sprintId",
+    "time_entries",
   ];
 
   const shouldTouch = touchKeys.some((key) => key in payload);

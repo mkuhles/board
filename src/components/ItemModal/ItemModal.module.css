@@ -144,6 +144,140 @@
   min-height: 0;          /* wichtig */
 }
 
+.timeWrap {
+  grid-column: 1 / -1;
+  margin-top: 8px;
+}
+
+.accordion {
+  border: 1px solid #2a2a2a;
+  border-radius: 12px;
+  background: #0e0e0e;
+  padding: 8px 10px;
+}
+
+.accordionSummary {
+  cursor: pointer;
+  list-style: none;
+  font-size: 13px;
+  color: #e5e5e5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.accordionSummary::-webkit-details-marker {
+  display: none;
+}
+
+.accordionMeta {
+  font-size: 12px;
+  color: #bdbdbd;
+}
+
+.timeList {
+  margin-top: 10px;
+  display: grid;
+  gap: 8px;
+}
+
+.timeRow {
+  display: grid;
+  grid-template-columns: 170px 70px 1fr;
+  gap: 8px;
+  align-items: center;
+  font-size: 12px;
+  color: #d8d8d8;
+}
+
+.timeWhen { color: #bdbdbd; }
+.timeMinutes { font-weight: 700; }
+.timeComment { color: #eaeaea; }
+
+.timeTags {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.timeTag {
+  font-size: 11px;
+  color: #111;
+  background: #e5e5e5;
+  border-radius: 999px;
+  padding: 2px 6px;
+}
+
+.timeBillable {
+  font-size: 11px;
+  color: #ffd0a8;
+  border: 1px solid #6a4a2a;
+  padding: 2px 6px;
+  border-radius: 999px;
+}
+
+.timeEmpty {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #bdbdbd;
+}
+
+.timeForm {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: 180px 120px 1fr;
+  gap: 8px;
+}
+
+.timeField,
+.timeFieldWide {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.timeFieldWide { grid-column: 1 / -1; }
+
+.timeLabel {
+  font-size: 12px;
+  color: #bdbdbd;
+}
+
+.timeCheckbox {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #d8d8d8;
+}
+
+.timeAddBtn {
+  grid-column: 1 / -1;
+  justify-self: flex-start;
+  border: 1px solid #fff;
+  background: #fff;
+  color: #111;
+  border-radius: 999px;
+  padding: 7px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.timeAddBtn:hover {
+  background: #f3f3f3;
+  border-color: #e5e5e5;
+}
+
+.timeHint {
+  grid-column: 1 / -1;
+  font-size: 12px;
+  color: #bdbdbd;
+}
+
 @media (max-width: 820px) {
   .grid {
     grid-template-columns: 1fr 1fr;

@@ -30,6 +30,7 @@ export function Board({
   
   const [modalOpen, setModalOpen] = useState(false);
   const [editCid, setEditCid] = useState(null);
+  const [timeOpen, setTimeOpen] = useState(false);
 
   const allItems = useMemo(() => Object.values(columns).flat(), [columns]);
   const editingItem =
@@ -39,17 +40,24 @@ export function Board({
 
   const openCreate = () => {
     setEditCid(null);
+    setTimeOpen(false);
     setModalOpen(true);
   };
 
-  const openEdit = (item) => {
+  const openEdit = (item, { focusTime = false } = {}) => {
     setEditCid(item._cid);
+    setTimeOpen(Boolean(focusTime));
     setModalOpen(true);
   };
 
-  const closeModal = () => setModalOpen(false);
+  const closeModal = () => {
+    setModalOpen(false);
+    setTimeOpen(false);
+  };
 
-  const submitModal = (payload) => {
+  const openAddTime = (item) => openEdit(item, { focusTime: true });
+
+  const submitModal = (payload, options = {}) => {
     if (editingItem) {
       if (typeof onUpdateItem !== "function") {
         console.error("onUpdateItem missing. Did you pass board.updateItem to <Board />?");
@@ -63,7 +71,7 @@ export function Board({
       }
       onCreateItem(payload);
     }
-    setModalOpen(false);
+    if (!options.keepOpen) setModalOpen(false);
   };
 
   return (
@@ -109,6 +117,7 @@ export function Board({
                     setCollapsed((prev) => ({ ...prev, backlog: !prev.backlog }))
                   }
                   onEditItem={openEdit}
+                  onAddTime={openAddTime}
                   onAddItemToSprint={onAddItemToSprint}
                   canAddItemToSprint={canAddItemToSprint}
                 />
@@ -130,6 +139,7 @@ export function Board({
         isOpen={modalOpen}
         mode={editingItem ? "edit" : "create"}
         initialItem={editingItem}
+        defaultTimeOpen={timeOpen}
         onCancel={closeModal}
         onSubmit={submitModal}
         allItems={allItems}

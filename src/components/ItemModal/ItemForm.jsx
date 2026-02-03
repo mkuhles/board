@@ -1,10 +1,35 @@
+import React, { useEffect, useRef, useState } from "react";
 import { RelatedToInput } from "./RelatedToInput";
 import { Field } from "./Field";
 import css from "./ItemModal.module.css";
 import { Markdown } from "../Markdown";
 
+function toLocalInputValue(date = new Date()) {
+  const tzOffset = date.getTimezoneOffset() * 60000;
+  const local = new Date(date.getTime() - tzOffset);
+  return local.toISOString().slice(0, 16);
+}
+
+function fromLocalInputValue(value) {
+  if (!value) return "";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "";
+  return date.toISOString();
+}
+
+function formatLocalDateTime(isoString) {
+  if (!isoString) return "";
+  const date = new Date(isoString);
+  if (Number.isNaN(date.getTime())) return "";
+  return date.toLocaleString();
+}
+
 export function ItemForm({
   draft,
+  defaultTimeOpen = false,
+  isEdit = false,
+  onQuickSave,
+  registerBeforeSubmit,
   typeCodes,
   areas,
   allItems,
@@ -20,7 +45,101 @@ export function ItemForm({
     relatesToIds, setRelatesToIds,
     sprintId, setSprintId,
     status, setStatus,
+    timeEntries, setTimeEntries,
   } = draft ?? {};
+
+  const [timeStart, setTimeStart] = useState(toLocalInputValue());
+  const [timeMinutes, setTimeMinutes] = useState(30);
+  const [timeComment, setTimeComment] = useState("");
+  const [timeTags, setTimeTags] = useState("");
+  const [timeBillable, setTimeBillable] = useState(false);
+  const [isTimeOpen, setIsTimeOpen] = useState(Boolean(defaultTimeOpen));
+  const [timeDirty, setTimeDirty] = useState(false);
+  const timeWrapRef = useRef(null);
+
+  useEffect(() => {
+    setIsTimeOpen(Boolean(defaultTimeOpen));
+  }, [defaultTimeOpen]);
+
+  useEffect(() => {
+    if (isTimeOpen) {
+      timeWrapRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [isTimeOpen]);
+
+  useEffect(() => {
+    if (typeof registerBeforeSubmit !== "function") return;
+    const handler = () => {
+      if (!timeDirty) return null;
+      const minutesNum = Number(timeMinutes);
+      if (!Number.isFinite(minutesNum) || minutesNum <= 0) return null;
+
+      const tags = timeTags
+        .split(",")
+        .map((t) => t.trim())
+        .filter(Boolean);
+
+      const entry = {
+        start_at: fromLocalInputValue(timeStart) || new Date().toISOString(),
+        minutes: minutesNum,
+        comment: timeComment.trim(),
+        tags,
+        billable: Boolean(timeBillable),
+      };
+
+      setTimeEntries([...(timeEntries ?? []), entry]);
+      setTimeComment("");
+      setTimeTags("");
+      setTimeBillable(false);
+      setTimeStart(toLocalInputValue());
+      setTimeDirty(false);
+      return entry;
+    };
+
+    registerBeforeSubmit(handler);
+  }, [
+    registerBeforeSubmit,
+    timeDirty,
+    timeMinutes,
+    timeTags,
+    timeComment,
+    timeBillable,
+    timeStart,
+    timeEntries,
+    setTimeEntries,
+  ]);
+
+  const totalMinutes = (timeEntries ?? []).reduce(
+    (sum, entry) => sum + (Number(entry?.minutes) || 0),
+    0
+  );
+
+  const addTimeEntry = () => {
+    if (!setTimeEntries) return;
+    const minutesNum = Number(timeMinutes);
+    if (!Number.isFinite(minutesNum) || minutesNum <= 0) return;
+
+    const tags = timeTags
+      .split(",")
+      .map((t) => t.trim())
+      .filter(Boolean);
+
+    const entry = {
+      start_at: fromLocalInputValue(timeStart) || new Date().toISOString(),
+      minutes: minutesNum,
+      comment: timeComment.trim(),
+      tags,
+      billable: Boolean(timeBillable),
+    };
+    setTimeEntries([...(timeEntries ?? []), entry]);
+    setTimeComment("");
+    setTimeTags("");
+    setTimeBillable(false);
+    setTimeStart(toLocalInputValue());
+    setTimeDirty(false);
+    setIsTimeOpen(true);
+    if (isEdit && typeof onQuickSave === "function") onQuickSave();
+  };
 
   return (
     <div className={css.grid}>
@@ -100,6 +219,130 @@ export function ItemForm({
           excludeId={excludeId}
         />
       </Field>
+
+      <div className={css.timeWrap} ref={timeWrapRef}>
+        <details
+          className={css.accordion}
+          open={isTimeOpen}
+          onToggle={(e) => setIsTimeOpen(e.currentTarget.open)}
+        >
+          <summary className={css.accordionSummary}>
+            Time entries
+            <span className={css.accordionMeta}>
+              {timeEntries?.length || 0} entries · {totalMinutes} min
+            </span>
+          </summary>
+
+          {(timeEntries ?? []).length ? (
+            <div className={css.timeList}>
+              {(timeEntries ?? []).map((entry, idx) => (
+                <div key={`${entry.start_at || "t"}-${idx}`} className={css.timeRow}>
+                  <div className={css.timeWhen}>{formatLocalDateTime(entry.start_at)}</div>
+                  <div className={css.timeMinutes}>{entry.minutes} min</div>
+                  {entry.comment ? (
+                    <div className={css.timeComment}>{entry.comment}</div>
+                  ) : null}
+                  {(entry.tags ?? []).length ? (
+                    <div className={css.timeTags}>
+                      {(entry.tags ?? []).map((tag) => (
+                        <span key={`${tag}-${idx}`} className={css.timeTag}>
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  ) : null}
+                  {entry.billable ? (
+                    <span className={css.timeBillable}>billable</span>
+                  ) : null}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className={css.timeEmpty}>No time entries yet.</div>
+          )}
+
+          <div className={css.timeForm}>
+            <div className={css.timeField}>
+              <label className={css.timeLabel} htmlFor="time-start">Start</label>
+              <input
+                id="time-start"
+                className={css.input}
+                type="datetime-local"
+                value={timeStart}
+                onChange={(e) => {
+                  setTimeStart(e.target.value);
+                  setTimeDirty(true);
+                }}
+              />
+            </div>
+
+            <div className={css.timeField}>
+              <label className={css.timeLabel} htmlFor="time-minutes">Minutes</label>
+              <input
+                id="time-minutes"
+                className={css.input}
+                type="number"
+                min="1"
+                value={timeMinutes}
+                onChange={(e) => {
+                  setTimeMinutes(e.target.value);
+                  setTimeDirty(true);
+                }}
+              />
+            </div>
+
+            <div className={css.timeFieldWide}>
+              <label className={css.timeLabel} htmlFor="time-comment">Comment</label>
+              <input
+                id="time-comment"
+                className={css.input}
+                value={timeComment}
+                onChange={(e) => {
+                  setTimeComment(e.target.value);
+                  setTimeDirty(true);
+                }}
+                placeholder="What did you do?"
+              />
+            </div>
+
+            <div className={css.timeFieldWide}>
+              <label className={css.timeLabel} htmlFor="time-tags">Tags</label>
+              <input
+                id="time-tags"
+                className={css.input}
+                value={timeTags}
+                onChange={(e) => {
+                  setTimeTags(e.target.value);
+                  setTimeDirty(true);
+                }}
+                placeholder="dev, research, meeting"
+              />
+            </div>
+
+            <label className={css.timeCheckbox}>
+              <input
+                type="checkbox"
+                checked={timeBillable}
+                onChange={(e) => {
+                  setTimeBillable(e.target.checked);
+                  setTimeDirty(true);
+                }}
+              />
+              Billable
+            </label>
+
+            <button className={css.timeAddBtn} type="button" onClick={addTimeEntry}>
+              Add time entry
+            </button>
+
+            {timeDirty ? (
+              <div className={css.timeHint}>
+                Pending entry will be included on Save changes.
+              </div>
+            ) : null}
+          </div>
+        </details>
+      </div>
     </div>
   );
 }

@@ -5,15 +5,27 @@ import { useAreas } from "../../context/ProjectContext";
 import { AnchorLink } from "../AnchorLink";
 import { getAreaById } from "../../lib/project";
 import { Markdown } from "../Markdown";
-import { DeleteButton } from "./ItemCardActionButtons";
-import { AddToSprintButton } from "./ItemCardActionButtons";
+import { AddTimeButton, AddToSprintButton, DeleteButton } from "./ItemCardActionButtons";
 import { Chip } from "../Chip";
 import { formatRelativeTime } from "../../lib/time";
 
-export function ItemCard({ item, onDelete, onEdit, canAddToSprint, onAddToSprint }) {
+export function ItemCard({
+  item,
+  onDelete,
+  onEdit,
+  onAddTime,
+  canAddToSprint,
+  onAddToSprint,
+}) {
   const areas = useAreas();
   const area = getAreaById(areas, item.area_id);
   const timestamp = item.updated_at || item.created_at || "";
+  const timeEntries = Array.isArray(item.time_entries) ? item.time_entries : [];
+  const totalMinutes = timeEntries.reduce(
+    (sum, entry) => sum + (Number(entry?.minutes) || 0),
+    0
+  );
+  const billableCount = timeEntries.filter((entry) => entry?.billable).length;
 
   return (
     <div id={item.id} className={css.card} onDoubleClick={() => onEdit?.(item)}>
@@ -46,11 +58,24 @@ export function ItemCard({ item, onDelete, onEdit, canAddToSprint, onAddToSprint
           : null}
       </div>
 
-      {timestamp ? (
+      <div className={css.timeRow}>
         <div className={css.timeMeta}>
-          Updated: {formatRelativeTime(timestamp)}
+          {timestamp ? <>Updated: {formatRelativeTime(timestamp)}</> : null}
+          {timeEntries.length ? (
+            <>
+              {" · "}Time: {timeEntries.length} entries · {totalMinutes} min
+              {billableCount ? ` · ${billableCount} billable` : ""}
+            </>
+          ) : null}
         </div>
-      ) : null}
+
+        {onAddTime ? (
+          <AddTimeButton
+            item={item}
+            onAddTime={onAddTime}
+          />
+        ) : null}
+      </div>
     </div>
   );
 }

@@ -13,6 +13,7 @@ export function Column({
   collapsed = false,
   onToggleCollapse,
   onEditItem,
+  onAddTime,
   onUpdateItem,
   onAddItemToSprint,
   canAddItemToSprint
@@ -56,6 +57,7 @@ export function Column({
                 item={item}
                 onDelete={onDeleteItem}
                 onEdit={onEditItem}
+                onAddTime={onAddTime}
                 onUpdate={onUpdateItem}
                 onAddToSprint={onAddItemToSprint}
                 canAddToSprint={canAddItemToSprint}
