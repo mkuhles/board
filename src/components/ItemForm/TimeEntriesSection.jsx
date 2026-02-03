@@ -1,5 +1,5 @@
 import React from "react";
-import css from "./ItemModal.module.css";
+import css from "../ItemModal/ItemModal.module.css";
 import { formatLocalDateTime } from "../../lib/time";
 
 export function TimeEntriesSection({

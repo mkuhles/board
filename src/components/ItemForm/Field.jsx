@@ -1,5 +1,5 @@
 import React from "react";
-import css from "./ItemModal.module.css";
+import css from "../ItemModal/ItemModal.module.css";
 
 export function Field({
   label,

@@ -1,6 +1,6 @@
 import React from "react";
 import { Field } from "./Field";
-import css from "./ItemModal.module.css";
+import css from "../ItemModal/ItemModal.module.css";
 
 export function ItemFields({
   title,

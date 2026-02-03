@@ -1,12 +1,11 @@
-import React, { useMemo, useRef } from "react";
+import React from "react";
 import css from "./ItemModal.module.css";
-import { useAreas, useTypeCodes } from "../../context/ProjectContext";
 import { ModalShell } from "./ModalShell";
 import { ItemModalHeader } from "./ItemModalHeader";
-import { ItemForm } from "./ItemForm";
+import { ItemForm } from "../ItemForm/ItemForm";
 import { ItemModalFooter } from "./ItemModalFooter";
-import { useItemDraft } from "../../lib/project";
 import { formatRelativeTime } from "../../lib/time";
+import { useItemModalState } from "../../hooks/useItemModalState";
 
 export function ItemModal({
   isOpen,
@@ -20,30 +19,23 @@ export function ItemModal({
   statuses = [],
 }) {
   const isEdit = mode === "edit";
-  const areas = useAreas();
-  const typeCodes = useTypeCodes();
-  const beforeSubmitRef = useRef(null);
-
-  const draft = useItemDraft({ isOpen, isEdit, initialItem, areas, typeCodes, sprints, statuses });
-
-  const typeCodePreview = useMemo(
-    () => typeCodes?.[draft.type]?.prefix || "",
-    [typeCodes, draft.type]
-  );
-
-  const canShowSprint = useMemo(() => (sprints ?? []).length > 0, [sprints]);
+  const {
+    areas,
+    typeCodes,
+    draft,
+    typeCodePreview,
+    submit,
+    registerBeforeSubmit,
+  } = useItemModalState({
+    isOpen,
+    isEdit,
+    initialItem,
+    sprints,
+    statuses,
+    onSubmit,
+  });
 
   if (!isOpen) return null;
-
-  const submit = () => {
-    const pendingEntry = beforeSubmitRef.current?.();
-    const payload = draft.validateAndBuildPayload();
-    if (!payload) return;
-    if (pendingEntry) {
-      payload.time_entries = [...(draft.timeEntries ?? []), pendingEntry];
-    }
-    onSubmit(payload);
-  };
 
   return (
     <ModalShell onCancel={onCancel}>
@@ -61,9 +53,7 @@ export function ItemModal({
       <ItemForm
         draft={draft}
         defaultTimeOpen={defaultTimeOpen}
-        registerBeforeSubmit={(fn) => {
-          beforeSubmitRef.current = fn;
-        }}
+        registerBeforeSubmit={registerBeforeSubmit}
         typeCodes={typeCodes}
         areas={areas}
         allItems={allItems}
