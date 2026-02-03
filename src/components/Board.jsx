@@ -8,6 +8,7 @@ import css from "./Board.module.css";
 import { ItemModal } from "./ItemModal/ItemModal";
 import { SprintFilter } from "./Scrum/SprintFilter";
 import { BoardActionsProvider } from "../context/BoardActionsContext";
+import { useBoardModal } from "../hooks/useBoardModal";
 
 export function Board({
   columns,
@@ -29,51 +30,21 @@ export function Board({
   const [collapsed, setCollapsed] = useState({ backlog: false });
   useHashHighlight();
   
-  const [modalOpen, setModalOpen] = useState(false);
-  const [editCid, setEditCid] = useState(null);
-  const [timeOpen, setTimeOpen] = useState(false);
-
   const allItems = useMemo(() => Object.values(columns).flat(), [columns]);
-  const editingItem =
-    editCid
-      ? allItems.find((it) => it._cid === editCid) ?? null
-      : null;
-
-  const openCreate = () => {
-    setEditCid(null);
-    setTimeOpen(false);
-    setModalOpen(true);
-  };
-
-  const openEdit = (item, { focusTime = false } = {}) => {
-    setEditCid(item._cid);
-    setTimeOpen(Boolean(focusTime));
-    setModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setModalOpen(false);
-    setTimeOpen(false);
-  };
-
-  const openAddTime = (item) => openEdit(item, { focusTime: true });
-
-  const submitModal = (payload, options = {}) => {
-    if (editingItem) {
-      if (typeof onUpdateItem !== "function") {
-        console.error("onUpdateItem missing. Did you pass board.updateItem to <Board />?");
-        return;
-      }
-      onUpdateItem(editingItem._cid, payload);
-    } else {
-      if (typeof onCreateItem !== "function") {
-        console.error("onCreateItem missing. Did you pass board.createItem to <Board />?");
-        return;
-      }
-      onCreateItem(payload);
-    }
-    if (!options.keepOpen) setModalOpen(false);
-  };
+  const {
+    modalOpen,
+    timeOpen,
+    editingItem,
+    openCreate,
+    openEdit,
+    openAddTime,
+    closeModal,
+    submitModal,
+  } = useBoardModal({
+    allItems,
+    onCreateItem,
+    onUpdateItem,
+  });
 
   return (
     <BoardActionsProvider

@@ -1,34 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { RelatedToInput } from "./RelatedToInput";
 import { Field } from "./Field";
 import css from "./ItemModal.module.css";
 import { Markdown } from "../Markdown";
 import {
-  addTimeEntry,
-  buildTimeEntry,
-  parseTags,
-  summarizeTimeEntries,
+  formatLocalDateTime,
 } from "../../lib/time";
-
-function toLocalInputValue(date = new Date()) {
-  const tzOffset = date.getTimezoneOffset() * 60000;
-  const local = new Date(date.getTime() - tzOffset);
-  return local.toISOString().slice(0, 16);
-}
-
-function fromLocalInputValue(value) {
-  if (!value) return "";
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return "";
-  return date.toISOString();
-}
-
-function formatLocalDateTime(isoString) {
-  if (!isoString) return "";
-  const date = new Date(isoString);
-  if (Number.isNaN(date.getTime())) return "";
-  return date.toLocaleString();
-}
+import { useTimeEntryDraft } from "../../hooks/useTimeEntryDraft";
 
 export function ItemForm({
   draft,
@@ -54,86 +32,32 @@ export function ItemForm({
     timeEntries, setTimeEntries,
   } = draft ?? {};
 
-  const [timeStart, setTimeStart] = useState(toLocalInputValue());
-  const [timeMinutes, setTimeMinutes] = useState(30);
-  const [timeComment, setTimeComment] = useState("");
-  const [timeTags, setTimeTags] = useState("");
-  const [timeBillable, setTimeBillable] = useState(false);
-  const [isTimeOpen, setIsTimeOpen] = useState(Boolean(defaultTimeOpen));
-  const [timeDirty, setTimeDirty] = useState(false);
-  const timeWrapRef = useRef(null);
-
-  useEffect(() => {
-    setIsTimeOpen(Boolean(defaultTimeOpen));
-  }, [defaultTimeOpen]);
-
-  useEffect(() => {
-    if (isTimeOpen) {
-      timeWrapRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  }, [isTimeOpen]);
-
-  useEffect(() => {
-    if (typeof registerBeforeSubmit !== "function") return;
-    const handler = () => {
-      if (!timeDirty) return null;
-      const minutesNum = Number(timeMinutes);
-      if (!Number.isFinite(minutesNum) || minutesNum <= 0) return null;
-
-      const entry = buildTimeEntry({
-        start_at: fromLocalInputValue(timeStart) || new Date().toISOString(),
-        minutes: minutesNum,
-        comment: timeComment,
-        tags: parseTags(timeTags),
-        billable: Boolean(timeBillable),
-      });
-
-      setTimeEntries(addTimeEntry(timeEntries, entry));
-      setTimeComment("");
-      setTimeTags("");
-      setTimeBillable(false);
-      setTimeStart(toLocalInputValue());
-      setTimeDirty(false);
-      return entry;
-    };
-
-    registerBeforeSubmit(handler);
-  }, [
-    registerBeforeSubmit,
-    timeDirty,
-    timeMinutes,
-    timeTags,
-    timeComment,
-    timeBillable,
+  const {
     timeStart,
+    timeMinutes,
+    timeComment,
+    timeTags,
+    timeBillable,
+    isTimeOpen,
+    timeDirty,
+    timeWrapRef,
+    totalMinutes,
+    timeEntryCount,
+    setIsTimeOpen,
+    handleAddTimeEntry,
+    onChangeStart,
+    onChangeMinutes,
+    onChangeComment,
+    onChangeTags,
+    onChangeBillable,
+  } = useTimeEntryDraft({
     timeEntries,
     setTimeEntries,
-  ]);
-
-  const { totalMinutes, count: timeEntryCount } =
-    summarizeTimeEntries(timeEntries);
-
-  const handleAddTimeEntry = () => {
-    if (!setTimeEntries) return;
-    const minutesNum = Number(timeMinutes);
-    if (!Number.isFinite(minutesNum) || minutesNum <= 0) return;
-
-    const entry = buildTimeEntry({
-      start_at: fromLocalInputValue(timeStart) || new Date().toISOString(),
-      minutes: minutesNum,
-      comment: timeComment,
-      tags: parseTags(timeTags),
-      billable: Boolean(timeBillable),
-    });
-    setTimeEntries(addTimeEntry(timeEntries, entry));
-    setTimeComment("");
-    setTimeTags("");
-    setTimeBillable(false);
-    setTimeStart(toLocalInputValue());
-    setTimeDirty(false);
-    setIsTimeOpen(true);
-    if (isEdit && typeof onQuickSave === "function") onQuickSave();
-  };
+    defaultOpen: defaultTimeOpen,
+    isEdit,
+    onQuickSave,
+    registerBeforeSubmit,
+  });
 
   return (
     <div className={css.grid}>
@@ -263,10 +187,7 @@ export function ItemForm({
                 className={css.input}
                 type="datetime-local"
                 value={timeStart}
-                onChange={(e) => {
-                  setTimeStart(e.target.value);
-                  setTimeDirty(true);
-                }}
+                onChange={(e) => onChangeStart(e.target.value)}
               />
             </div>
 
@@ -278,10 +199,7 @@ export function ItemForm({
                 type="number"
                 min="1"
                 value={timeMinutes}
-                onChange={(e) => {
-                  setTimeMinutes(e.target.value);
-                  setTimeDirty(true);
-                }}
+                onChange={(e) => onChangeMinutes(e.target.value)}
               />
             </div>
 
@@ -291,10 +209,7 @@ export function ItemForm({
                 id="time-comment"
                 className={css.input}
                 value={timeComment}
-                onChange={(e) => {
-                  setTimeComment(e.target.value);
-                  setTimeDirty(true);
-                }}
+                onChange={(e) => onChangeComment(e.target.value)}
                 placeholder="What did you do?"
               />
             </div>
@@ -305,10 +220,7 @@ export function ItemForm({
                 id="time-tags"
                 className={css.input}
                 value={timeTags}
-                onChange={(e) => {
-                  setTimeTags(e.target.value);
-                  setTimeDirty(true);
-                }}
+                onChange={(e) => onChangeTags(e.target.value)}
                 placeholder="dev, research, meeting"
               />
             </div>
@@ -317,10 +229,7 @@ export function ItemForm({
               <input
                 type="checkbox"
                 checked={timeBillable}
-                onChange={(e) => {
-                  setTimeBillable(e.target.checked);
-                  setTimeDirty(true);
-                }}
+                onChange={(e) => onChangeBillable(e.target.checked)}
               />
               Billable
             </label>

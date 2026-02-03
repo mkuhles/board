@@ -1,5 +1,10 @@
 export { formatRelativeTime } from "./formatRelativeTime";
 export {
+  toLocalInputValue,
+  fromLocalInputValue,
+  formatLocalDateTime,
+} from "./dates";
+export {
   addTimeEntry,
   buildTimeEntry,
   normalizeTimeEntries,
