@@ -7,6 +7,7 @@ import { useHashHighlight } from "../hooks/useHashHighlight";
 import css from "./Board.module.css";
 import { ItemModal } from "./ItemModal/ItemModal";
 import { SprintFilter } from "./Scrum/SprintFilter";
+import { BoardActionsProvider } from "../context/BoardActionsContext";
 
 export function Board({
   columns,
@@ -75,77 +76,82 @@ export function Board({
   };
 
   return (
-    <>  
-      <div className={css.toolbar}>
-        {sprints && sprints.length > 0 && onSprintChange ? (
-          <SprintFilter
-            sprints={sprints}
-            activeSprintId={activeSprintId}
-            onSprintChange={onSprintChange} />
-        ) : null}
+    <BoardActionsProvider
+      value={{
+        onEditItem: openEdit,
+        onAddTime: openAddTime,
+        onDeleteItem,
+        onAddItemToSprint,
+        canAddItemToSprint,
+      }}
+    >
+      <>
+        <div className={css.toolbar}>
+          {sprints && sprints.length > 0 && onSprintChange ? (
+            <SprintFilter
+              sprints={sprints}
+              activeSprintId={activeSprintId}
+              onSprintChange={onSprintChange} />
+          ) : null}
 
-        <button className={css.smallBtn} onClick={openCreate} type="button">
-          + New item
-        </button>
-      </div>
-
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragStart={onDragStart}
-        onDragEnd={onDragEnd}
-      >
-        <div className={css.board}>
-          {STATUSES.map((s) => {
-              const isBacklog = s.id === "backlog";
-              const isCollapsed = isBacklog && collapsed.backlog;
-
-            return (
-              <div
-              key={s.id}
-              className={isCollapsed ? css.columnCollapsedWrap : css.columnGrow}
-              >
-                <Column
-                  key={s.id}
-                  statusId={s.id}
-                  title={s.title}
-                  items={columns[s.id] || []}
-                  onDeleteItem={onDeleteItem}
-                  collapsible={s.id === "backlog"}
-                  collapsed={Boolean(collapsed.backlog) && s.id === "backlog"}
-                  onToggleCollapse={() =>
-                    setCollapsed((prev) => ({ ...prev, backlog: !prev.backlog }))
-                  }
-                  onEditItem={openEdit}
-                  onAddTime={openAddTime}
-                  onAddItemToSprint={onAddItemToSprint}
-                  canAddItemToSprint={canAddItemToSprint}
-                />
-              </div>
-            )
-          })}
+          <button className={css.smallBtn} onClick={openCreate} type="button">
+            + New item
+          </button>
         </div>
 
-        <DragOverlay>
-          {activeItem ? (
-            <div style={{ width: 320 }}>
-              <ItemCard item={activeItem} />
-            </div>
-          ) : null}
-        </DragOverlay>
-      </DndContext>
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragStart={onDragStart}
+          onDragEnd={onDragEnd}
+        >
+          <div className={css.board}>
+            {STATUSES.map((s) => {
+                const isBacklog = s.id === "backlog";
+                const isCollapsed = isBacklog && collapsed.backlog;
 
-      <ItemModal
-        isOpen={modalOpen}
-        mode={editingItem ? "edit" : "create"}
-        initialItem={editingItem}
-        defaultTimeOpen={timeOpen}
-        onCancel={closeModal}
-        onSubmit={submitModal}
-        allItems={allItems}
-        sprints={sprints ?? []}
-        statuses={STATUSES}
-      />
-    </>
+              return (
+                <div
+                key={s.id}
+                className={isCollapsed ? css.columnCollapsedWrap : css.columnGrow}
+                >
+                  <Column
+                    key={s.id}
+                    statusId={s.id}
+                    title={s.title}
+                    items={columns[s.id] || []}
+                    collapsible={s.id === "backlog"}
+                    collapsed={Boolean(collapsed.backlog) && s.id === "backlog"}
+                    onToggleCollapse={() =>
+                      setCollapsed((prev) => ({ ...prev, backlog: !prev.backlog }))
+                    }
+                  />
+                </div>
+              )
+            })}
+          </div>
+
+          <DragOverlay>
+            {activeItem ? (
+              <div style={{ width: 320 }}>
+                <ItemCard item={activeItem} />
+              </div>
+            ) : null}
+          </DragOverlay>
+        </DndContext>
+
+        <ItemModal
+          isOpen={modalOpen}
+          mode={editingItem ? "edit" : "create"}
+          initialItem={editingItem}
+          defaultTimeOpen={timeOpen}
+          onCancel={closeModal}
+          onSubmit={submitModal}
+          allItems={allItems}
+          sprints={sprints ?? []}
+          statuses={STATUSES}
+        />
+      </>
+    </BoardActionsProvider>
   );
 }

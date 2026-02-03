@@ -8,15 +8,9 @@ export function Column({
   statusId,
   title,
   items,
-  onDeleteItem,
   collapsible = false,
   collapsed = false,
   onToggleCollapse,
-  onEditItem,
-  onAddTime,
-  onUpdateItem,
-  onAddItemToSprint,
-  canAddItemToSprint
 }) {
   const droppableId = `col:${statusId}`;
   const { setNodeRef, isOver } = useDroppable({ id: droppableId });
@@ -55,12 +49,6 @@ export function Column({
               <DraggableItem
                 key={item._cid}
                 item={item}
-                onDelete={onDeleteItem}
-                onEdit={onEditItem}
-                onAddTime={onAddTime}
-                onUpdate={onUpdateItem}
-                onAddToSprint={onAddItemToSprint}
-                canAddToSprint={canAddItemToSprint}
               />
             ))}
           </SortableContext>

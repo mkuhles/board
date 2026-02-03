@@ -8,15 +8,18 @@ import { Markdown } from "../Markdown";
 import { AddTimeButton, AddToSprintButton, DeleteButton } from "./ItemCardActionButtons";
 import { Chip } from "../Chip";
 import { formatRelativeTime } from "../../lib/time";
+import { useBoardActions } from "../../context/BoardActionsContext";
 
 export function ItemCard({
-  item,
-  onDelete,
-  onEdit,
-  onAddTime,
-  canAddToSprint,
-  onAddToSprint,
+  item
 }) {
+  const {
+    onDeleteItem,
+    onEditItem,
+    onAddTime,
+    onAddItemToSprint,
+    canAddItemToSprint,
+  } = useBoardActions();
   const areas = useAreas();
   const area = getAreaById(areas, item.area_id);
   const timestamp = item.updated_at || item.created_at || "";
@@ -28,16 +31,16 @@ export function ItemCard({
   const billableCount = timeEntries.filter((entry) => entry?.billable).length;
 
   return (
-    <div id={item.id} className={css.card} onDoubleClick={() => onEdit?.(item)}>
+    <div id={item.id} className={css.card} onDoubleClick={() => onEditItem?.(item)}>
       <div className={css.meta}>
         <span className={css.badge}>{item.id || "—"}</span>
 
         <div className={css.metaRight}>
           <span className={css.muted}>{item.type || ""}</span>
           {item.sprintId && <Chip label={item.sprintId} title={item.sprintId} />}
-          <DeleteButton item={item} onDelete={onDelete} />
-          {canAddToSprint && !item.sprintId ? (
-            <AddToSprintButton item={item} onAddToSprint={onAddToSprint} />
+          <DeleteButton item={item} onDelete={onDeleteItem} />
+          {canAddItemToSprint && !item.sprintId ? (
+            <AddToSprintButton item={item} onAddToSprint={onAddItemToSprint} />
           ) : null }
         </div>
       </div>
