@@ -1,4 +1,4 @@
-export function formatRelativeTime(isoString, locale = "en") {
+export function formatRelativeTime(isoString: string, locale = "en"): string {
   if (!isoString) return "";
   const date = new Date(isoString);
   if (Number.isNaN(date.getTime())) return "";

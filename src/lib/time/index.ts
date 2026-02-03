@@ -10,6 +10,8 @@ export {
   normalizeTimeEntries,
   parseTags,
   summarizeTimeEntries,
+  type TimeEntry,
+  type TimeEntryInput,
 } from "./entries";
 export {
   nowIso,

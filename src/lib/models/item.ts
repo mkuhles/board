@@ -1,7 +1,40 @@
 import { DEFAULT_STATUS } from "../../constants/statuses";
+import type { TimeEntry } from "../time/entries";
 
-export function normalizeItem(item = {}, { defaultStatus = DEFAULT_STATUS } = {}) {
-  const next = { ...item };
+export type Item = {
+  id?: string;
+  title?: string;
+  description?: string;
+  type?: string;
+  area_id?: string;
+  relates_to?: string[];
+  status?: string;
+  order?: number;
+  _cid?: string;
+  sprintId?: string;
+  time_entries?: TimeEntry[];
+  created_at?: string;
+  updated_at?: string;
+};
+
+export type ItemPayload = {
+  title: string;
+  description?: string;
+  type: string;
+  area_id?: string;
+  relates_to?: string[];
+  status?: string;
+  sprintId?: string;
+  time_entries?: TimeEntry[];
+  created_at?: string;
+  updated_at?: string;
+};
+
+export function normalizeItem(
+  item: Item = {},
+  { defaultStatus = DEFAULT_STATUS }: { defaultStatus?: string } = {}
+): Item {
+  const next: Item = { ...item };
 
   if (!next.status) next.status = defaultStatus;
   if (!Number.isFinite(next.order)) next.order = 0;
@@ -19,7 +52,14 @@ export function buildNewItem({
   created_at,
   updated_at,
   defaultStatus = DEFAULT_STATUS,
-}) {
+}: {
+  payload: ItemPayload;
+  id: string;
+  nextCid: () => string;
+  created_at: string;
+  updated_at: string;
+  defaultStatus?: string;
+}): Item {
   const base = {
     id,
     title: payload.title,
@@ -40,11 +80,14 @@ export function buildNewItem({
 }
 
 export function applyItemPatch(
-  item,
-  payload,
-  { defaultStatus = DEFAULT_STATUS, updated_at } = {}
-) {
-  const next = { ...item };
+  item: Item,
+  payload: Partial<ItemPayload>,
+  {
+    defaultStatus = DEFAULT_STATUS,
+    updated_at,
+  }: { defaultStatus?: string; updated_at?: string } = {}
+): Item {
+  const next: Item = { ...item };
 
   if ("title" in payload) next.title = payload.title;
   if ("description" in payload) next.description = payload.description ?? "";
