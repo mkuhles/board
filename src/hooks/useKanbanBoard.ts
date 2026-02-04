@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState, useCallback } from "react";
 import { STATUSES } from "../constants/statuses";
-import { groupByStatus } from "../lib/project";
+import { generateNextSimpleId, groupByStatus } from "../lib/project";
 
 import {
   ensureClientIds,
@@ -92,6 +92,39 @@ export function useKanbanBoard(
     [project, setProject, onChange, nextCid]
   );
 
+  const createItems = useCallback(
+    (payloads: ItemPayload[]) => {
+      if (!project || payloads.length === 0) return [];
+
+      let nextProject = project;
+      const created: Item[] = [];
+
+      payloads.forEach((payload) => {
+        const nextId = generateNextSimpleId(nextProject, payload.type);
+        const result = createItemInProject({
+          project: nextProject,
+          payload,
+          nextCid,
+          statuses: STATUSES,
+        });
+
+        if (!result) return;
+        nextProject = result;
+
+        const createdItem = nextProject.items?.find((it) => it.id === nextId);
+        if (createdItem) created.push(createdItem);
+      });
+
+      if (nextProject !== project) {
+        setProject(nextProject);
+        onChange?.(nextProject);
+      }
+
+      return created;
+    },
+    [project, setProject, onChange, nextCid]
+  );
+
   const updateItem = useCallback(
     (cid: string, payload: ItemPatch) => {
       const nextProject = updateItemInProject({
@@ -140,6 +173,7 @@ export function useKanbanBoard(
     dnd: { onDragStart, onDragEnd },
     deleteItem,
     createItem,
+    createItems,
     updateItem,
   };
 }

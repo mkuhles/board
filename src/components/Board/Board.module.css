@@ -41,6 +41,16 @@
   gap: 10px;
 }
 
+.toolbarSpacer {
+  flex: 1;
+}
+
+.toolbarActions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
 .smallBtn {
   padding: 10px 12px;
   border-radius: 0;

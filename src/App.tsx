@@ -8,12 +8,15 @@ import { TopBar } from "./components/TopBar";
 import { EmptyState } from "./components/EmptyState";
 import { Board } from "./components/Board/Board";
 import { ProjectProvider } from "./context/ProjectContext";
-import type { Item } from "./lib/models";
+import { AnchorLink } from "./components/AnchorLink";
+import type { Item, ItemPayload } from "./lib/models";
 
 export default function App() {
   const file = useProjectFile();
   const [dismissedError, setDismissedError] = useState(false);
   const [dismissedInfo, setDismissedInfo] = useState(false);
+  const [dismissedImport, setDismissedImport] = useState(false);
+  const [importedItems, setImportedItems] = useState<Item[]>([]);
   const board = useKanbanBoard(file.project, file.setProject, {
     onChange: file.autosave,
   });
@@ -48,6 +51,13 @@ export default function App() {
     });
   };
 
+  const handleBulkImport = (payloads: ItemPayload[]) => {
+    const created = board.createItems(payloads);
+    if (created.length > 0) {
+      setImportedItems(created);
+    }
+  };
+
   useEffect(() => {
     setDismissedError(false);
   }, [file.error]);
@@ -55,6 +65,12 @@ export default function App() {
   useEffect(() => {
     setDismissedInfo(false);
   }, [file.info]);
+
+  useEffect(() => {
+    if (importedItems.length > 0) {
+      setDismissedImport(false);
+    }
+  }, [importedItems]);
 
   return (
     <div className={css.page}>
@@ -96,6 +112,34 @@ export default function App() {
               </button>
             </div>
           ) : null}
+          {importedItems.length > 0 && !dismissedImport ? (
+            <div className={`${css.alertInfo} ${css.toast}`}>
+              <div>
+                Imported {importedItems.length} items:
+                <ul className={css.toastList}>
+                  {importedItems.map((item) => (
+                    <li key={item._cid ?? item.id}>
+                      {item.id ? (
+                        <AnchorLink toId={item.id}>
+                          {item.id}: {item.title ?? "Untitled"}
+                        </AnchorLink>
+                      ) : (
+                        item.title ?? "Untitled"
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <button
+                className={css.toastClose}
+                type="button"
+                aria-label="Close import info"
+                onClick={() => setDismissedImport(true)}
+              >
+                ×
+              </button>
+            </div>
+          ) : null}
         </div>
 
         {!file.project ? (
@@ -111,6 +155,7 @@ export default function App() {
                 onDeleteItem={board.deleteItem}
                 onCreateItem={board.createItem}
                 onUpdateItem={board.updateItem}
+                onBulkImport={handleBulkImport}
                 sprints={sprints}
                 activeSprintId={activeSprintId}
                 onSprintChange={handleSprintChange}

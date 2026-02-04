@@ -8,6 +8,7 @@ type BoardToolbarProps = {
   activeSprintId?: string;
   onSprintChange?: (id: string) => void;
   onNewItem: () => void;
+  onBulkImport: () => void;
 };
 
 export function BoardToolbar({
@@ -15,6 +16,7 @@ export function BoardToolbar({
   activeSprintId,
   onSprintChange,
   onNewItem,
+  onBulkImport,
 }: BoardToolbarProps) {
   return (
     <div className={css.toolbar}>
@@ -26,11 +28,16 @@ export function BoardToolbar({
         />
       ) : null}
 
-      <div />
+      <div className={css.toolbarSpacer} />
 
-      <button className={css.smallBtn} onClick={onNewItem} type="button">
-        + New item
-      </button>
+      <div className={css.toolbarActions}>
+        <button className={css.smallBtn} onClick={onBulkImport} type="button">
+          Bulk import
+        </button>
+        <button className={css.smallBtn} onClick={onNewItem} type="button">
+          + New item
+        </button>
+      </div>
     </div>
   );
 }

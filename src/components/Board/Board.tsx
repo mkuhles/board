@@ -5,9 +5,11 @@ import { useHashHighlight } from "../../hooks/useHashHighlight";
 import css from "./Board.module.css";
 import { ItemModal } from "../ItemModal/ItemModal";
 import { BoardActionsProvider } from "../../context/BoardActionsContext";
+import { useTypeCodes } from "../../context/ProjectContext";
 import { useBoardModal } from "../../hooks/useBoardModal";
 import { BoardToolbar } from "./BoardToolbar";
 import { BoardColumns } from "./BoardColumns";
+import { BulkImportModal } from "./BulkImportModal";
 import type { Item, ItemPatch, ItemPayload, Sprint } from "../../lib/models";
 import type { DragEvent } from "../../lib/kanban/dnd";
 
@@ -19,6 +21,7 @@ type BoardProps = {
   onDeleteItem?: (item: Item) => void;
   onCreateItem?: (payload: ItemPayload) => void;
   onUpdateItem?: (cid: string, payload: ItemPatch) => void;
+  onBulkImport?: (payloads: ItemPayload[]) => void;
   sprints?: Sprint[];
   onSprintChange?: (id: string) => void;
   onAddItemToSprint?: (item: Item) => void;
@@ -35,6 +38,7 @@ export function Board({
   onDeleteItem,
   onCreateItem,
   onUpdateItem,
+  onBulkImport,
   sprints,
   onSprintChange,
   onAddItemToSprint,
@@ -48,6 +52,8 @@ export function Board({
     backlog: true,
     archived: true,
   });
+  const [bulkOpen, setBulkOpen] = useState(false);
+  const typeCodes = useTypeCodes();
   useHashHighlight();
   
   const allItems = useMemo(() => Object.values(columns).flat(), [columns]);
@@ -73,6 +79,10 @@ export function Board({
     }));
   };
 
+  const handleBulkImport = (payloads: ItemPayload[]) => {
+    onBulkImport?.(payloads);
+  };
+
   return (
     <BoardActionsProvider
       value={{
@@ -90,6 +100,7 @@ export function Board({
           activeSprintId={activeSprintId}
           onSprintChange={onSprintChange}
           onNewItem={openCreate}
+          onBulkImport={() => setBulkOpen(true)}
         />
 
         <BoardColumns
@@ -112,6 +123,13 @@ export function Board({
           allItems={allItems}
           sprints={sprints ?? []}
           statuses={STATUSES}
+        />
+
+        <BulkImportModal
+          isOpen={bulkOpen}
+          onCancel={() => setBulkOpen(false)}
+          onImport={handleBulkImport}
+          typeCodes={typeCodes}
         />
       </div>
     </BoardActionsProvider>
