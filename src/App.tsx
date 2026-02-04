@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import css from "./App.module.css";
 import { useProjectFile } from "./hooks/useProjectFile";
 import { useKanbanBoard } from "./hooks/useKanbanBoard";
@@ -6,19 +6,20 @@ import { TopBar } from "./components/TopBar";
 import { EmptyState } from "./components/EmptyState";
 import { Board } from "./components/Board/Board";
 import { ProjectProvider } from "./context/ProjectContext";
-import { filterItemsBySprint } from "./lib/scrum/filterItemsBySprint"
-import { useEffect } from "react";
+import type { Item } from "./lib/models";
 
 export default function App() {
   const file = useProjectFile();
-  const [activeSprintId, setActiveSprintId] = React.useState(file.project?.meta?.activeSprintId ?? "all");
+  const [activeSprintId, setActiveSprintId] = useState<string>(
+    file.project?.meta?.activeSprintId ?? "all"
+  );
   
   useEffect(() => {
     if (!file.project) return;
     setActiveSprintId(file.project?.meta?.activeSprintId ?? "all");
   }, [file.project]);  
   
-  const handleSprintChange = (nextId) => {
+  const handleSprintChange = (nextId: string) => {
     setActiveSprintId(nextId);
 
     file.setProject((prev) => {
@@ -57,7 +58,7 @@ export default function App() {
     }
 
     // Sprint X aktiv:
-    const inSprint = (it) => it.sprintId === activeSprintId;
+    const inSprint = (it: Item) => it.sprintId === activeSprintId;
 
     return {
       ...cols,
@@ -76,9 +77,9 @@ export default function App() {
   const sprints = file.project?.sprints;
 
   const projectMeta = useMemo(() => ({
-    name: file.project?.name ?? '',
+    name: file.project?.name ?? "",
     areas: file.project?.areas ?? [],
-    typeCodes: file.project?.typeCodes ?? {}
+    typeCodes: file.project?.typeCodes ?? {},
   }), [file.project?.name, file.project?.areas, file.project?.typeCodes]);
 
   const nextOrderToDo = (board.columns.todo?.reduce((m, it) => Math.max(m, it.order ?? 0), -1) ?? -1) + 1;
@@ -114,8 +115,17 @@ export default function App() {
               sprints={sprints}
               activeSprintId={activeSprintId}
               onSprintChange={handleSprintChange}
-              onAddItemToSprint={(item) => board.updateItem(item._cid, {sprintId: activeSprintId, status: "todo", order: nextOrderToDo})}
-              canAddItemToSprint={activeSprintId && activeSprintId !== "all" && activeSprintId !== "backlog"}
+              onAddItemToSprint={(item: Item) => {
+                if (!item._cid) return;
+                board.updateItem(item._cid, {
+                  sprintId: activeSprintId,
+                  status: "todo",
+                  order: nextOrderToDo,
+                });
+              }}
+              canAddItemToSprint={
+                activeSprintId !== "all" && activeSprintId !== "backlog"
+              }
             />
           </ProjectProvider>
           

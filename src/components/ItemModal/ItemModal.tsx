@@ -7,7 +7,7 @@ import { ItemModalFooter } from "./ItemModalFooter";
 import { formatRelativeTime } from "../../lib/time";
 import { useItemModalState } from "../../hooks/useItemModalState";
 import type { Item, ItemPayload, Sprint } from "../../lib/models";
-import type { StatusOption } from "../../types/props";
+import type { StatusOption } from "../../constants/statuses";
 
 type ItemModalProps = {
   isOpen: boolean;

@@ -1,4 +1,9 @@
-export const STATUSES = [
+export type StatusOption = {
+  id: string;
+  title: string;
+};
+
+export const STATUSES: StatusOption[] = [
   { id: "backlog", title: "Backlog" },
   { id: "todo", title: "ToDo"},
   { id: "doing", title: "Doing" },

@@ -1,8 +1,9 @@
 import { useMemo, useRef } from "react";
 import { useAreas, useTypeCodes } from "../context/ProjectContext";
 import { useItemDraft } from "../lib/project";
+import type { StatusOption } from "../constants/statuses";
 import type { Item, ItemPayload, Sprint } from "../lib/models";
-import type { BeforeSubmitFn, RegisterBeforeSubmit, StatusOption } from "../types/props";
+import type { BeforeSubmitFn, RegisterBeforeSubmit } from "../types/props";
 
 type UseItemModalStateOptions = {
   isOpen: boolean;
