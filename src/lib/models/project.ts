@@ -5,6 +5,7 @@ export type Area = {
   id: string;
   title: string;
   number: number | null;
+  color?: string;
 };
 
 export type Sprint = {

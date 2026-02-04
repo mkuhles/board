@@ -44,7 +44,12 @@ export function ItemCard({ item }: ItemProp) {
 
         <div className={css.metaRight}>
           {typeConfig ? (
-            <Chip label={typeConfig.label} title={item.type || ""} color={typeConfig.color} />
+            <Chip
+              label={typeConfig.label}
+              title={item.type || ""}
+              color={typeConfig.color}
+              variant={typeConfig.color ? "outline" : "filled"}
+            />
           ) : (
             <span className={css.muted}>{item.type || ""}</span>
           )}

@@ -19,8 +19,9 @@ export function AreaChip({ area, variant = "filled", showNumber = false }: AreaC
 
   const number = Number.isFinite(area.number) ? area.number : null;
   const label = showNumber && number !== null ? `${area.title} (${number})` : area.title;
+  const resolvedVariant = area.color ? "outline" : variant;
 
   return (
-    <Chip variant={variant} title={area.id} label={label} />
+    <Chip variant={resolvedVariant} title={area.id} label={label} color={area.color} />
   );
 }
