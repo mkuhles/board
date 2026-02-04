@@ -55,6 +55,7 @@
   min-height: 0;
   overflow-y: auto;
   padding-bottom: 10px;
+  min-height: 120px;
 }
 
 .titleRow {
