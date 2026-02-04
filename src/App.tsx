@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import css from "./App.module.css";
 import { useProjectFile } from "./hooks/useProjectFile";
 import { useKanbanBoard } from "./hooks/useKanbanBoard";
@@ -12,6 +12,8 @@ import type { Item } from "./lib/models";
 
 export default function App() {
   const file = useProjectFile();
+  const [dismissedError, setDismissedError] = useState(false);
+  const [dismissedInfo, setDismissedInfo] = useState(false);
   const board = useKanbanBoard(file.project, file.setProject, {
     onChange: file.autosave,
   });
@@ -46,6 +48,14 @@ export default function App() {
     });
   };
 
+  useEffect(() => {
+    setDismissedError(false);
+  }, [file.error]);
+
+  useEffect(() => {
+    setDismissedInfo(false);
+  }, [file.info]);
+
   return (
     <div className={css.page}>
       <div className={css.container}>
@@ -59,8 +69,34 @@ export default function App() {
           onSaveAs={() => file.saveAs()}
         />
 
-        {file.error ? <div className={css.alertError}>{file.error}</div> : null}
-        {file.info ? <div className={css.alertInfo}>{file.info}</div> : null}
+        <div className={css.toastStack}>
+          {file.error && !dismissedError ? (
+            <div className={`${css.alertError} ${css.toast}`}>
+              <div>{file.error}</div>
+              <button
+                className={css.toastClose}
+                type="button"
+                aria-label="Close error"
+                onClick={() => setDismissedError(true)}
+              >
+                ×
+              </button>
+            </div>
+          ) : null}
+          {file.info && !dismissedInfo ? (
+            <div className={`${css.alertInfo} ${css.toast}`}>
+              <div>{file.info}</div>
+              <button
+                className={css.toastClose}
+                type="button"
+                aria-label="Close info"
+                onClick={() => setDismissedInfo(true)}
+              >
+                ×
+              </button>
+            </div>
+          ) : null}
+        </div>
 
         {!file.project ? (
           <EmptyState />

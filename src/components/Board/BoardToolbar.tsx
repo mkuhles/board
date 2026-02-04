@@ -26,6 +26,8 @@ export function BoardToolbar({
         />
       ) : null}
 
+      <div />
+
       <button className={css.smallBtn} onClick={onNewItem} type="button">
         + New item
       </button>
