@@ -115,17 +115,3 @@
 :global(.highlight) {
   animation: flashHighlight 900ms ease-out;
 }
-
-
-.cardMarkdown {
-  max-height: 5.5em;       /* ~3-4 Zeilen, je nach line-height */
-  overflow: hidden;
-}
-
-.cardMarkdown :global(p) {
-  margin: 0 0 0.5em 0;
-}
-.cardMarkdown :global(pre) {
-  margin: 0.5em 0;
-  overflow: auto;
-}

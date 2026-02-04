@@ -4,7 +4,6 @@ import { AreaChip } from "../AreaChip";
 import { useAreas } from "../../context/ProjectContext";
 import { AnchorLink } from "../AnchorLink";
 import { getAreaById } from "../../lib/project";
-import { Markdown } from "../Markdown";
 import {
   AddTimeButton,
   AddToSprintButton,
@@ -14,6 +13,7 @@ import {
 import { Chip } from "../Chip";
 import { formatRelativeTime, summarizeTimeEntries } from "../../lib/time";
 import { useBoardActions } from "../../context/BoardActionsContext";
+import { buildDescriptionTeaser } from "../../lib/text/teaser";
 import type { ItemProp } from "../../types/props";
 
 export function ItemCard({ item }: ItemProp) {
@@ -31,6 +31,7 @@ export function ItemCard({ item }: ItemProp) {
   const timeEntries = Array.isArray(item.time_entries) ? item.time_entries : [];
   const { totalMinutes, billableCount, count: timeEntryCount } =
     summarizeTimeEntries(timeEntries);
+  const descriptionTeaser = buildDescriptionTeaser(item.description);
 
   return (
     <div id={item.id} className={css.card} onDoubleClick={() => onEditItem?.(item)}>
@@ -51,9 +52,7 @@ export function ItemCard({ item }: ItemProp) {
       </div>
 
       <div className={css.title}>{item.title || "(ohne Titel)"}</div>
-      <Markdown className={css.cardMarkdown}>
-        {item.description || ""}
-      </Markdown>
+      <div className={css.cardMarkdown}>{descriptionTeaser}</div>
 
       <div className={css.chips}>
         <AreaChip area={area} />

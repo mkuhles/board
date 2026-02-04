@@ -84,7 +84,7 @@ export function Board({
         canAddItemToSprint,
       }}
     >
-      <>
+      <div className={css.boardShell}>
         <BoardToolbar
           sprints={sprints}
           activeSprintId={activeSprintId}
@@ -113,7 +113,7 @@ export function Board({
           sprints={sprints ?? []}
           statuses={STATUSES}
         />
-      </>
+      </div>
     </BoardActionsProvider>
   );
 }
