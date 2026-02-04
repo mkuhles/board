@@ -1,7 +1,7 @@
 .chip {
   display: inline-flex;
   align-items: center;
-  border-radius: 999px;
+  border-radius: 0;
   padding: 2px 8px;
   font-size: 12px;
   line-height: 1.4;

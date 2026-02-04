@@ -43,7 +43,7 @@
 
 .smallBtn {
   padding: 10px 12px;
-  border-radius: 10px;
+  border-radius: 0;
   border: 1px solid #3a3a3a;
   background: #fff;
   color: #111;

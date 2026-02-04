@@ -14,7 +14,7 @@
   background: #111;
   color: #f2f2f2;
   border: 1px solid #2a2a2a;
-  border-radius: 16px;
+  border-radius: 0;
   box-shadow: 0 20px 60px rgba(0,0,0,0.45);
   padding: 14px;
   max-height: 90vh;
@@ -49,7 +49,7 @@
   border: 1px solid #2a2a2a;
   background: #161616;
   color: #fff;
-  border-radius: 10px;
+  border-radius: 0;
   width: 34px;
   height: 34px;
   cursor: pointer;
@@ -61,7 +61,7 @@
   border: 1px solid #6a2a2a;
   color: #ffd0d0;
   padding: 10px;
-  border-radius: 12px;
+  border-radius: 0;
   white-space: pre-wrap;
 }
 
@@ -83,7 +83,7 @@
 .labelWide { grid-column: 1 / -1; }
 
 .input, .textarea {
-  border-radius: 12px;
+  border-radius: 0;
   border: 1px solid #2a2a2a;
   background: #0b0b0b;
   color: #f2f2f2;
@@ -105,7 +105,7 @@
 
 .btn {
   padding: 10px 12px;
-  border-radius: 10px;
+  border-radius: 0;
   border: 1px solid #3a3a3a;
   background: #fff;
   color: #111;
@@ -124,7 +124,7 @@
   grid-column: 1 / -1;
   margin-top: 10px;
   padding: 10px;
-  border-radius: 12px;
+  border-radius: 0;
   background: rgba(255, 255, 255, 0.04);
 
   display: flex;
@@ -151,7 +151,7 @@
 
 .accordion {
   border: 1px solid #2a2a2a;
-  border-radius: 12px;
+  border-radius: 0;
   background: #0e0e0e;
   padding: 8px 10px;
 }
@@ -206,7 +206,7 @@
   font-size: 11px;
   color: #111;
   background: #e5e5e5;
-  border-radius: 999px;
+  border-radius: 0;
   padding: 2px 6px;
 }
 
@@ -215,7 +215,7 @@
   color: #ffd0a8;
   border: 1px solid #6a4a2a;
   padding: 2px 6px;
-  border-radius: 999px;
+  border-radius: 0;
 }
 
 .timeEmpty {
@@ -260,7 +260,7 @@
   border: 1px solid #fff;
   background: #fff;
   color: #111;
-  border-radius: 999px;
+  border-radius: 0;
   padding: 7px 12px;
   font-size: 12px;
   font-weight: 700;
