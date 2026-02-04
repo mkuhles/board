@@ -7,13 +7,21 @@ import {
   summarizeTimeEntries,
   toLocalInputValue,
 } from "../lib/time";
+import type { TimeEntry } from "../lib/time";
+
+type UseTimeEntryDraftOptions = {
+  timeEntries?: TimeEntry[];
+  setTimeEntries?: (entries: TimeEntry[]) => void;
+  defaultOpen?: boolean;
+  registerBeforeSubmit?: (fn: () => TimeEntry | null) => void;
+};
 
 export function useTimeEntryDraft({
   timeEntries,
   setTimeEntries,
   defaultOpen = false,
   registerBeforeSubmit,
-} = {}) {
+}: UseTimeEntryDraftOptions = {}) {
   const [timeStart, setTimeStart] = useState(toLocalInputValue());
   const [timeMinutes, setTimeMinutes] = useState(30);
   const [timeComment, setTimeComment] = useState("");
@@ -21,7 +29,7 @@ export function useTimeEntryDraft({
   const [timeBillable, setTimeBillable] = useState(false);
   const [isTimeOpen, setIsTimeOpen] = useState(Boolean(defaultOpen));
   const [timeDirty, setTimeDirty] = useState(false);
-  const timeWrapRef = useRef(null);
+  const timeWrapRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     setIsTimeOpen(Boolean(defaultOpen));
@@ -48,7 +56,7 @@ export function useTimeEntryDraft({
         billable: Boolean(timeBillable),
       });
 
-      setTimeEntries(addTimeEntry(timeEntries, entry));
+      setTimeEntries?.(addTimeEntry(timeEntries, entry));
       setTimeComment("");
       setTimeTags("");
       setTimeBillable(false);
@@ -57,7 +65,7 @@ export function useTimeEntryDraft({
       return entry;
     };
 
-    registerBeforeSubmit(handler);
+    registerBeforeSubmit?.(handler);
   }, [
     registerBeforeSubmit,
     timeDirty,
@@ -108,23 +116,23 @@ export function useTimeEntryDraft({
     timeEntryCount,
     setIsTimeOpen,
     handleAddTimeEntry,
-    onChangeStart: (value) => {
+    onChangeStart: (value: string) => {
       setTimeStart(value);
       setTimeDirty(true);
     },
-    onChangeMinutes: (value) => {
+    onChangeMinutes: (value: string) => {
       setTimeMinutes(value);
       setTimeDirty(true);
     },
-    onChangeComment: (value) => {
+    onChangeComment: (value: string) => {
       setTimeComment(value);
       setTimeDirty(true);
     },
-    onChangeTags: (value) => {
+    onChangeTags: (value: string) => {
       setTimeTags(value);
       setTimeDirty(true);
     },
-    onChangeBillable: (value) => {
+    onChangeBillable: (value: boolean) => {
       setTimeBillable(value);
       setTimeDirty(true);
     },

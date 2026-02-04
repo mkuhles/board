@@ -1,11 +1,19 @@
 import { useCallback, useState } from "react";
-import { openJsonFile, saveAsJsonFile, saveJsonFile, isFileSystemApiSupported, stripClientFields } from "../lib/storage";
+import {
+  openJsonFile,
+  saveAsJsonFile,
+  saveJsonFile,
+  isFileSystemApiSupported,
+  stripClientFields,
+} from "../lib/storage";
 import { migrateAreasOnOpen } from "../lib/migrateAreas";
-import { normalizeProject } from "../lib/models";
+import { normalizeProject, type Project } from "../lib/models";
+
+type OpenResult = { handle: FileSystemFileHandle; project: Project };
 
 export function useProjectFile() {
-  const [fileHandle, setFileHandle] = useState(null);
-  const [project, setProject] = useState(null);
+  const [fileHandle, setFileHandle] = useState<FileSystemFileHandle | null>(null);
+  const [project, setProject] = useState<Project | null>(null);
 
   const [error, setError] = useState("");
   const [info, setInfo] = useState("");
@@ -13,11 +21,11 @@ export function useProjectFile() {
 
   const supportOk = isFileSystemApiSupported();
 
-  const open = useCallback(async (prepareProject) => {
+  const open = useCallback(async (prepareProject?: (project: Project) => Project) => {
     setError("");
     setInfo("");
     try {
-      const { handle, project: loaded } = await openJsonFile();
+      const { handle, project: loaded } = (await openJsonFile()) as OpenResult;
 
       const prepared = prepareProject ? prepareProject(loaded) : loaded;
       const { project: migrated, changed } = migrateAreasOnOpen(prepared);
@@ -32,12 +40,13 @@ export function useProjectFile() {
       } else {
         setInfo("File opened.");
       }
-    } catch (e) {
-      setError(`Öffnen fehlgeschlagen: ${e?.message || String(e)}`);
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : String(e);
+      setError(`Öffnen fehlgeschlagen: ${message}`);
     }
   }, []);
 
-  const save = useCallback(async (nextProject = project) => {
+  const save = useCallback(async (nextProject: Project | null = project) => {
     if (!nextProject) return;
     setError("");
     setInfo("");
@@ -45,14 +54,15 @@ export function useProjectFile() {
       setIsSaving(true);
       await saveJsonFile(fileHandle, stripClientFields(nextProject));
       setInfo("Gespeichert.");
-    } catch (e) {
-      setError(`Speichern fehlgeschlagen: ${e?.message || String(e)}`);
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : String(e);
+      setError(`Speichern fehlgeschlagen: ${message}`);
     } finally {
       setIsSaving(false);
     }
   }, [fileHandle, project]);
 
-  const saveAs = useCallback(async (nextProject = project) => {
+  const saveAs = useCallback(async (nextProject: Project | null = project) => {
     if (!nextProject) return;
     setError("");
     setInfo("");
@@ -61,22 +71,24 @@ export function useProjectFile() {
       const handle = await saveAsJsonFile(stripClientFields(nextProject), "nochda.json");
       setFileHandle(handle);
       setInfo("Gespeichert (unter…).");
-    } catch (e) {
-      setError(`Speichern unter… fehlgeschlagen: ${e?.message || String(e)}`);
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : String(e);
+      setError(`Speichern unter… fehlgeschlagen: ${message}`);
     } finally {
       setIsSaving(false);
     }
   }, [project]);
 
-  const autosave = useCallback(async (nextProject) => {
+  const autosave = useCallback(async (nextProject: Project) => {
     if (!fileHandle || !nextProject) return;
     try {
       setIsSaving(true);
       await saveJsonFile(fileHandle, stripClientFields(nextProject));
       setInfo("Auto-Save: gespeichert.");
       setError("");
-    } catch (e) {
-      setError(`Auto-Save fehlgeschlagen: ${e?.message || String(e)}`);
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : String(e);
+      setError(`Auto-Save fehlgeschlagen: ${message}`);
     } finally {
       setIsSaving(false);
     }

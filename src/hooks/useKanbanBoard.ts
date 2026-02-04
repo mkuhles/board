@@ -9,13 +9,23 @@ import {
   updateItemInProject,
   deleteItemInProject,
 } from "../lib/kanban";
+import type { Item, ItemPayload, Project } from "../lib/models";
+import type { Dispatch, SetStateAction } from "react";
 
-function findItemByCid(items, cid) {
+type KanbanOptions = {
+  onChange?: (project: Project) => void;
+};
+
+function findItemByCid(items: Item[], cid: string) {
   return items.find((i) => i._cid === cid);
 }
 
-export function useKanbanBoard(project, setProject, { onChange } = {}) {
-  const [activeCid, setActiveCid] = useState(null);
+export function useKanbanBoard(
+  project: Project | null,
+  setProject: Dispatch<SetStateAction<Project | null>>,
+  { onChange }: KanbanOptions = {}
+) {
+  const [activeCid, setActiveCid] = useState<string | null>(null);
 
   // Session-only counter for stable React keys / dnd.
   // Keep it simple: c1, c2, c3...
@@ -23,7 +33,7 @@ export function useKanbanBoard(project, setProject, { onChange } = {}) {
   const nextCid = useCallback(() => `c${cidCounter.current++}`, []);
 
   const ensureClientIdsForLoadedProject = useCallback(
-    (loadedProject) => ensureClientIds(loadedProject, nextCid),
+    (loadedProject: Project) => ensureClientIds(loadedProject, nextCid),
     [nextCid]
   );
 
@@ -37,14 +47,14 @@ export function useKanbanBoard(project, setProject, { onChange } = {}) {
     return findItemByCid(project.items, activeCid) || null;
   }, [project, activeCid]);
 
-  const onDragStart = useCallback((event) => {
+  const onDragStart = useCallback((event: { active?: { id?: string } }) => {
     const id = event?.active?.id; // "item:c3"
     const cid = String(id).replace("item:", "");
     setActiveCid(cid);
   }, []);
 
   const onDragEnd = useCallback(
-    (event) => {
+    (event: unknown) => {
       // Always cleanup drag-state, even if we early-return.
       setActiveCid(null);
 
@@ -56,7 +66,7 @@ export function useKanbanBoard(project, setProject, { onChange } = {}) {
 
       if (!nextItems) return;
 
-      const nextProject = { ...project, items: nextItems };
+      const nextProject = { ...project, items: nextItems } as Project;
       setProject(nextProject);
       onChange?.(nextProject);
     },
@@ -64,7 +74,7 @@ export function useKanbanBoard(project, setProject, { onChange } = {}) {
   );
 
   const createItem = useCallback(
-    (payload) => {
+    (payload: ItemPayload) => {
       const nextProject = createItemInProject({
         project,
         payload,
@@ -81,7 +91,7 @@ export function useKanbanBoard(project, setProject, { onChange } = {}) {
   );
 
   const updateItem = useCallback(
-    (cid, payload) => {
+    (cid: string, payload: ItemPayload) => {
       const nextProject = updateItemInProject({
         project,
         cid,
@@ -98,7 +108,7 @@ export function useKanbanBoard(project, setProject, { onChange } = {}) {
   );
 
   const deleteItem = useCallback(
-    (item) => {
+    (item: Item) => {
       const cid = item?._cid;
       if (!cid || !project?.items) return;
 

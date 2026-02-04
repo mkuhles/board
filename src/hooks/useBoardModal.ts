@@ -1,8 +1,23 @@
 import { useMemo, useState } from "react";
+import type { Item, ItemPayload } from "../lib/models";
 
-export function useBoardModal({ allItems, onCreateItem, onUpdateItem } = {}) {
+type UseBoardModalOptions = {
+  allItems?: Item[];
+  onCreateItem?: (payload: ItemPayload) => void;
+  onUpdateItem?: (cid: string, payload: ItemPayload) => void;
+};
+
+type SubmitOptions = {
+  keepOpen?: boolean;
+};
+
+export function useBoardModal({
+  allItems,
+  onCreateItem,
+  onUpdateItem,
+}: UseBoardModalOptions = {}) {
   const [modalOpen, setModalOpen] = useState(false);
-  const [editCid, setEditCid] = useState(null);
+  const [editCid, setEditCid] = useState<string | null>(null);
   const [timeOpen, setTimeOpen] = useState(false);
 
   const editingItem = useMemo(
@@ -16,20 +31,20 @@ export function useBoardModal({ allItems, onCreateItem, onUpdateItem } = {}) {
     setModalOpen(true);
   };
 
-  const openEdit = (item, { focusTime = false } = {}) => {
+  const openEdit = (item: Item, { focusTime = false }: { focusTime?: boolean } = {}) => {
     setEditCid(item?._cid ?? null);
     setTimeOpen(Boolean(focusTime));
     setModalOpen(true);
   };
 
-  const openAddTime = (item) => openEdit(item, { focusTime: true });
+  const openAddTime = (item: Item) => openEdit(item, { focusTime: true });
 
   const closeModal = () => {
     setModalOpen(false);
     setTimeOpen(false);
   };
 
-  const submitModal = (payload, options = {}) => {
+  const submitModal = (payload: ItemPayload, options: SubmitOptions = {}) => {
     if (editingItem) {
       if (typeof onUpdateItem !== "function") {
         console.error("onUpdateItem missing. Did you pass board.updateItem to <Board />?");

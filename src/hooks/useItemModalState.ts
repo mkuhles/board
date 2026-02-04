@@ -1,6 +1,19 @@
 import { useMemo, useRef } from "react";
 import { useAreas, useTypeCodes } from "../context/ProjectContext";
 import { useItemDraft } from "../lib/project";
+import type { Item, ItemPayload } from "../lib/models";
+import type { TimeEntry } from "../lib/time";
+
+type UseItemModalStateOptions = {
+  isOpen: boolean;
+  isEdit: boolean;
+  initialItem?: Item | null;
+  sprints?: unknown[];
+  statuses?: unknown[];
+  onSubmit: (payload: ItemPayload) => void;
+};
+
+type BeforeSubmitFn = () => TimeEntry | null;
 
 export function useItemModalState({
   isOpen,
@@ -9,10 +22,10 @@ export function useItemModalState({
   sprints,
   statuses,
   onSubmit,
-}) {
+}: UseItemModalStateOptions) {
   const areas = useAreas();
   const typeCodes = useTypeCodes();
-  const beforeSubmitRef = useRef(null);
+  const beforeSubmitRef = useRef<BeforeSubmitFn | null>(null);
 
   const draft = useItemDraft({
     isOpen,
@@ -39,7 +52,7 @@ export function useItemModalState({
     onSubmit(payload);
   };
 
-  const registerBeforeSubmit = (fn) => {
+  const registerBeforeSubmit = (fn: BeforeSubmitFn) => {
     beforeSubmitRef.current = fn;
   };
 
