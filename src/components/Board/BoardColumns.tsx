@@ -6,6 +6,7 @@ import { ItemCard } from "../ItemCard/ItemCard";
 import css from "./Board.module.css";
 import type { Item } from "../../lib/models";
 import type { DragEvent } from "../../lib/kanban/dnd";
+import { useI18n } from "../../i18n";
 
 type BoardColumnsProps = {
   sensors: unknown;
@@ -26,6 +27,7 @@ export function BoardColumns({
   onDragStart,
   onDragEnd,
 }: BoardColumnsProps) {
+  const { t } = useI18n();
   return (
     <DndContext
       sensors={sensors}
@@ -46,7 +48,7 @@ export function BoardColumns({
               <Column
                 key={s.id}
                 statusId={s.id}
-                title={s.title}
+                title={t(`status.${s.id}`)}
                 accentColor={s.color}
                 accentTextColor={s.textColor}
                 items={columns[s.id] || []}

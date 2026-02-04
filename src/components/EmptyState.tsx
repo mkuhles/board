@@ -1,14 +1,17 @@
 import React from "react";
 import css from "./EmptyState.module.css";
+import { useI18n } from "../i18n";
 
 export function EmptyState() {
+  const { t } = useI18n();
   return (
     <div className={css.empty}>
       <p style={{ margin: 0 }}>
-        Klick auf <b>„Datei öffnen“</b> und wähle deine <code>nochda.json</code>.
+        {t("empty.openFilePrefix")} <b>„{t("topbar.open")}“</b>{" "}
+        {t("empty.openFileSuffix")} <code>nochda.json</code>.
       </p>
       <p className={css.muted} style={{ marginTop: 8, marginBottom: 0 }}>
-        Später kannst du mehrere Projektdateien auswählen.
+        {t("empty.multiFiles")}
       </p>
     </div>
   );

@@ -10,8 +10,10 @@ import { Board } from "./components/Board/Board";
 import { ProjectProvider } from "./context/ProjectContext";
 import { AnchorLink } from "./components/AnchorLink";
 import type { Item, ItemPayload } from "./lib/models";
+import { I18nProvider, useI18n } from "./i18n";
 
-export default function App() {
+function AppContent() {
+  const { t } = useI18n();
   const file = useProjectFile();
   const [dismissedError, setDismissedError] = useState(false);
   const [dismissedInfo, setDismissedInfo] = useState(false);
@@ -92,7 +94,7 @@ export default function App() {
               <button
                 className={css.toastClose}
                 type="button"
-                aria-label="Close error"
+                aria-label={t("toast.closeError")}
                 onClick={() => setDismissedError(true)}
               >
                 ×
@@ -105,7 +107,7 @@ export default function App() {
               <button
                 className={css.toastClose}
                 type="button"
-                aria-label="Close info"
+                aria-label={t("toast.closeInfo")}
                 onClick={() => setDismissedInfo(true)}
               >
                 ×
@@ -115,7 +117,7 @@ export default function App() {
           {importedItems.length > 0 && !dismissedImport ? (
             <div className={`${css.alertInfo} ${css.toast}`}>
               <div>
-                Imported {importedItems.length} items:
+                {t("toast.imported", { count: importedItems.length })}
                 <ul className={css.toastList}>
                   {importedItems.map((item) => (
                     <li key={item._cid ?? item.id}>
@@ -133,7 +135,7 @@ export default function App() {
               <button
                 className={css.toastClose}
                 type="button"
-                aria-label="Close import info"
+                aria-label={t("toast.closeImport")}
                 onClick={() => setDismissedImport(true)}
               >
                 ×
@@ -169,5 +171,13 @@ export default function App() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <I18nProvider>
+      <AppContent />
+    </I18nProvider>
   );
 }

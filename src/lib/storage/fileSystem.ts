@@ -1,6 +1,7 @@
 import { ensureDefaults } from "../project";
 import { safeJsonParse } from "./json";
 import type { Project } from "../models";
+import { translate } from "../../i18n/core";
 
 export function isFileSystemApiSupported(): boolean {
   return Boolean(window.showOpenFilePicker && window.showSaveFilePicker);
@@ -8,9 +9,7 @@ export function isFileSystemApiSupported(): boolean {
 
 export async function openJsonFile(): Promise<{ handle: FileSystemFileHandle; project: Project }> {
   if (!window.showOpenFilePicker) {
-    throw new Error(
-      "Dein Browser unterstützt die File System Access API nicht. Nutze Chrome/Edge/Brave oder später Electron/Tauri."
-    );
+    throw new Error(translate("file.noOpenPicker"));
   }
 
   const [handle] = await window.showOpenFilePicker({
@@ -31,7 +30,7 @@ export async function openJsonFile(): Promise<{ handle: FileSystemFileHandle; pr
 }
 
 export async function saveJsonFile(handle: FileSystemFileHandle, project: Project): Promise<void> {
-  if (!handle) throw new Error("Keine Datei geöffnet.");
+  if (!handle) throw new Error(translate("file.noHandle"));
   const writable = await handle.createWritable();
   await writable.write(JSON.stringify(project, null, 2));
   await writable.close();
@@ -42,7 +41,7 @@ export async function saveAsJsonFile(
   suggestedName = "nochda.json"
 ): Promise<FileSystemFileHandle> {
   if (!window.showSaveFilePicker) {
-    throw new Error("showSaveFilePicker wird von deinem Browser nicht unterstützt.");
+    throw new Error(translate("file.noSavePicker"));
   }
 
   const handle = await window.showSaveFilePicker({

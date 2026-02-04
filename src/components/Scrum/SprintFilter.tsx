@@ -1,5 +1,6 @@
 import css from "./SprintFilter.module.css";
 import type { Sprint } from "../../lib/models";
+import { useI18n } from "../../i18n";
 
 type SprintFilterProps = {
   sprints: Sprint[];
@@ -12,16 +13,17 @@ export function SprintFilter({
   activeSprintId,
   onSprintChange,
 }: SprintFilterProps) {
+  const { t } = useI18n();
   return (
     <div className={css.sprintFilter}>
         <label>
-          Sprint:&nbsp;
+          {t("sprint.label")}:&nbsp;
           <select
             value={activeSprintId}
             onChange={(e) => onSprintChange(e.target.value)}
           >
-            <option value="all">Alle</option>
-            <option value="backlog">Backlog</option>
+            <option value="all">{t("sprint.all")}</option>
+            <option value="backlog">{t("sprint.backlog")}</option>
 
             {sprints.map((s) => (
               <option key={s.id} value={s.id}>

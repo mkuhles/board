@@ -15,8 +15,10 @@ import { formatRelativeTime, summarizeTimeEntries } from "../../lib/time";
 import { useBoardActions } from "../../context/BoardActionsContext";
 import { buildDescriptionTeaser } from "../../lib/text/teaser";
 import type { ItemProp } from "../../types/props";
+import { useI18n } from "../../i18n";
 
 export function ItemCard({ item }: ItemProp) {
+  const { t } = useI18n();
   const {
     onDeleteItem,
     onEditItem,
@@ -51,7 +53,7 @@ export function ItemCard({ item }: ItemProp) {
         </div>
       </div>
 
-      <div className={css.title}>{item.title || "(ohne Titel)"}</div>
+      <div className={css.title}>{item.title || t("card.untitled")}</div>
       <div className={css.cardMarkdown}>{descriptionTeaser}</div>
 
       <div className={css.chips}>
@@ -67,11 +69,16 @@ export function ItemCard({ item }: ItemProp) {
 
       <div className={css.timeRow}>
         <div className={css.timeMeta}>
-          {timestamp ? <>Updated: {formatRelativeTime(timestamp)}</> : null}
+          {timestamp ? (
+            <>
+              {t("card.updated")}: {formatRelativeTime(timestamp)}
+            </>
+          ) : null}
           {timeEntryCount ? (
             <>
-              {" · "}Time: {timeEntryCount} entries · {totalMinutes} min
-              {billableCount ? ` · ${billableCount} billable` : ""}
+              {" · "}{t("card.time")}: {timeEntryCount} {t("card.entries")} ·{" "}
+              {totalMinutes} {t("card.min")}
+              {billableCount ? ` · ${billableCount} ${t("card.billable")}` : ""}
             </>
           ) : null}
         </div>

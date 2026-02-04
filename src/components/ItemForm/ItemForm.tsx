@@ -8,6 +8,7 @@ import { TimeEntriesSection } from "./TimeEntriesSection";
 import type { Item } from "../../lib/models";
 import type { TimeEntry } from "../../lib/time";
 import type { ItemFormLookups, RegisterBeforeSubmit } from "../../types/props";
+import { useI18n } from "../../i18n";
 
 export type ItemDraft = {
   title: string;
@@ -49,6 +50,7 @@ export function ItemForm({
   statuses,
   sprints = [],
 }: ItemFormProps) {
+  const { t } = useI18n();
   const {
     title, setTitle,
     description, setDescription,
@@ -108,7 +110,7 @@ export function ItemForm({
 
       {description?.trim() ? (
         <div className={css.preview}>
-          <div className={css.previewLabel}>Preview</div>
+          <div className={css.previewLabel}>{t("fields.preview")}</div>
           <Markdown className={css.previewBody}>{description}</Markdown>
         </div>
       ) : null}

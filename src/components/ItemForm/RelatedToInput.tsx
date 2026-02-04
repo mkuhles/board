@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import css from "./RelatedToInput.module.css";
 import type { Item } from "../../lib/models";
+import { useI18n } from "../../i18n";
 
 function norm(s: unknown) {
   return String(s || "").toLowerCase().trim();
@@ -20,9 +21,11 @@ export function RelatedToInput({
   valueIds,          // string[]
   onChangeIds,       // (nextIds) => void
   excludeId,         // current item id (so you can't relate to yourself)
-  placeholder = "Type to search by ID or title…",
+  placeholder,
   ...inputProps
 }: RelatedToInputProps) {
+  const { t } = useI18n();
+  const resolvedPlaceholder = placeholder || t("fields.relatesToPlaceholder");
   const [q, setQ] = useState("");
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -99,7 +102,7 @@ export function RelatedToInput({
             type="button"
             className={css.chip}
             onClick={() => removeId(id)}
-            title="Remove"
+            title={t("actions.remove")}
           >
             {id} <span className={css.x}>×</span>
           </button>
@@ -117,7 +120,7 @@ export function RelatedToInput({
           onFocus={() => setOpen(true)}
           onBlur={() => setOpen(false)}
           onKeyDown={onKeyDown}
-          placeholder={placeholder}
+          placeholder={resolvedPlaceholder}
         />
       </div>
 

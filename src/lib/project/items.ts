@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { DEFAULT_STATUS } from "../../constants/statuses";
 import { nowIso } from "../time";
+import { translate } from "../../i18n/core";
 import { normalizeItem, type Area, type Item, type ItemPayload, type Sprint, type TypeCode } from "../models";
 
 const DEFAULT_TYPE = "task";
@@ -106,11 +107,11 @@ export function useItemDraft({
     setError("");
 
     if (!title.trim()) {
-      setError("Title is required.");
+      setError(translate("validation.titleRequired"));
       return null;
     }
     if (!typeCodes?.[type]) {
-      setError(`Type "${type}" is missing in project.typeCodes.`);
+      setError(translate("validation.typeMissing", { type }));
       return null;
     }
 

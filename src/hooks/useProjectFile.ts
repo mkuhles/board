@@ -8,6 +8,7 @@ import {
 } from "../lib/storage";
 import { migrateAreasOnOpen } from "../lib/migrateAreas";
 import { sanitizeProject, type Project } from "../lib/models";
+import { translate } from "../i18n/core";
 
 type OpenResult = { handle: FileSystemFileHandle; project: Project };
 
@@ -32,7 +33,7 @@ export function useProjectFile() {
       const { project: normalized, warnings, errors } = sanitizeProject(migrated);
 
       if (errors.length > 0) {
-        setError(`File has invalid data:\n- ${errors.join("\n- ")}`);
+        setError(translate("info.invalidData", { errors: errors.join("\n- ") }));
         return;
       }
 
@@ -42,19 +43,21 @@ export function useProjectFile() {
       const infoParts = [];
       if (changed) {
         await saveJsonFile(handle, stripClientFields(normalized));
-        infoParts.push("File opened and migrated (area → area_id).");
+        infoParts.push(translate("info.openedMigrated"));
       } else {
-        infoParts.push("File opened.");
+        infoParts.push(translate("info.opened"));
       }
 
       if (warnings.length > 0) {
-        infoParts.push(`Warnings:\n- ${warnings.join("\n- ")}`);
+        infoParts.push(
+          translate("info.warnings", { warnings: warnings.join("\n- ") })
+        );
       }
 
       setInfo(infoParts.join("\n"));
     } catch (e: unknown) {
       const message = e instanceof Error ? e.message : String(e);
-      setError(`Öffnen fehlgeschlagen: ${message}`);
+      setError(translate("info.openFailed", { message }));
     }
   }, []);
 
@@ -65,10 +68,10 @@ export function useProjectFile() {
     try {
       setIsSaving(true);
       await saveJsonFile(fileHandle, stripClientFields(nextProject));
-      setInfo("Gespeichert.");
+      setInfo(translate("info.saved"));
     } catch (e: unknown) {
       const message = e instanceof Error ? e.message : String(e);
-      setError(`Speichern fehlgeschlagen: ${message}`);
+      setError(translate("info.saveFailed", { message }));
     } finally {
       setIsSaving(false);
     }
@@ -82,10 +85,10 @@ export function useProjectFile() {
       setIsSaving(true);
       const handle = await saveAsJsonFile(stripClientFields(nextProject), "nochda.json");
       setFileHandle(handle);
-      setInfo("Gespeichert (unter…).");
+      setInfo(translate("info.savedAs"));
     } catch (e: unknown) {
       const message = e instanceof Error ? e.message : String(e);
-      setError(`Speichern unter… fehlgeschlagen: ${message}`);
+      setError(translate("info.saveAsFailed", { message }));
     } finally {
       setIsSaving(false);
     }
@@ -96,11 +99,11 @@ export function useProjectFile() {
     try {
       setIsSaving(true);
       await saveJsonFile(fileHandle, stripClientFields(nextProject));
-      setInfo("Auto-Save: gespeichert.");
+      setInfo(translate("info.autosave"));
       setError("");
     } catch (e: unknown) {
       const message = e instanceof Error ? e.message : String(e);
-      setError(`Auto-Save fehlgeschlagen: ${message}`);
+      setError(translate("info.autosaveFailed", { message }));
     } finally {
       setIsSaving(false);
     }

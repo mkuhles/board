@@ -1,4 +1,5 @@
 import css from "./ItemModal.module.css";
+import { useI18n } from "../../i18n";
 
 type ItemModalHeaderProps = {
   isEdit: boolean;
@@ -17,26 +18,29 @@ export function ItemModalHeader({
   updatedAt,
   onCancel,
 }: ItemModalHeaderProps) {
+  const { t } = useI18n();
   return (
     <div className={css.header}>
       <div>
-        <div className={css.title}>{isEdit ? "Edit item" : "New item"}</div>
+        <div className={css.title}>
+          {isEdit ? t("modal.editTitle") : t("modal.newTitle")}
+        </div>
         <div className={css.sub}>
-          Type code: <b>{typeCodePreview || "—"}</b>
+          {t("modal.typeCode")}: <b>{typeCodePreview || "—"}</b>
           {isEdit && currentId ? (
-            <> · Current ID: <b>{currentId}</b></>
+            <> · {t("modal.currentId")}: <b>{currentId}</b></>
           ) : null}
         </div>
         {(createdAt || updatedAt) ? (
           <div className={css.meta}>
-            {createdAt ? <>Created: <b>{createdAt}</b></> : null}
+            {createdAt ? <>{" "}{t("modal.created")}: <b>{createdAt}</b></> : null}
             {createdAt && updatedAt ? " · " : null}
-            {updatedAt ? <>Updated: <b>{updatedAt}</b></> : null}
+            {updatedAt ? <>{" "}{t("modal.updated")}: <b>{updatedAt}</b></> : null}
           </div>
         ) : null}
       </div>
 
-      <button className={css.iconBtn} onClick={onCancel} type="button" title="Close">
+      <button className={css.iconBtn} onClick={onCancel} type="button" title={t("modal.close")}>
         ✕
       </button>
     </div>

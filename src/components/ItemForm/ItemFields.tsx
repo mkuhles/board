@@ -2,6 +2,7 @@ import React from "react";
 import { Field } from "./Field";
 import css from "../ItemModal/ItemModal.module.css";
 import type { ItemFormLookups } from "../../types/props";
+import { useI18n } from "../../i18n";
 
 type ItemFieldsProps = {
   title: string;
@@ -36,9 +37,10 @@ export function ItemFields({
   statuses,
   sprints,
 }: ItemFieldsProps) {
+  const { t } = useI18n();
   return (
     <>
-      <Field label="Title" inputId="item-title" required>
+      <Field label={t("fields.title")} inputId="item-title" required>
         <input
           className={css.input}
           value={title}
@@ -47,7 +49,7 @@ export function ItemFields({
         />
       </Field>
 
-      <Field label="Type" inputId="item-type" required>
+      <Field label={t("fields.type")} inputId="item-type" required>
         <select className={css.input} value={type} onChange={(e) => setType(e.target.value)}>
           {Object.entries(typeCodes ?? {}).map(([typeKey, cfg]) => (
             <option key={typeKey} value={typeKey}>
@@ -57,20 +59,20 @@ export function ItemFields({
         </select>
       </Field>
 
-      <Field label="Status" inputId="item-status" required>
+      <Field label={t("fields.status")} inputId="item-status" required>
         <select className={css.input} value={status} onChange={(e) => setStatus(e.target.value)}>
           {statuses.map((stat) => (
             <option key={stat.id} value={stat.id}>
-              {stat.title}
+              {t(`status.${stat.id}`)}
             </option>
           ))}
         </select>
       </Field>
 
-      <Field label="Area" inputId="item-area" required>
+      <Field label={t("fields.area")} inputId="item-area" required>
         <select className={css.input} value={areaId} onChange={(e) => setAreaId(e.target.value)}>
           <option value="" disabled>
-            Select area…
+            {t("fields.selectArea")}
           </option>
           {(areas ?? []).map((a) => (
             <option key={a.id} value={a.id}>
@@ -81,9 +83,9 @@ export function ItemFields({
       </Field>
 
       {sprints && (
-        <Field label="Sprint" inputId="item-strint">
+        <Field label={t("fields.sprint")} inputId="item-strint">
           <select className={css.input} value={sprintId} onChange={(e) => setSprintId(e.target.value)}>
-            <option key="none" value="">none</option>
+            <option key="none" value="">{t("fields.sprintNone")}</option>
             {Object.entries(sprints).map(([typeKey, cfg]) => (
               <option key={cfg.id} value={cfg.id}>
                 {cfg.title} ({cfg.start})
@@ -93,7 +95,7 @@ export function ItemFields({
         </Field>
       )}
 
-      <Field label="Description" inputId="item-desc" wide>
+      <Field label={t("fields.description")} inputId="item-desc" wide>
         <textarea
           className={css.textarea}
           value={description}

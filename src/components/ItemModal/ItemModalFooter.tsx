@@ -1,4 +1,5 @@
 import css from "./ItemModal.module.css";
+import { useI18n } from "../../i18n";
 
 type ItemModalFooterProps = {
   isEdit: boolean;
@@ -7,13 +8,14 @@ type ItemModalFooterProps = {
 };
 
 export function ItemModalFooter({ isEdit, onCancel, onSubmit }: ItemModalFooterProps) {
+  const { t } = useI18n();
   return (
     <div className={css.footer}>
       <button className={css.btn} onClick={onCancel} type="button">
-        Cancel
+        {t("footer.cancel")}
       </button>
       <button className={`${css.btn} ${css.btnPrimary}`} onClick={onSubmit} type="button">
-        {isEdit ? "Save changes" : "Create item"}
+        {isEdit ? t("footer.save") : t("footer.create")}
       </button>
     </div>
   );

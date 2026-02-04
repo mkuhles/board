@@ -2,6 +2,7 @@ import React from "react";
 import { RelatedToInput } from "./RelatedToInput";
 import { Field } from "./Field";
 import type { Item } from "../../lib/models";
+import { useI18n } from "../../i18n";
 
 type RelatesToSectionProps = {
   allItems?: Item[];
@@ -16,13 +17,15 @@ export function RelatesToSection({
   setRelatesToIds,
   excludeId,
 }: RelatesToSectionProps) {
+  const { t } = useI18n();
   return (
-    <Field label="Relates to" inputId="item-relates" wide>
+    <Field label={t("fields.relatesTo")} inputId="item-relates" wide>
       <RelatedToInput
         allItems={allItems}
         valueIds={relatesToIds}
         onChangeIds={setRelatesToIds}
         excludeId={excludeId}
+        placeholder={t("fields.relatesToPlaceholder")}
       />
     </Field>
   );

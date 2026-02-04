@@ -1,11 +1,14 @@
-export function formatRelativeTime(isoString: string, locale = "en"): string {
+import { getLanguage } from "../../i18n/core";
+
+export function formatRelativeTime(isoString: string, locale?: string): string {
+  const resolvedLocale = locale || getLanguage();
   if (!isoString) return "";
   const date = new Date(isoString);
   if (Number.isNaN(date.getTime())) return "";
   const diffMs = date.getTime() - Date.now();
   const diffSec = Math.round(diffMs / 1000);
 
-  const rtf = new Intl.RelativeTimeFormat(locale, { numeric: "auto" });
+  const rtf = new Intl.RelativeTimeFormat(resolvedLocale, { numeric: "auto" });
   const absSec = Math.abs(diffSec);
 
   if (absSec < 60) return rtf.format(diffSec, "second");

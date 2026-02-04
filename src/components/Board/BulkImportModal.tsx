@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { ModalShell } from "../ItemModal/ModalShell";
 import css from "../ItemModal/ItemModal.module.css";
 import type { ItemPayload, TypeCode } from "../../lib/models";
+import { useI18n } from "../../i18n";
 
 type BulkImportModalProps = {
   isOpen: boolean;
@@ -22,10 +23,11 @@ type ImportItem = {
 
 function validateItems(
   raw: unknown,
-  typeCodes?: Record<string, TypeCode>
+  typeCodes: Record<string, TypeCode>,
+  t: (key: string, vars?: Record<string, string | number>) => string
 ): { payloads: ItemPayload[]; errors: ImportError[] } {
   if (!Array.isArray(raw)) {
-    return { payloads: [], errors: [{ message: "JSON must be an array of items." }] };
+    return { payloads: [], errors: [{ message: t("bulk.errorArray") }] };
   }
 
   const errors: ImportError[] = [];
@@ -41,7 +43,7 @@ function validateItems(
     const type = typeof item?.type === "string" ? item.type.trim() : "";
 
     if (!title) {
-      errors.push({ message: `Item #${idx + 1} is missing a title.` });
+      errors.push({ message: t("bulk.errorMissingTitle", { index: idx + 1 }) });
       return;
     }
 
@@ -49,7 +51,10 @@ function validateItems(
 
     if (!knownTypes.has(normalizedType)) {
       errors.push({
-        message: `Item #${idx + 1} has unknown type "${normalizedType}".`,
+        message: t("bulk.errorUnknownType", {
+          index: idx + 1,
+          type: normalizedType,
+        }),
       });
       return;
     }
@@ -70,6 +75,7 @@ export function BulkImportModal({
   onImport,
   typeCodes,
 }: BulkImportModalProps) {
+  const { t } = useI18n();
   const [value, setValue] = useState("");
   const [errors, setErrors] = useState<ImportError[]>([]);
 
@@ -86,11 +92,11 @@ export function BulkImportModal({
     try {
       parsed = JSON.parse(value);
     } catch (err) {
-      setErrors([{ message: "Invalid JSON. Please paste a valid JSON array." }]);
+      setErrors([{ message: t("bulk.errorInvalidJson") }]);
       return;
     }
 
-    const result = validateItems(parsed, typeCodes);
+    const result = validateItems(parsed, typeCodes ?? {}, t);
     if (result.errors.length > 0) {
       setErrors(result.errors);
       return;
@@ -106,15 +112,17 @@ export function BulkImportModal({
     <ModalShell onCancel={onCancel}>
       <div className={css.header}>
         <div>
-          <div className={css.title}>Bulk import</div>
+          <div className={css.title}>{t("bulk.title")}</div>
           <div className={css.sub}>
-            Paste a JSON array. Types must exist in project.typeCodes.
+            {t("bulk.subtitle")}
           </div>
           {typeList.length > 0 ? (
-            <div className={css.meta}>Known types: {typeList.join(", ")}</div>
+            <div className={css.meta}>
+              {t("bulk.knownTypes", { types: typeList.join(", ") })}
+            </div>
           ) : null}
         </div>
-        <button className={css.iconBtn} type="button" onClick={onCancel}>
+        <button className={css.iconBtn} type="button" onClick={onCancel} title={t("modal.close")}>
           ✕
         </button>
       </div>
@@ -128,22 +136,22 @@ export function BulkImportModal({
       ) : null}
 
       <div className={css.labelWide}>
-        <label className={css.label}>JSON array</label>
+        <label className={css.label}>{t("bulk.jsonLabel")}</label>
         <textarea
           className={css.textarea}
           rows={10}
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          placeholder='[{"title":"...", "description":"...", "type":"task"}]'
+          placeholder={t("bulk.placeholder")}
         />
       </div>
 
       <div className={css.footer}>
         <button className={css.btn} type="button" onClick={onCancel}>
-          Cancel
+          {t("bulk.cancel")}
         </button>
         <button className={`${css.btn} ${css.btnPrimary}`} type="button" onClick={handleImport}>
-          Import
+          {t("bulk.import")}
         </button>
       </div>
     </ModalShell>

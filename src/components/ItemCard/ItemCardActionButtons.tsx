@@ -1,6 +1,7 @@
 import css from "./ItemCard.module.css";
 import { useBoardActions } from "../../context/BoardActionsContext";
 import type { ItemProp } from "../../types/props";
+import { useI18n } from "../../i18n";
 
 type IconButtonProps = {
   title: string;
@@ -69,9 +70,10 @@ function ArchiveIcon() {
 
 export function DeleteButton({ item }: ItemButtonProps) {
   const { onDeleteItem } = useBoardActions();
+  const { t } = useI18n();
   return (
     <IconButton
-      title="Löschen"
+      title={t("actions.delete")}
       onClick={() => onDeleteItem?.(item)}
     >
       <TrashIcon />
@@ -81,9 +83,10 @@ export function DeleteButton({ item }: ItemButtonProps) {
 
 export function AddToSprintButton({ item }: ItemButtonProps) {
   const { onAddItemToSprint } = useBoardActions();
+  const { t } = useI18n();
   return (
     <IconButton
-      title="Zum aktiven Sprint hinzufügen"
+      title={t("actions.addToSprint")}
       onClick={() => {
         onAddItemToSprint?.(item);
       }}
@@ -95,9 +98,10 @@ export function AddToSprintButton({ item }: ItemButtonProps) {
 
 export function AddTimeButton({ item }: ItemButtonProps) {
   const { onAddTime } = useBoardActions();
+  const { t } = useI18n();
   return (
     <IconButton
-      title="Zeit erfassen"
+      title={t("actions.addTime")}
       onClick={() => {
         onAddTime?.(item);
       }}
@@ -109,9 +113,10 @@ export function AddTimeButton({ item }: ItemButtonProps) {
 
 export function ArchiveButton({ item }: ItemButtonProps) {
   const { onArchiveItem } = useBoardActions();
+  const { t } = useI18n();
   return (
     <IconButton
-      title="Archivieren"
+      title={t("actions.archive")}
       onClick={() => {
         onArchiveItem?.(item);
       }}

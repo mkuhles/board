@@ -11,6 +11,7 @@ import {
 } from "../lib/kanban";
 import type { Item, ItemPatch, ItemPayload, Project } from "../lib/models";
 import type { DragEvent } from "../lib/kanban/dnd";
+import { translate } from "../i18n/core";
 import type { Dispatch, SetStateAction } from "react";
 
 type KanbanOptions = {
@@ -147,8 +148,9 @@ export function useKanbanBoard(
       const cid = item?._cid;
       if (!cid || !project?.items) return;
 
+      const name = item.title || item.id || translate("card.untitled");
       const ok = window.confirm(
-        `"${item.title || item.id || "Item"}" wirklich löschen?`
+        translate("confirm.deleteItem", { name })
       );
       if (!ok) return;
 

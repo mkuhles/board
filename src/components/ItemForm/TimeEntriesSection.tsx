@@ -2,6 +2,7 @@ import React from "react";
 import css from "../ItemModal/ItemModal.module.css";
 import { formatLocalDateTime } from "../../lib/time";
 import type { TimeEntry } from "../../lib/time";
+import { useI18n } from "../../i18n";
 
 type TimeEntriesSectionProps = {
   timeWrapRef: React.RefObject<HTMLDivElement>;
@@ -44,6 +45,7 @@ export function TimeEntriesSection({
   onAddTimeEntry,
   timeDirty,
 }: TimeEntriesSectionProps) {
+  const { t } = useI18n();
   return (
     <div className={css.timeWrap} ref={timeWrapRef}>
       <details
@@ -52,9 +54,9 @@ export function TimeEntriesSection({
         onToggle={(e) => setIsTimeOpen(e.currentTarget.open)}
       >
         <summary className={css.accordionSummary}>
-          Time entries
+          {t("time.entries")}
           <span className={css.accordionMeta}>
-            {timeEntryCount} entries · {totalMinutes} min
+            {t("time.entryMeta", { count: timeEntryCount, minutes: totalMinutes })}
           </span>
         </summary>
 
@@ -63,7 +65,7 @@ export function TimeEntriesSection({
             {(timeEntries ?? []).map((entry, idx) => (
               <div key={`${entry.start_at || "t"}-${idx}`} className={css.timeRow}>
                 <div className={css.timeWhen}>{formatLocalDateTime(entry.start_at)}</div>
-                <div className={css.timeMinutes}>{entry.minutes} min</div>
+                <div className={css.timeMinutes}>{entry.minutes} {t("card.min")}</div>
                 {entry.comment ? (
                   <div className={css.timeComment}>{entry.comment}</div>
                 ) : null}
@@ -77,18 +79,18 @@ export function TimeEntriesSection({
                   </div>
                 ) : null}
                 {entry.billable ? (
-                  <span className={css.timeBillable}>billable</span>
+                  <span className={css.timeBillable}>{t("time.billableTag")}</span>
                 ) : null}
               </div>
             ))}
           </div>
         ) : (
-          <div className={css.timeEmpty}>No time entries yet.</div>
+          <div className={css.timeEmpty}>{t("time.noEntries")}</div>
         )}
 
         <div className={css.timeForm}>
           <div className={css.timeField}>
-            <label className={css.timeLabel} htmlFor="time-start">Start</label>
+            <label className={css.timeLabel} htmlFor="time-start">{t("time.start")}</label>
             <input
               id="time-start"
               className={css.input}
@@ -99,7 +101,7 @@ export function TimeEntriesSection({
           </div>
 
           <div className={css.timeField}>
-            <label className={css.timeLabel} htmlFor="time-minutes">Minutes</label>
+            <label className={css.timeLabel} htmlFor="time-minutes">{t("time.minutes")}</label>
             <input
               id="time-minutes"
               className={css.input}
@@ -111,24 +113,24 @@ export function TimeEntriesSection({
           </div>
 
           <div className={css.timeFieldWide}>
-            <label className={css.timeLabel} htmlFor="time-comment">Comment</label>
+            <label className={css.timeLabel} htmlFor="time-comment">{t("time.comment")}</label>
             <input
               id="time-comment"
               className={css.input}
               value={timeComment}
               onChange={(e) => onChangeComment(e.target.value)}
-              placeholder="What did you do?"
+              placeholder={t("time.commentPlaceholder")}
             />
           </div>
 
           <div className={css.timeFieldWide}>
-            <label className={css.timeLabel} htmlFor="time-tags">Tags</label>
+            <label className={css.timeLabel} htmlFor="time-tags">{t("time.tags")}</label>
             <input
               id="time-tags"
               className={css.input}
               value={timeTags}
               onChange={(e) => onChangeTags(e.target.value)}
-              placeholder="dev, research, meeting"
+              placeholder={t("time.tagsPlaceholder")}
             />
           </div>
 
@@ -138,16 +140,16 @@ export function TimeEntriesSection({
               checked={timeBillable}
               onChange={(e) => onChangeBillable(e.target.checked)}
             />
-            Billable
+            {t("time.billable")}
           </label>
 
           <button className={css.timeAddBtn} type="button" onClick={onAddTimeEntry}>
-            Add time entry
+            {t("time.addEntry")}
           </button>
 
           {timeDirty ? (
             <div className={css.timeHint}>
-              Pending entry will be included on Save changes.
+              {t("time.pendingHint")}
             </div>
           ) : null}
         </div>

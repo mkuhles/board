@@ -11,9 +11,11 @@ export function fromLocalInputValue(value: string): string {
   return date.toISOString();
 }
 
-export function formatLocalDateTime(isoString: string): string {
+import { getLanguage } from "../../i18n/core";
+
+export function formatLocalDateTime(isoString: string, locale?: string): string {
   if (!isoString) return "";
   const date = new Date(isoString);
   if (Number.isNaN(date.getTime())) return "";
-  return date.toLocaleString();
+  return date.toLocaleString(locale || getLanguage());
 }

@@ -2,6 +2,7 @@ import React from "react";
 import css from "./Board.module.css";
 import { SprintFilter } from "../Scrum/SprintFilter";
 import type { Sprint } from "../../lib/models";
+import { useI18n } from "../../i18n";
 
 type BoardToolbarProps = {
   sprints?: Sprint[];
@@ -18,6 +19,7 @@ export function BoardToolbar({
   onNewItem,
   onBulkImport,
 }: BoardToolbarProps) {
+  const { t } = useI18n();
   return (
     <div className={css.toolbar}>
       {sprints && sprints.length > 0 && onSprintChange ? (
@@ -32,10 +34,10 @@ export function BoardToolbar({
 
       <div className={css.toolbarActions}>
         <button className={css.smallBtn} onClick={onBulkImport} type="button">
-          Bulk import
+          {t("toolbar.bulkImport")}
         </button>
         <button className={css.smallBtn} onClick={onNewItem} type="button">
-          + New item
+          {t("toolbar.newItem")}
         </button>
       </div>
     </div>
