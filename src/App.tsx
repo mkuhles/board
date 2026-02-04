@@ -8,12 +8,11 @@ import { TopBar } from "./components/TopBar";
 import { EmptyState } from "./components/EmptyState";
 import { Board } from "./components/Board/Board";
 import { ProjectProvider } from "./context/ProjectContext";
-import { AnchorLink } from "./components/AnchorLink";
+import { Notifications } from "./components/Notifications";
 import type { Item, ItemPayload } from "./lib/models";
 import { I18nProvider, useI18n } from "./i18n";
 
 function AppContent() {
-  const { t } = useI18n();
   const file = useProjectFile();
   const [dismissedError, setDismissedError] = useState(false);
   const [dismissedInfo, setDismissedInfo] = useState(false);
@@ -87,62 +86,17 @@ function AppContent() {
           onSaveAs={() => file.saveAs()}
         />
 
-        <div className={css.toastStack}>
-          {file.error && !dismissedError ? (
-            <div className={`${css.alertError} ${css.toast}`}>
-              <div>{file.error}</div>
-              <button
-                className={css.toastClose}
-                type="button"
-                aria-label={t("toast.closeError")}
-                onClick={() => setDismissedError(true)}
-              >
-                ×
-              </button>
-            </div>
-          ) : null}
-          {file.info && !dismissedInfo ? (
-            <div className={`${css.alertInfo} ${css.toast}`}>
-              <div>{file.info}</div>
-              <button
-                className={css.toastClose}
-                type="button"
-                aria-label={t("toast.closeInfo")}
-                onClick={() => setDismissedInfo(true)}
-              >
-                ×
-              </button>
-            </div>
-          ) : null}
-          {importedItems.length > 0 && !dismissedImport ? (
-            <div className={`${css.alertInfo} ${css.toast}`}>
-              <div>
-                {t("toast.imported", { count: importedItems.length })}
-                <ul className={css.toastList}>
-                  {importedItems.map((item) => (
-                    <li key={item._cid ?? item.id}>
-                      {item.id ? (
-                        <AnchorLink toId={item.id}>
-                          {item.id}: {item.title ?? "Untitled"}
-                        </AnchorLink>
-                      ) : (
-                        item.title ?? "Untitled"
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <button
-                className={css.toastClose}
-                type="button"
-                aria-label={t("toast.closeImport")}
-                onClick={() => setDismissedImport(true)}
-              >
-                ×
-              </button>
-            </div>
-          ) : null}
-        </div>
+        <Notifications
+          error={file.error}
+          info={file.info}
+          importedItems={importedItems}
+          dismissedError={dismissedError}
+          dismissedInfo={dismissedInfo}
+          dismissedImport={dismissedImport}
+          onDismissError={() => setDismissedError(true)}
+          onDismissInfo={() => setDismissedInfo(true)}
+          onDismissImport={() => setDismissedImport(true)}
+        />
 
         {!file.project ? (
           <EmptyState />
