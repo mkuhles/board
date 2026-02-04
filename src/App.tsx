@@ -37,6 +37,14 @@ export default function App() {
     if (!item._cid) return;
     board.updateItem(item._cid, { status: "archived" });
   };
+  const handleAddItemToSprint = (item: Item) => {
+    if (!item._cid) return;
+    board.updateItem(item._cid, {
+      sprintId: activeSprintId,
+      status: "todo",
+      order: nextOrderToDo,
+    });
+  };
 
   return (
     <div className={css.page}>
@@ -69,14 +77,7 @@ export default function App() {
               sprints={sprints}
               activeSprintId={activeSprintId}
               onSprintChange={handleSprintChange}
-              onAddItemToSprint={(item: Item) => {
-                if (!item._cid) return;
-                board.updateItem(item._cid, {
-                  sprintId: activeSprintId,
-                  status: "todo",
-                  order: nextOrderToDo,
-                });
-              }}
+              onAddItemToSprint={handleAddItemToSprint}
               onArchiveItem={handleArchiveItem}
               canAddItemToSprint={canAddItemToSprint}
             />
