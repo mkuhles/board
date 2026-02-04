@@ -7,7 +7,7 @@ import {
   stripClientFields,
 } from "../lib/storage";
 import { migrateAreasOnOpen } from "../lib/migrateAreas";
-import { normalizeProject, type Project } from "../lib/models";
+import { sanitizeProject, type Project } from "../lib/models";
 
 type OpenResult = { handle: FileSystemFileHandle; project: Project };
 
@@ -29,17 +29,29 @@ export function useProjectFile() {
 
       const prepared = prepareProject ? prepareProject(loaded) : loaded;
       const { project: migrated, changed } = migrateAreasOnOpen(prepared);
-      const normalized = normalizeProject(migrated);
+      const { project: normalized, warnings, errors } = sanitizeProject(migrated);
+
+      if (errors.length > 0) {
+        setError(`File has invalid data:\n- ${errors.join("\n- ")}`);
+        return;
+      }
 
       setFileHandle(handle);
       setProject(normalized);
 
+      const infoParts = [];
       if (changed) {
         await saveJsonFile(handle, stripClientFields(normalized));
-        setInfo("File opened and migrated (area → area_id).");
+        infoParts.push("File opened and migrated (area → area_id).");
       } else {
-        setInfo("File opened.");
+        infoParts.push("File opened.");
       }
+
+      if (warnings.length > 0) {
+        infoParts.push(`Warnings:\n- ${warnings.join("\n- ")}`);
+      }
+
+      setInfo(infoParts.join("\n"));
     } catch (e: unknown) {
       const message = e instanceof Error ? e.message : String(e);
       setError(`Öffnen fehlgeschlagen: ${message}`);
