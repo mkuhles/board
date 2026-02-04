@@ -1,10 +1,10 @@
 import { useMemo, useState } from "react";
-import type { Item, ItemPayload } from "../lib/models";
+import type { Item, ItemPatch, ItemPayload } from "../lib/models";
 
 type UseBoardModalOptions = {
   allItems?: Item[];
   onCreateItem?: (payload: ItemPayload) => void;
-  onUpdateItem?: (cid: string, payload: ItemPayload) => void;
+  onUpdateItem?: (cid: string, payload: ItemPatch) => void;
 };
 
 type SubmitOptions = {

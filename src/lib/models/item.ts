@@ -25,10 +25,13 @@ export type ItemPayload = {
   relates_to?: string[];
   status?: string;
   sprintId?: string;
+  order?: number;
   time_entries?: TimeEntry[];
   created_at?: string;
   updated_at?: string;
 };
+
+export type ItemPatch = Partial<ItemPayload>;
 
 type NormalizeItemOptions = {
   defaultStatus?: string;

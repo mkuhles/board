@@ -8,7 +8,7 @@ import { BoardActionsProvider } from "../../context/BoardActionsContext";
 import { useBoardModal } from "../../hooks/useBoardModal";
 import { BoardToolbar } from "./BoardToolbar";
 import { BoardColumns } from "./BoardColumns";
-import type { Item, ItemPayload, Sprint } from "../../lib/models";
+import type { Item, ItemPatch, ItemPayload, Sprint } from "../../lib/models";
 import type { DragEvent } from "../../lib/kanban/dnd";
 
 type BoardProps = {
@@ -18,7 +18,7 @@ type BoardProps = {
   onDragEnd: (event: DragEvent) => void;
   onDeleteItem?: (item: Item) => void;
   onCreateItem?: (payload: ItemPayload) => void;
-  onUpdateItem?: (cid: string, payload: ItemPayload) => void;
+  onUpdateItem?: (cid: string, payload: ItemPatch) => void;
   sprints?: Sprint[];
   onSprintChange?: (id: string) => void;
   onAddItemToSprint?: (item: Item) => void;

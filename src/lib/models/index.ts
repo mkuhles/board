@@ -4,6 +4,7 @@ export {
   applyItemPatch,
   type Item,
   type ItemPayload,
+  type ItemPatch,
 } from "./item";
 export {
   normalizeProject,

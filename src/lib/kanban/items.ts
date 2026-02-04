@@ -1,6 +1,12 @@
 import { DEFAULT_STATUS } from "../../constants/statuses";
 import { generateNextSimpleId, normalizeOrders } from "../project";
-import { applyItemPatch, buildNewItem, type ItemPayload, type Project } from "../models";
+import {
+  applyItemPatch,
+  buildNewItem,
+  type ItemPatch,
+  type ItemPayload,
+  type Project,
+} from "../models";
 import { buildCreateTimestamps, computeUpdatedAtForPayload } from "../time";
 
 type Status = { id: string };
@@ -14,7 +20,7 @@ type CreateItemOptions = {
 type UpdateItemOptions = {
   project: Project | null;
   cid: string;
-  payload: ItemPayload;
+  payload: ItemPatch;
   statuses: Status[];
 };
 

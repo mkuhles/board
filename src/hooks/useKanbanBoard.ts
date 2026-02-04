@@ -9,7 +9,7 @@ import {
   updateItemInProject,
   deleteItemInProject,
 } from "../lib/kanban";
-import type { Item, ItemPayload, Project } from "../lib/models";
+import type { Item, ItemPatch, ItemPayload, Project } from "../lib/models";
 import type { DragEvent } from "../lib/kanban/dnd";
 import type { Dispatch, SetStateAction } from "react";
 
@@ -93,7 +93,7 @@ export function useKanbanBoard(
   );
 
   const updateItem = useCallback(
-    (cid: string, payload: ItemPayload) => {
+    (cid: string, payload: ItemPatch) => {
       const nextProject = updateItemInProject({
         project,
         cid,
