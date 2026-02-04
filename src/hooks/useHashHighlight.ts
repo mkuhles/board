@@ -1,10 +1,16 @@
 import { useEffect } from "react";
 
+type UseHashHighlightOptions = {
+  className?: string;
+  durationMs?: number;
+  scrollIntoView?: boolean;
+};
+
 export function useHashHighlight({
   className = "highlight",
   durationMs = 2000,
   scrollIntoView = true,
-} = {}) {
+}: UseHashHighlightOptions = {}) {
   useEffect(() => {
     function run() {
       const raw = window.location.hash || "";

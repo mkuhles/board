@@ -1,4 +1,9 @@
-export function filterItemsBySprint(project, activeSprintId) {
+import type { Item, Project } from "../models";
+
+export function filterItemsBySprint(
+  project: Project | null,
+  activeSprintId: string
+): Item[] {
   const items = project?.items ?? [];
 
   if (!Array.isArray(project?.sprints) || activeSprintId === "all") {

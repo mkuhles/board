@@ -1,20 +1,23 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { DEFAULT_STATUS } from "../../constants/statuses";
 import { nowIso } from "../time";
-import { normalizeItem } from "../models";
+import { normalizeItem, type Area, type Item, type ItemPayload, type Sprint, type TypeCode } from "../models";
 
 const DEFAULT_TYPE = "task";
 
-export function ensureDefaults(item) {
+type Status = { id: string };
+type TypeCodes = Record<string, TypeCode>;
+
+export function ensureDefaults(item: Item) {
   return normalizeItem(item, { defaultStatus: DEFAULT_STATUS });
 }
 
-export function sortByOrder(items) {
+export function sortByOrder(items: Item[]) {
   return [...items].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 }
 
-export function groupByStatus(items, statuses) {
-  const grouped = Object.fromEntries(statuses.map((s) => [s.id, []]));
+export function groupByStatus(items: Item[], statuses: Status[]) {
+  const grouped: Record<string, Item[]> = Object.fromEntries(statuses.map((s) => [s.id, []]));
   for (const it of items) {
     const st = grouped[it.status] ? it.status : DEFAULT_STATUS;
     grouped[st].push(it);
@@ -31,6 +34,14 @@ export function useItemDraft({
   typeCodes,
   sprints,
   statuses,
+}: {
+  isOpen: boolean;
+  isEdit: boolean;
+  initialItem?: Item | null;
+  areas?: Area[];
+  typeCodes?: TypeCodes;
+  sprints?: Sprint[];
+  statuses?: Status[];
 }) {
   const fallbackType = useMemo(
     () => Object.keys(typeCodes ?? {})[0] ?? DEFAULT_TYPE,
@@ -42,10 +53,10 @@ export function useItemDraft({
   const [type, setType] = useState(fallbackType);
   const [areaId, setAreaId] = useState("");
   const [error, setError] = useState("");
-  const [relatesToIds, setRelatesToIds] = useState([]);
+  const [relatesToIds, setRelatesToIds] = useState<string[]>([]);
   const [status, setStatus] = useState(DEFAULT_STATUS);
   const [sprintId, setSprintId] = useState("");
-  const [timeEntries, setTimeEntries] = useState([]);
+  const [timeEntries, setTimeEntries] = useState<NonNullable<ItemPayload["time_entries"]>>([]);
 
   // timestamps (in draft state)
   const [createdAt, setCreatedAt] = useState("");
@@ -89,7 +100,7 @@ export function useItemDraft({
     }
   }, [isOpen, isEdit, initialItem, areas, fallbackType, sprints]);
 
-  const validateAndBuildPayload = useCallback(() => {
+  const validateAndBuildPayload = useCallback((): ItemPayload | null => {
     setError("");
 
     if (!title.trim()) {

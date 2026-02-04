@@ -1,4 +1,6 @@
-function escapeRegExp(s) {
+import type { Project } from "../models";
+
+function escapeRegExp(s: string) {
   return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
@@ -7,7 +9,7 @@ function escapeRegExp(s) {
  * Only counts IDs in the new format: PREFIX + number (no dot).
  * Old IDs like "US1.3" are ignored.
  */
-export function generateNextSimpleId(project, type) {
+export function generateNextSimpleId(project: Project, type: string): string {
   const typeCode = project?.typeCodes?.[type]?.prefix;
   if (!typeCode) {
     throw new Error(`Missing typeCodes mapping for type "${type}".`);

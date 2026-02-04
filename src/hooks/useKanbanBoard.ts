@@ -54,7 +54,7 @@ export function useKanbanBoard(
   }, []);
 
   const onDragEnd = useCallback(
-    (event: unknown) => {
+    (event: { active?: { id?: string }; over?: { id?: string } }) => {
       // Always cleanup drag-state, even if we early-return.
       setActiveCid(null);
 

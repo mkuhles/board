@@ -1,16 +1,20 @@
-import { groupByStatus } from "./items";
+import { DEFAULT_STATUS } from "../../constants/statuses";
+import type { Item, Project } from "../models";
 
+type Status = { id: string };
 
-export function normalizeOrdersItems(items, statuses) {
+export function normalizeOrdersItems(items: Item[], statuses: Status[]) {
   // IMPORTANT: preserve the incoming order within each status
-  const grouped = Object.fromEntries((statuses ?? []).map((s) => [s.id, []]));
+  const grouped: Record<string, Item[]> = Object.fromEntries(
+    (statuses ?? []).map((s) => [s.id, []])
+  );
 
   for (const it of items ?? []) {
     const st = it.status || DEFAULT_STATUS;
     (grouped[st] ??= []).push(it);
   }
 
-  const out = [];
+  const out: Item[] = [];
   for (const s of statuses ?? []) {
     const list = grouped[s.id] ?? [];
     for (let idx = 0; idx < list.length; idx++) {
@@ -31,5 +35,5 @@ export function normalizeOrders(project, statuses) {
   return {
     ...project,
     items: normalizeOrdersItems(project?.items ?? [], statuses),
-  };
+  } as Project;
 }

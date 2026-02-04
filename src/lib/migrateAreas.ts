@@ -1,12 +1,14 @@
+import type { Area, Item, Project } from "./models";
+
 const ID_RE = /^([A-Z]+)(\d+)\.(\d+)$/;
 
-function parseTicketId(id) {
+function parseTicketId(id: unknown) {
   const m = String(id || "").match(ID_RE);
   if (!m) return null;
   return { typeCode: m[1], areaNo: Number(m[2]), seqNo: Number(m[3]) };
 }
 
-function slugify(input) {
+function slugify(input: unknown) {
   return String(input || "")
     .trim()
     .toLowerCase()
@@ -19,7 +21,7 @@ function slugify(input) {
     .replace(/^-+|-+$/g, "");
 }
 
-function uniqueSlug(base, used) {
+function uniqueSlug(base: string, used: Set<string>) {
   let slug = base || "area";
   if (!used.has(slug)) return slug;
   let i = 2;
@@ -35,26 +37,26 @@ function uniqueSlug(base, used) {
  *
  * returns: { project, changed }
  */
-export function migrateAreasOnOpen(project) {
+export function migrateAreasOnOpen(project: Project) {
   const items = Array.isArray(project?.items) ? project.items : [];
   const hasLegacyArea = items.some((it) => it && typeof it === "object" && "area" in it && !("area_id" in it));
   if (!hasLegacyArea) return { project, changed: false };
 
-  const existingAreas = Array.isArray(project?.areas) ? project.areas : [];
+  const existingAreas: Area[] = Array.isArray(project?.areas) ? project.areas : [];
   const usedSlugs = new Set(existingAreas.map((a) => a?.id).filter(Boolean));
 
   // number -> area (prefer number from ticket ids)
-  const areasByNumber = new Map();
+  const areasByNumber = new Map<number, Area>();
   for (const a of existingAreas) {
     if (Number.isFinite(a?.number)) areasByNumber.set(a.number, a);
   }
 
-  const newAreas = [...existingAreas];
-  const titleToArea = new Map(existingAreas
+  const newAreas: Area[] = [...existingAreas];
+  const titleToArea = new Map<string, Area>(existingAreas
     .filter(a => typeof a?.title === "string")
     .map(a => [a.title.trim().toLowerCase(), a]));
 
-  const migratedItems = items.map((it) => {
+  const migratedItems = items.map((it: Item) => {
     if (!it || typeof it !== "object") return it;
 
     // already migrated
@@ -66,7 +68,7 @@ export function migrateAreasOnOpen(project) {
     const parsed = parseTicketId(it.id);
     const areaNo = parsed?.areaNo;
 
-    let areaObj = null;
+    let areaObj: Area | null = null;
 
     // Prefer matching by number, if we can derive it from id
     if (Number.isFinite(areaNo) && areasByNumber.has(areaNo)) {
@@ -94,8 +96,8 @@ export function migrateAreasOnOpen(project) {
     }
 
     // remove "area", add "area_id"
-    const { area, ...rest } = it;
-    return { ...rest, area_id: areaObj.id };
+    const { area, ...rest } = it as Item & { area?: string };
+    return { ...rest, area_id: areaObj.id } as Item;
   });
 
   newAreas.sort((a, b) => {

@@ -1,10 +1,13 @@
-// lib/kanban/dnd.js
+// lib/kanban/dnd.ts
 import { arrayMove } from "@dnd-kit/sortable";
 import { DEFAULT_STATUS } from "../../constants/statuses";
 import { groupByStatus, normalizeOrdersItems } from "../project";
 import { nowIso } from "../time";
+import type { Item } from "../models";
 
-function statusFromOverId(overId, items, statuses) {
+type Status = { id: string };
+
+function statusFromOverId(overId: unknown, items: Item[], statuses: Status[]) {
   const str = String(overId);
 
   if (str.startsWith("col:")) return str.replace("col:", "");
@@ -21,7 +24,15 @@ function statusFromOverId(overId, items, statuses) {
   return null;
 }
 
-export function applyDragToItems({ items, event, statuses }) {
+export function applyDragToItems({
+  items,
+  event,
+  statuses,
+}: {
+  items: Item[];
+  event: { active?: { id?: string }; over?: { id?: string } };
+  statuses: Status[];
+}) {
   const { active, over } = event ?? {};
   if (!active?.id || !over?.id) return null;
 
@@ -60,7 +71,7 @@ export function applyDragToItems({ items, event, statuses }) {
       if (idx >= 0) insertIndex = idx;
     }
 
-    const moved = {
+    const moved: Item = {
       ...activeItem,
       status: toStatus,
       updated_at: nowIso(),

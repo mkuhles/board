@@ -1,9 +1,21 @@
 import { DEFAULT_STATUS } from "../../constants/statuses";
 import { generateNextSimpleId, normalizeOrders } from "../project";
-import { applyItemPatch, buildNewItem } from "../models";
+import { applyItemPatch, buildNewItem, type ItemPayload, type Project } from "../models";
 import { buildCreateTimestamps, computeUpdatedAtForPayload } from "../time";
 
-export function createItemInProject({ project, payload, nextCid, statuses }) {
+type Status = { id: string };
+
+export function createItemInProject({
+  project,
+  payload,
+  nextCid,
+  statuses,
+}: {
+  project: Project | null;
+  payload: ItemPayload;
+  nextCid: () => string;
+  statuses: Status[];
+}) {
   if (!project) return null;
 
   const id = generateNextSimpleId(project, payload.type);
@@ -25,7 +37,17 @@ export function createItemInProject({ project, payload, nextCid, statuses }) {
   );
 }
 
-export function updateItemInProject({ project, cid, payload, statuses }) {
+export function updateItemInProject({
+  project,
+  cid,
+  payload,
+  statuses,
+}: {
+  project: Project | null;
+  cid: string;
+  payload: ItemPayload;
+  statuses: Status[];
+}) {
   if (!project) return null;
 
   const nextItems = (project.items ?? []).map((it) => {
@@ -41,7 +63,15 @@ export function updateItemInProject({ project, cid, payload, statuses }) {
   return normalizeOrders({ ...project, items: nextItems }, statuses);
 }
 
-export function deleteItemInProject({ project, cid, statuses }) {
+export function deleteItemInProject({
+  project,
+  cid,
+  statuses,
+}: {
+  project: Project | null;
+  cid: string;
+  statuses: Status[];
+}) {
   if (!project?.items || !cid) return null;
 
   const nextItems = project.items.filter((i) => i._cid !== cid);
