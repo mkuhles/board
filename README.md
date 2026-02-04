@@ -281,6 +281,7 @@ When opening a project file, the app validates required fields:
 - Missing sprint or area metadata is a warning (the file still opens).
 
 Warnings are shown in the UI info banner.
+Notifications disappear automatically after a sufficiently long time.
 
 ## Ticket ID Structure
 

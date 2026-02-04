@@ -1,23 +1,30 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React from "react";
 import css from "./App.module.css";
 import { useProjectFile } from "./hooks/useProjectFile";
 import { useKanbanBoard } from "./hooks/useKanbanBoard";
 import { useProjectMeta } from "./hooks/useProjectMeta";
 import { useSprintFilter } from "./hooks/useSprintFilter";
+import { useNotifications } from "./hooks/useNotifications";
 import { TopBar } from "./components/TopBar";
 import { EmptyState } from "./components/EmptyState";
 import { Board } from "./components/Board/Board";
 import { ProjectProvider } from "./context/ProjectContext";
 import { Notifications } from "./components/Notifications";
 import type { Item, ItemPayload } from "./lib/models";
-import { I18nProvider, useI18n } from "./i18n";
+import { I18nProvider } from "./i18n";
 
 function AppContent() {
   const file = useProjectFile();
-  const [dismissedError, setDismissedError] = useState(false);
-  const [dismissedInfo, setDismissedInfo] = useState(false);
-  const [dismissedImport, setDismissedImport] = useState(false);
-  const [importedItems, setImportedItems] = useState<Item[]>([]);
+  const {
+    importedItems,
+    setImportedItems,
+    dismissedError,
+    dismissedInfo,
+    dismissedImport,
+    onDismissError,
+    onDismissInfo,
+    onDismissImport,
+  } = useNotifications({ error: file.error, info: file.info });
   const board = useKanbanBoard(file.project, file.setProject, {
     onChange: file.autosave,
   });
@@ -59,20 +66,6 @@ function AppContent() {
     }
   };
 
-  useEffect(() => {
-    setDismissedError(false);
-  }, [file.error]);
-
-  useEffect(() => {
-    setDismissedInfo(false);
-  }, [file.info]);
-
-  useEffect(() => {
-    if (importedItems.length > 0) {
-      setDismissedImport(false);
-    }
-  }, [importedItems]);
-
   return (
     <div className={css.page}>
       <div className={css.container}>
@@ -93,9 +86,9 @@ function AppContent() {
           dismissedError={dismissedError}
           dismissedInfo={dismissedInfo}
           dismissedImport={dismissedImport}
-          onDismissError={() => setDismissedError(true)}
-          onDismissInfo={() => setDismissedInfo(true)}
-          onDismissImport={() => setDismissedImport(true)}
+          onDismissError={onDismissError}
+          onDismissInfo={onDismissInfo}
+          onDismissImport={onDismissImport}
         />
 
         {!file.project ? (
