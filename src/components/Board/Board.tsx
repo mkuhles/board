@@ -8,6 +8,23 @@ import { BoardActionsProvider } from "../../context/BoardActionsContext";
 import { useBoardModal } from "../../hooks/useBoardModal";
 import { BoardToolbar } from "./BoardToolbar";
 import { BoardColumns } from "./BoardColumns";
+import type { Item, ItemPayload, Sprint } from "../../lib/models";
+import type { DragEvent } from "../../lib/kanban/dnd";
+
+type BoardProps = {
+  columns: Record<string, Item[]>;
+  activeItem: Item | null;
+  onDragStart: (event: DragEvent) => void;
+  onDragEnd: (event: DragEvent) => void;
+  onDeleteItem?: (item: Item) => void;
+  onCreateItem?: (payload: ItemPayload) => void;
+  onUpdateItem?: (cid: string, payload: ItemPayload) => void;
+  sprints?: Sprint[];
+  onSprintChange?: (id: string) => void;
+  onAddItemToSprint?: (item: Item) => void;
+  canAddItemToSprint?: boolean;
+  activeSprintId?: string;
+};
 
 export function Board({
   columns,
@@ -17,13 +34,12 @@ export function Board({
   onDeleteItem,
   onCreateItem,
   onUpdateItem,
-
   sprints,
   onSprintChange,
   onAddItemToSprint,
   canAddItemToSprint,
-  activeSprintId
- }) {
+  activeSprintId,
+}: BoardProps) {
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 6 } }));
 
   const [collapsed, setCollapsed] = useState({ backlog: false });
@@ -45,7 +61,7 @@ export function Board({
     onUpdateItem,
   });
 
-  const toggleCollapse = (id) => {
+  const toggleCollapse = (id: string) => {
     setCollapsed((prev) => ({
       ...prev,
       [id]: !prev[id],

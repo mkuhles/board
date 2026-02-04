@@ -1,7 +1,17 @@
 import css from "./ItemCard.module.css";
 import { useBoardActions } from "../../context/BoardActionsContext";
+import type { ItemProp } from "../../types/props";
 
-function IconButton({ title, ariaLabel, onClick, children }) {
+type IconButtonProps = {
+  title: string;
+  ariaLabel?: string;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  children: React.ReactNode;
+};
+
+type ItemButtonProps = ItemProp;
+
+function IconButton({ title, ariaLabel, onClick, children }: IconButtonProps) {
   return (
     <button
       className={css.actionBtn}
@@ -47,7 +57,7 @@ function ClockIcon() {
   );
 }
 
-export function DeleteButton({ item }) {
+export function DeleteButton({ item }: ItemButtonProps) {
   const { onDeleteItem } = useBoardActions();
   return (
     <IconButton
@@ -59,7 +69,7 @@ export function DeleteButton({ item }) {
   );
 }
 
-export function AddToSprintButton({ item }) {
+export function AddToSprintButton({ item }: ItemButtonProps) {
   const { onAddItemToSprint } = useBoardActions();
   return (
     <IconButton
@@ -73,7 +83,7 @@ export function AddToSprintButton({ item }) {
   );
 }
 
-export function AddTimeButton({ item }) {
+export function AddTimeButton({ item }: ItemButtonProps) {
   const { onAddTime } = useBoardActions();
   return (
     <IconButton

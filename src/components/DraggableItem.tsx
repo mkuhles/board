@@ -2,8 +2,9 @@ import React from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { ItemCard } from "./ItemCard/ItemCard";
+import type { ItemProp } from "../types/props";
 
-export function DraggableItem({ item }) {
+export function DraggableItem({ item }: ItemProp) {
   const id = `item:${item._cid}`;
 
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } =

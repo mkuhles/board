@@ -7,7 +7,13 @@ import css from "./Chip.module.css";
  * - variant: "filled" | "outline" (optional)
  * - showNumber: boolean (optional, default true)
  */
-export function Chip({ label, title, variant = "filled" }) {
+type ChipProps = {
+  label: string;
+  title?: string;
+  variant?: "filled" | "outline";
+};
+
+export function Chip({ label, title, variant = "filled" }: ChipProps) {
   return (
     <div className={`${css.chip} ${variant === "outline" ? css.outline : css.filled}`} title={title}>
       {label}

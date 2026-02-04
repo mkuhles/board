@@ -1,5 +1,14 @@
 import css from "./ItemModal.module.css";
 
+type ItemModalHeaderProps = {
+  isEdit: boolean;
+  typeCodePreview?: string;
+  currentId?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  onCancel: () => void;
+};
+
 export function ItemModalHeader({
   isEdit,
   typeCodePreview,
@@ -7,7 +16,7 @@ export function ItemModalHeader({
   createdAt,
   updatedAt,
   onCancel,
-}) {
+}: ItemModalHeaderProps) {
   return (
     <div className={css.header}>
       <div>

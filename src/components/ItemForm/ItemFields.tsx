@@ -1,10 +1,7 @@
 import React from "react";
 import { Field } from "./Field";
 import css from "../ItemModal/ItemModal.module.css";
-import type { Area, TypeCode } from "../../lib/models";
-
-type Status = { id: string; title: string };
-type Sprint = { id: string; title: string; start?: string };
+import type { ItemFormLookups } from "../../types/props";
 
 type ItemFieldsProps = {
   title: string;
@@ -19,11 +16,7 @@ type ItemFieldsProps = {
   setStatus: (value: string) => void;
   sprintId: string;
   setSprintId: (value: string) => void;
-  typeCodes?: Record<string, TypeCode>;
-  areas?: Area[];
-  statuses: Status[];
-  sprints?: Sprint[];
-};
+} & ItemFormLookups;
 
 export function ItemFields({
   title,

@@ -8,12 +8,13 @@ import {
   toLocalInputValue,
 } from "../lib/time";
 import type { TimeEntry } from "../lib/time";
+import type { RegisterBeforeSubmit } from "../types/props";
 
 type UseTimeEntryDraftOptions = {
   timeEntries?: TimeEntry[];
   setTimeEntries?: (entries: TimeEntry[]) => void;
   defaultOpen?: boolean;
-  registerBeforeSubmit?: (fn: () => TimeEntry | null) => void;
+  registerBeforeSubmit?: RegisterBeforeSubmit;
 };
 
 export function useTimeEntryDraft({

@@ -9,10 +9,9 @@ import { AddTimeButton, AddToSprintButton, DeleteButton } from "./ItemCardAction
 import { Chip } from "../Chip";
 import { formatRelativeTime, summarizeTimeEntries } from "../../lib/time";
 import { useBoardActions } from "../../context/BoardActionsContext";
+import type { ItemProp } from "../../types/props";
 
-export function ItemCard({
-  item
-}) {
+export function ItemCard({ item }: ItemProp) {
   const {
     onDeleteItem,
     onEditItem,

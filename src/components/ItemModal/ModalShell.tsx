@@ -1,6 +1,11 @@
 import css from "./ItemModal.module.css";
 
-export function ModalShell({ onCancel, children }) {
+type ModalShellProps = {
+  onCancel: () => void;
+  children: React.ReactNode;
+};
+
+export function ModalShell({ onCancel, children }: ModalShellProps) {
   return (
     <div className={css.backdrop} onMouseDown={onCancel}>
       <div className={css.modal} onMouseDown={(e) => e.stopPropagation()}>

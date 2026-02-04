@@ -3,6 +3,16 @@ import { useDroppable } from "@dnd-kit/core";
 import { DraggableItem } from "./DraggableItem";
 import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import css from "./Column.module.css";
+import type { Item } from "../lib/models";
+
+type ColumnProps = {
+  statusId: string;
+  title: string;
+  items: Item[];
+  collapsible?: boolean;
+  collapsed?: boolean;
+  onToggleCollapse: () => void;
+};
 
 export function Column({
   statusId,
@@ -11,7 +21,7 @@ export function Column({
   collapsible = false,
   collapsed = false,
   onToggleCollapse,
-}) {
+}: ColumnProps) {
   const droppableId = `col:${statusId}`;
   const { setNodeRef, isOver } = useDroppable({ id: droppableId });
 

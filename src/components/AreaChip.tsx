@@ -1,5 +1,6 @@
 import React from "react";
 import {Chip} from "./Chip";
+import type { Area } from "../lib/models";
 
 /**
  * Props:
@@ -7,7 +8,13 @@ import {Chip} from "./Chip";
  * - variant: "filled" | "outline" (optional)
  * - showNumber: boolean (optional, default true)
  */
-export function AreaChip({ area, variant = "filled", showNumber = false }) {
+type AreaChipProps = {
+  area: Area | null;
+  variant?: "filled" | "outline";
+  showNumber?: boolean;
+};
+
+export function AreaChip({ area, variant = "filled", showNumber = false }: AreaChipProps) {
   if (!area) return null;
 
   const number = Number.isFinite(area.number) ? area.number : null;

@@ -1,12 +1,17 @@
 import React from "react";
 
+type AnchorLinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
+  toId: string;
+  children: React.ReactNode;
+};
+
 /**
  * Smooth in-app anchor link:
  * - prevents default jump
  * - sets hash via history API
  * - triggers a hashchange event so our highlighter runs
  */
-export function AnchorLink({ toId, children, ...props }) {
+export function AnchorLink({ toId, children, ...props }: AnchorLinkProps) {
   const href = `#${encodeURIComponent(toId)}`;
 
   return (

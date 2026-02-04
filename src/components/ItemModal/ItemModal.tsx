@@ -6,6 +6,20 @@ import { ItemForm } from "../ItemForm/ItemForm";
 import { ItemModalFooter } from "./ItemModalFooter";
 import { formatRelativeTime } from "../../lib/time";
 import { useItemModalState } from "../../hooks/useItemModalState";
+import type { Item, ItemPayload, Sprint } from "../../lib/models";
+import type { StatusOption } from "../../types/props";
+
+type ItemModalProps = {
+  isOpen: boolean;
+  mode: "create" | "edit";
+  initialItem?: Item | null;
+  defaultTimeOpen?: boolean;
+  onCancel: () => void;
+  onSubmit: (payload: ItemPayload) => void;
+  allItems?: Item[];
+  sprints?: Sprint[];
+  statuses?: StatusOption[];
+};
 
 export function ItemModal({
   isOpen,
@@ -17,7 +31,7 @@ export function ItemModal({
   allItems,
   sprints = [],
   statuses = [],
-}) {
+}: ItemModalProps) {
   const isEdit = mode === "edit";
   const {
     areas,

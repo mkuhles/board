@@ -1,10 +1,17 @@
 import css from "./SprintFilter.module.css";
+import type { Sprint } from "../../lib/models";
+
+type SprintFilterProps = {
+  sprints: Sprint[];
+  activeSprintId?: string;
+  onSprintChange: (value: string) => void;
+};
 
 export function SprintFilter({
   sprints,
   activeSprintId,
   onSprintChange,
-}) {
+}: SprintFilterProps) {
   return (
     <div className={css.sprintFilter}>
         <label>

@@ -1,7 +1,25 @@
 import React from "react";
 import css from "./TopBar.module.css";
 
-export function TopBar({ supportOk, projectLoaded, projectName, isSaving, onOpen, onSave, onSaveAs }) {
+type TopBarProps = {
+  supportOk: boolean;
+  projectLoaded: boolean;
+  projectName?: string;
+  isSaving: boolean;
+  onOpen: () => void;
+  onSave: () => void;
+  onSaveAs: () => void;
+};
+
+export function TopBar({
+  supportOk,
+  projectLoaded,
+  projectName,
+  isSaving,
+  onOpen,
+  onSave,
+  onSaveAs,
+}: TopBarProps) {
   return (
     <header className={css.header}>
       <div>

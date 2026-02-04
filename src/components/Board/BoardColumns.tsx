@@ -4,6 +4,18 @@ import { STATUSES } from "../../constants/statuses";
 import { Column } from "../Column";
 import { ItemCard } from "../ItemCard/ItemCard";
 import css from "./Board.module.css";
+import type { Item } from "../../lib/models";
+import type { DragEvent } from "../../lib/kanban/dnd";
+
+type BoardColumnsProps = {
+  sensors: unknown;
+  columns: Record<string, Item[]>;
+  activeItem: Item | null;
+  collapsed: Record<string, boolean>;
+  onToggleCollapse: (id: string) => void;
+  onDragStart: (event: DragEvent) => void;
+  onDragEnd: (event: DragEvent) => void;
+};
 
 export function BoardColumns({
   sensors,
@@ -13,7 +25,7 @@ export function BoardColumns({
   onToggleCollapse,
   onDragStart,
   onDragEnd,
-}) {
+}: BoardColumnsProps) {
   return (
     <DndContext
       sensors={sensors}

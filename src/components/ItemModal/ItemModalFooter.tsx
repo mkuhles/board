@@ -1,6 +1,12 @@
 import css from "./ItemModal.module.css";
 
-export function ItemModalFooter({ isEdit, onCancel, onSubmit }) {
+type ItemModalFooterProps = {
+  isEdit: boolean;
+  onCancel: () => void;
+  onSubmit: () => void;
+};
+
+export function ItemModalFooter({ isEdit, onCancel, onSubmit }: ItemModalFooterProps) {
   return (
     <div className={css.footer}>
       <button className={css.btn} onClick={onCancel} type="button">

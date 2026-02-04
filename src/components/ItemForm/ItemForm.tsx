@@ -5,11 +5,9 @@ import { useTimeEntryDraft } from "../../hooks/useTimeEntryDraft";
 import { ItemFields } from "./ItemFields";
 import { RelatesToSection } from "./RelatesToSection";
 import { TimeEntriesSection } from "./TimeEntriesSection";
-import type { Area, Item, TypeCode } from "../../lib/models";
+import type { Item } from "../../lib/models";
 import type { TimeEntry } from "../../lib/time";
-
-type Status = { id: string; title: string };
-type Sprint = { id: string; title: string; start?: string };
+import type { ItemFormLookups, RegisterBeforeSubmit } from "../../types/props";
 
 export type ItemDraft = {
   title: string;
@@ -35,14 +33,10 @@ export type ItemDraft = {
 type ItemFormProps = {
   draft: ItemDraft;
   defaultTimeOpen?: boolean;
-  registerBeforeSubmit?: (fn: () => TimeEntry | null) => void;
-  typeCodes?: Record<string, TypeCode>;
-  areas?: Area[];
+  registerBeforeSubmit?: RegisterBeforeSubmit;
   allItems?: Item[];
   excludeId?: string;
-  statuses: Status[];
-  sprints?: Sprint[];
-};
+} & ItemFormLookups;
 
 export function ItemForm({
   draft,
