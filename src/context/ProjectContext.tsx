@@ -1,8 +1,21 @@
 import React, { createContext, useContext } from "react";
+import type { Area, TypeCode } from "../lib/models";
 
-const ProjectContext = createContext(null);
+export type ProjectContextValue = {
+  name?: string;
+  areas?: Area[];
+  typeCodes?: Record<string, TypeCode>;
+};
 
-export function ProjectProvider({ value, children }) {
+const ProjectContext = createContext<ProjectContextValue | null>(null);
+
+export function ProjectProvider({
+  value,
+  children,
+}: {
+  value: ProjectContextValue;
+  children: React.ReactNode;
+}) {
   return <ProjectContext.Provider value={value}>{children}</ProjectContext.Provider>;
 }
 

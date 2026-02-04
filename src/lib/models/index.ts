@@ -11,5 +11,7 @@ export {
   type Project,
   type Area,
   type Sprint,
+  type TypeCode,
+  type ProjectMeta,
   type ProjectValidation,
 } from "./project";
