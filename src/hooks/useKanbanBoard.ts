@@ -10,16 +10,13 @@ import {
   deleteItemInProject,
 } from "../lib/kanban";
 import type { Item, ItemPayload, Project } from "../lib/models";
+import type { DragEvent } from "../lib/kanban/dnd";
 import type { Dispatch, SetStateAction } from "react";
 
 type KanbanOptions = {
   onChange?: (project: Project) => void;
 };
 
-type DragEvent = {
-  active?: { id?: string };
-  over?: { id?: string };
-};
 
 function findItemByCid(items: Item[], cid: string) {
   return items.find((i) => i._cid === cid);

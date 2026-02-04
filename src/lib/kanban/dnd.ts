@@ -6,7 +6,7 @@ import { nowIso } from "../time";
 import type { Item } from "../models";
 
 type Status = { id: string };
-type DragEvent = { active?: { id?: string }; over?: { id?: string } };
+export type DragEvent = { active?: { id?: string }; over?: { id?: string } };
 type ApplyDragParams = {
   items: Item[];
   event: DragEvent;
