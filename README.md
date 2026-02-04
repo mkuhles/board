@@ -6,6 +6,14 @@ All changes are written back into the opened JSON file.
 
 The goal of the project is to keep project planning simple, transparent, and fully local without requiring a backend or cloud service.
 
+## Quickstart
+
+1. Install dependencies:
+   `npm install`
+2. Start the dev server:
+   `npm run dev`
+3. Open the app and load a project file via **"Open file"**.
+
 ## Features
 
 - Kanban board with drag & drop
@@ -40,7 +48,7 @@ Install dependencies and start the development server:
 ```bash
 npm install
 npm run dev
-````
+```
 
 Open the app in the browser and load a project file using **"Open file"**.
 
@@ -73,12 +81,18 @@ Example:
 ```json
 {
   "name": "NochDa",
+  "meta": {
+    "activeSprintId": "all"
+  },
   "typeCodes": {
-    "user_story": "US",
-    "tech_task": "TECH"
+    "user_story": { "label": "User Story", "prefix": "US" },
+    "tech_task": { "label": "Tech Task", "prefix": "TECH" }
   },
   "areas": [
     { "id": "auth", "title": "Authentication", "number": 1 }
+  ],
+  "sprints": [
+    { "id": "sprint-1", "title": "Sprint 1", "start": "2026-02-01", "end": "2026-02-14" }
   ],
   "items": [
     {
@@ -86,10 +100,22 @@ Example:
       "type": "user_story",
       "title": "Implement login",
       "description": "Users can log into the system",
-      "area": "auth",
+      "area_id": "auth",
       "relates_to": ["US2"],
       "status": "todo",
-      "order": 0
+      "order": 0,
+      "sprintId": "sprint-1",
+      "created_at": "2026-02-03T12:00:00.000Z",
+      "updated_at": "2026-02-03T12:30:00.000Z",
+      "time_entries": [
+        {
+          "start_at": "2026-02-03T12:00:00.000Z",
+          "minutes": 30,
+          "comment": "Auth flow",
+          "tags": ["dev"],
+          "billable": true
+        }
+      ]
     }
   ]
 }
@@ -120,6 +146,16 @@ Items reference areas using:
 
 instead of free-text fields.
 
+## Sprints
+
+Sprints are optional and can be used to group items by timebox.
+
+Example:
+
+```json
+{ "id": "sprint-1", "title": "Sprint 1", "start": "2026-02-01", "end": "2026-02-14" }
+```
+
 ## Item Fields
 
 ### Required Fields
@@ -136,10 +172,24 @@ instead of free-text fields.
 | ------------- | ------------------------------------------- |
 | `type`        | Item type, e.g. `task`, `bug`, `user_story` |
 | `description` | Detailed description                        |
-| `area`        | Feature/module area                         |
+| `area_id`     | Feature/module area (slug)                  |
 | `relates_to`  | Related item IDs                            |
 | `status`      | Column where the item appears               |
 | `order`       | Position inside a column                    |
+| `sprintId`    | Sprint id                                   |
+| `created_at`  | Creation timestamp (ISO)                    |
+| `updated_at`  | Update timestamp (ISO)                      |
+| `time_entries`| Array of time tracking entries              |
+
+### Time Entry Fields
+
+| Field      | Description                    |
+| ---------- | ------------------------------ |
+| `start_at` | Start time (ISO)               |
+| `minutes`  | Duration in minutes            |
+| `comment`  | What was done                  |
+| `tags`     | Tag list, e.g. `["dev"]`       |
+| `billable` | Boolean                        |
 
 
 ## Status Columns
@@ -151,7 +201,8 @@ Default statuses:
   "backlog",
   "todo",
   "doing",
-  "done"
+  "done",
+  "archived"
 ]
 ```
 
@@ -220,6 +271,16 @@ the application automatically:
 5. Saves the migrated project back to disk.
 
 This happens transparently when opening a project.
+
+## Validation on Load
+
+When opening a project file, the app validates required fields:
+
+- Missing `item.id` or `item.title` is an error and blocks opening.
+- Missing `item.type` is an error if `typeCodes` are defined.
+- Missing sprint or area metadata is a warning (the file still opens).
+
+Warnings are shown in the UI info banner.
 
 ## Ticket ID Structure
 
