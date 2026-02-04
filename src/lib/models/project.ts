@@ -4,21 +4,31 @@ import { normalizeItem, type Item } from "./item";
 export type Area = {
   id: string;
   title: string;
-  number?: number | null;
+  number: number | null;
 };
 
 export type Sprint = {
   id: string;
   title: string;
-  start?: string;
+  start: string;
   end?: string;
+};
+
+export type TypeCode = {
+  label: string;
+  prefix: string;
+};
+
+export type ProjectMeta = {
+  activeSprintId?: string;
+  [key: string]: unknown;
 };
 
 export type Project = {
   name?: string;
-  meta?: Record<string, unknown>;
+  meta?: ProjectMeta;
   areas?: Area[];
-  typeCodes?: Record<string, { label?: string; prefix?: string }>;
+  typeCodes?: Record<string, TypeCode>;
   sprints?: Sprint[];
   items?: Item[];
 };
