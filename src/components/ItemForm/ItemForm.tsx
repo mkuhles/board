@@ -5,6 +5,44 @@ import { useTimeEntryDraft } from "../../hooks/useTimeEntryDraft";
 import { ItemFields } from "./ItemFields";
 import { RelatesToSection } from "./RelatesToSection";
 import { TimeEntriesSection } from "./TimeEntriesSection";
+import type { Area, Item, TypeCode } from "../../lib/models";
+import type { TimeEntry } from "../../lib/time";
+
+type Status = { id: string; title: string };
+type Sprint = { id: string; title: string; start?: string };
+
+export type ItemDraft = {
+  title: string;
+  setTitle: (value: string) => void;
+  description: string;
+  setDescription: (value: string) => void;
+  type: string;
+  setType: (value: string) => void;
+  areaId: string;
+  setAreaId: (value: string) => void;
+  relatesToIds: string[];
+  setRelatesToIds: (value: string[]) => void;
+  sprintId: string;
+  setSprintId: (value: string) => void;
+  status: string;
+  setStatus: (value: string) => void;
+  timeEntries: TimeEntry[];
+  setTimeEntries: (value: TimeEntry[]) => void;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+type ItemFormProps = {
+  draft: ItemDraft;
+  defaultTimeOpen?: boolean;
+  registerBeforeSubmit?: (fn: () => TimeEntry | null) => void;
+  typeCodes?: Record<string, TypeCode>;
+  areas?: Area[];
+  allItems?: Item[];
+  excludeId?: string;
+  statuses: Status[];
+  sprints?: Sprint[];
+};
 
 export function ItemForm({
   draft,
@@ -15,8 +53,8 @@ export function ItemForm({
   allItems,
   excludeId,
   statuses,
-  sprints=[],
-}) {
+  sprints = [],
+}: ItemFormProps) {
   const {
     title, setTitle,
     description, setDescription,

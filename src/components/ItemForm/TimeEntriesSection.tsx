@@ -1,6 +1,28 @@
 import React from "react";
 import css from "../ItemModal/ItemModal.module.css";
 import { formatLocalDateTime } from "../../lib/time";
+import type { TimeEntry } from "../../lib/time";
+
+type TimeEntriesSectionProps = {
+  timeWrapRef: React.RefObject<HTMLDivElement>;
+  isTimeOpen: boolean;
+  setIsTimeOpen: (open: boolean) => void;
+  timeEntries: TimeEntry[];
+  timeEntryCount: number;
+  totalMinutes: number;
+  timeStart: string;
+  timeMinutes: number;
+  timeComment: string;
+  timeTags: string;
+  timeBillable: boolean;
+  onChangeStart: (value: string) => void;
+  onChangeMinutes: (value: string) => void;
+  onChangeComment: (value: string) => void;
+  onChangeTags: (value: string) => void;
+  onChangeBillable: (value: boolean) => void;
+  onAddTimeEntry: () => void;
+  timeDirty: boolean;
+};
 
 export function TimeEntriesSection({
   timeWrapRef,
@@ -21,7 +43,7 @@ export function TimeEntriesSection({
   onChangeBillable,
   onAddTimeEntry,
   timeDirty,
-}) {
+}: TimeEntriesSectionProps) {
   return (
     <div className={css.timeWrap} ref={timeWrapRef}>
       <details

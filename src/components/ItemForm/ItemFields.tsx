@@ -1,6 +1,29 @@
 import React from "react";
 import { Field } from "./Field";
 import css from "../ItemModal/ItemModal.module.css";
+import type { Area, TypeCode } from "../../lib/models";
+
+type Status = { id: string; title: string };
+type Sprint = { id: string; title: string; start?: string };
+
+type ItemFieldsProps = {
+  title: string;
+  setTitle: (value: string) => void;
+  description: string;
+  setDescription: (value: string) => void;
+  type: string;
+  setType: (value: string) => void;
+  areaId: string;
+  setAreaId: (value: string) => void;
+  status: string;
+  setStatus: (value: string) => void;
+  sprintId: string;
+  setSprintId: (value: string) => void;
+  typeCodes?: Record<string, TypeCode>;
+  areas?: Area[];
+  statuses: Status[];
+  sprints?: Sprint[];
+};
 
 export function ItemFields({
   title,
@@ -19,7 +42,7 @@ export function ItemFields({
   areas,
   statuses,
   sprints,
-}) {
+}: ItemFieldsProps) {
   return (
     <>
       <Field label="Title" inputId="item-title" required>

@@ -9,7 +9,15 @@ export function Field({
   help,
   error,
   children,
- }) {
+}: {
+  label: string;
+  inputId: string;
+  required?: boolean;
+  wide?: boolean;
+  help?: string;
+  error?: string;
+  children: React.ReactNode;
+}) {
   const cls = wide ? css.labelWide : css.label;
   const helpId = help ? `${inputId}__help` : undefined;
   const errId = error ? `${inputId}__error` : undefined;
@@ -19,7 +27,7 @@ export function Field({
 
   // Wir “injecten” aria props ins child, ohne dass du sie überall manuell setzen musst.
   const preparedChild = React.isValidElement(children)
-    ? React.cloneElement(children, {
+    ? React.cloneElement(children as React.ReactElement, {
         id: inputId,
         "aria-invalid": Boolean(error) || undefined,
         "aria-describedby": describedBy,

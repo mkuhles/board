@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import css from "./RelatedToInput.module.css";
+import type { Item } from "../../lib/models";
 
-function norm(s) {
+function norm(s: unknown) {
   return String(s || "").toLowerCase().trim();
 }
 
@@ -12,11 +13,18 @@ export function RelatedToInput({
   excludeId,         // current item id (so you can't relate to yourself)
   placeholder = "Type to search by ID or title…",
   ...inputProps
+}: {
+  allItems?: Item[];
+  valueIds?: string[];
+  onChangeIds: (nextIds: string[]) => void;
+  excludeId?: string;
+  placeholder?: string;
+  [key: string]: unknown;
 }) {
   const [q, setQ] = useState("");
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
-  const inputRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   const selected = useMemo(() => new Set(valueIds || []), [valueIds]);
 
@@ -39,7 +47,7 @@ export function RelatedToInput({
     if (!open) setActiveIndex(0);
   }, [open, q]);
 
-  const addId = (id) => {
+  const addId = (id: string) => {
     if (!id) return;
     if (selected.has(id)) return;
     onChangeIds([...(valueIds || []), id]);
@@ -48,11 +56,11 @@ export function RelatedToInput({
     inputRef.current?.focus();
   };
 
-  const removeId = (id) => {
+  const removeId = (id: string) => {
     onChangeIds((valueIds || []).filter((x) => x !== id));
   };
 
-  const onKeyDown = (e) => {
+  const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "ArrowDown") {
       if (!open) setOpen(true);
       setActiveIndex((i) => Math.min(i + 1, suggestions.length - 1));
