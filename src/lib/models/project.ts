@@ -17,6 +17,7 @@ export type Sprint = {
 export type TypeCode = {
   label: string;
   prefix: string;
+  slug?: string;
 };
 
 export type ProjectMeta = {
@@ -31,6 +32,14 @@ export type Project = {
   typeCodes?: Record<string, TypeCode>;
   sprints?: Sprint[];
   items?: Item[];
+};
+
+const DEFAULT_TYPE_CODES: Record<string, TypeCode> = {
+  task: {
+    slug: "task",
+    prefix: "T",
+    label: "Task",
+  },
 };
 
 export type ProjectValidation = {
@@ -54,6 +63,10 @@ export function normalizeProject(
   next.areas = Array.isArray(next.areas) ? next.areas : [];
   next.typeCodes =
     next.typeCodes && typeof next.typeCodes === "object" ? next.typeCodes : {};
+
+  if (Object.keys(next.typeCodes).length === 0) {
+    next.typeCodes = DEFAULT_TYPE_CODES;
+  }
   next.sprints = Array.isArray(next.sprints) ? next.sprints : [];
 
   const items = Array.isArray(next.items) ? next.items : [];
