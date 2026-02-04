@@ -67,17 +67,6 @@ export function ItemCard({ item }: ItemProp) {
       <div className={css.title}>{item.title || t("card.untitled")}</div>
       <div className={css.cardMarkdown}>{descriptionTeaser}</div>
 
-      <div className={css.chips}>
-        <AreaChip area={area} />
-        {Array.isArray(item.relates_to)
-          ? item.relates_to.slice(0, 6).map((r) => (
-              <AnchorLink key={r} toId={r} className={css.chip}>
-                {r}
-              </AnchorLink>
-            ))
-          : null}
-      </div>
-
       <div className={css.timeRow}>
         <div className={css.timeMeta}>
           {timestamp ? (
@@ -95,6 +84,17 @@ export function ItemCard({ item }: ItemProp) {
         </div>
 
         {onAddTime ? <AddTimeButton item={item} /> : null}
+      </div>
+
+      <div className={css.chips}>
+        <AreaChip area={area} />
+        {Array.isArray(item.relates_to)
+          ? item.relates_to.slice(0, 6).map((r) => (
+              <AnchorLink key={r} toId={r} className={css.chip}>
+                {r}
+              </AnchorLink>
+            ))
+          : null}
       </div>
     </div>
   );
