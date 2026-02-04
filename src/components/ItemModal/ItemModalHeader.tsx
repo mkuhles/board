@@ -4,6 +4,8 @@ import { useI18n } from "../../i18n";
 type ItemModalHeaderProps = {
   isEdit: boolean;
   typeCodePreview?: string;
+  typeLabel?: string;
+  typeColor?: string;
   currentId?: string;
   createdAt?: string;
   updatedAt?: string;
@@ -13,6 +15,8 @@ type ItemModalHeaderProps = {
 export function ItemModalHeader({
   isEdit,
   typeCodePreview,
+  typeLabel,
+  typeColor,
   currentId,
   createdAt,
   updatedAt,
@@ -27,6 +31,14 @@ export function ItemModalHeader({
         </div>
         <div className={css.sub}>
           {t("modal.typeCode")}: <b>{typeCodePreview || "—"}</b>
+          {typeLabel ? (
+            <>
+              {" "}
+              <span className={css.typeChip} style={{ backgroundColor: typeColor || undefined }}>
+                {typeLabel}
+              </span>
+            </>
+          ) : null}
           {isEdit && currentId ? (
             <> · {t("modal.currentId")}: <b>{currentId}</b></>
           ) : null}

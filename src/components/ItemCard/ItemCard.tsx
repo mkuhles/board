@@ -1,7 +1,7 @@
 import React from "react";
 import css from "./ItemCard.module.css";
 import { AreaChip } from "../AreaChip";
-import { useAreas } from "../../context/ProjectContext";
+import { useAreas, useTypeCodes } from "../../context/ProjectContext";
 import { AnchorLink } from "../AnchorLink";
 import { getAreaById } from "../../lib/project";
 import {
@@ -28,7 +28,9 @@ export function ItemCard({ item }: ItemProp) {
     canAddItemToSprint,
   } = useBoardActions();
   const areas = useAreas();
+  const typeCodes = useTypeCodes();
   const area = getAreaById(areas, item.area_id);
+  const typeConfig = item.type ? typeCodes?.[item.type] : undefined;
   const timestamp = item.updated_at || item.created_at || "";
   const timeEntries = Array.isArray(item.time_entries) ? item.time_entries : [];
   const { totalMinutes, billableCount, count: timeEntryCount } =
@@ -41,7 +43,11 @@ export function ItemCard({ item }: ItemProp) {
         <span className={css.badge}>{item.id || "—"}</span>
 
         <div className={css.metaRight}>
-          <span className={css.muted}>{item.type || ""}</span>
+          {typeConfig ? (
+            <Chip label={typeConfig.label} title={item.type || ""} color={typeConfig.color} />
+          ) : (
+            <span className={css.muted}>{item.type || ""}</span>
+          )}
           {item.sprintId && <Chip label={item.sprintId} title={item.sprintId} />}
           <DeleteButton item={item} />
           {canAddItemToSprint && !item.sprintId ? (

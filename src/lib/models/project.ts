@@ -18,6 +18,7 @@ export type TypeCode = {
   label: string;
   prefix: string;
   slug?: string;
+  color?: string;
 };
 
 export type ProjectMeta = {

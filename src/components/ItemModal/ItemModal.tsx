@@ -51,11 +51,15 @@ export function ItemModal({
 
   if (!isOpen) return null;
 
+  const typeConfig = draft.type ? typeCodes?.[draft.type] : undefined;
+
   return (
     <ModalShell onCancel={onCancel}>
       <ItemModalHeader
         isEdit={isEdit}
         typeCodePreview={typeCodePreview}
+        typeLabel={typeConfig?.label}
+        typeColor={typeConfig?.color}
         currentId={initialItem?.id}
         createdAt={formatRelativeTime(draft.createdAt)}
         updatedAt={formatRelativeTime(draft.updatedAt)}
