@@ -1,6 +1,16 @@
 import React from "react";
 import css from "../ItemModal/ItemModal.module.css";
 
+type FieldProps = {
+  label: string;
+  inputId: string;
+  required?: boolean;
+  wide?: boolean;
+  help?: string;
+  error?: string;
+  children: React.ReactNode;
+};
+
 export function Field({
   label,
   inputId,
@@ -9,15 +19,7 @@ export function Field({
   help,
   error,
   children,
-}: {
-  label: string;
-  inputId: string;
-  required?: boolean;
-  wide?: boolean;
-  help?: string;
-  error?: string;
-  children: React.ReactNode;
-}) {
+}: FieldProps) {
   const cls = wide ? css.labelWide : css.label;
   const helpId = help ? `${inputId}__help` : undefined;
   const errId = error ? `${inputId}__error` : undefined;

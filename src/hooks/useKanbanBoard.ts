@@ -16,6 +16,11 @@ type KanbanOptions = {
   onChange?: (project: Project) => void;
 };
 
+type DragEvent = {
+  active?: { id?: string };
+  over?: { id?: string };
+};
+
 function findItemByCid(items: Item[], cid: string) {
   return items.find((i) => i._cid === cid);
 }
@@ -47,14 +52,14 @@ export function useKanbanBoard(
     return findItemByCid(project.items, activeCid) || null;
   }, [project, activeCid]);
 
-  const onDragStart = useCallback((event: { active?: { id?: string } }) => {
+  const onDragStart = useCallback((event: DragEvent) => {
     const id = event?.active?.id; // "item:c3"
     const cid = String(id).replace("item:", "");
     setActiveCid(cid);
   }, []);
 
   const onDragEnd = useCallback(
-    (event: { active?: { id?: string }; over?: { id?: string } }) => {
+    (event: DragEvent) => {
       // Always cleanup drag-state, even if we early-return.
       setActiveCid(null);
 

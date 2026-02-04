@@ -4,18 +4,32 @@ import { applyItemPatch, buildNewItem, type ItemPayload, type Project } from "..
 import { buildCreateTimestamps, computeUpdatedAtForPayload } from "../time";
 
 type Status = { id: string };
+type CreateItemOptions = {
+  project: Project | null;
+  payload: ItemPayload;
+  nextCid: () => string;
+  statuses: Status[];
+};
+
+type UpdateItemOptions = {
+  project: Project | null;
+  cid: string;
+  payload: ItemPayload;
+  statuses: Status[];
+};
+
+type DeleteItemOptions = {
+  project: Project | null;
+  cid: string;
+  statuses: Status[];
+};
 
 export function createItemInProject({
   project,
   payload,
   nextCid,
   statuses,
-}: {
-  project: Project | null;
-  payload: ItemPayload;
-  nextCid: () => string;
-  statuses: Status[];
-}) {
+}: CreateItemOptions) {
   if (!project) return null;
 
   const id = generateNextSimpleId(project, payload.type);
@@ -42,12 +56,7 @@ export function updateItemInProject({
   cid,
   payload,
   statuses,
-}: {
-  project: Project | null;
-  cid: string;
-  payload: ItemPayload;
-  statuses: Status[];
-}) {
+}: UpdateItemOptions) {
   if (!project) return null;
 
   const nextItems = (project.items ?? []).map((it) => {
@@ -67,11 +76,7 @@ export function deleteItemInProject({
   project,
   cid,
   statuses,
-}: {
-  project: Project | null;
-  cid: string;
-  statuses: Status[];
-}) {
+}: DeleteItemOptions) {
   if (!project?.items || !cid) return null;
 
   const nextItems = project.items.filter((i) => i._cid !== cid);

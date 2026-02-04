@@ -6,6 +6,12 @@ import { nowIso } from "../time";
 import type { Item } from "../models";
 
 type Status = { id: string };
+type DragEvent = { active?: { id?: string }; over?: { id?: string } };
+type ApplyDragParams = {
+  items: Item[];
+  event: DragEvent;
+  statuses: Status[];
+};
 
 function statusFromOverId(overId: unknown, items: Item[], statuses: Status[]) {
   const str = String(overId);
@@ -24,15 +30,7 @@ function statusFromOverId(overId: unknown, items: Item[], statuses: Status[]) {
   return null;
 }
 
-export function applyDragToItems({
-  items,
-  event,
-  statuses,
-}: {
-  items: Item[];
-  event: { active?: { id?: string }; over?: { id?: string } };
-  statuses: Status[];
-}) {
+export function applyDragToItems({ items, event, statuses }: ApplyDragParams) {
   const { active, over } = event ?? {};
   if (!active?.id || !over?.id) return null;
 

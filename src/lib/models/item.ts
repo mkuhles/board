@@ -30,9 +30,27 @@ export type ItemPayload = {
   updated_at?: string;
 };
 
+type NormalizeItemOptions = {
+  defaultStatus?: string;
+};
+
+type BuildNewItemOptions = {
+  payload: ItemPayload;
+  id: string;
+  nextCid: () => string;
+  created_at: string;
+  updated_at: string;
+  defaultStatus?: string;
+};
+
+type ApplyItemPatchOptions = {
+  defaultStatus?: string;
+  updated_at?: string;
+};
+
 export function normalizeItem(
   item: Item = {},
-  { defaultStatus = DEFAULT_STATUS }: { defaultStatus?: string } = {}
+  { defaultStatus = DEFAULT_STATUS }: NormalizeItemOptions = {}
 ): Item {
   const next: Item = { ...item };
 
@@ -52,14 +70,7 @@ export function buildNewItem({
   created_at,
   updated_at,
   defaultStatus = DEFAULT_STATUS,
-}: {
-  payload: ItemPayload;
-  id: string;
-  nextCid: () => string;
-  created_at: string;
-  updated_at: string;
-  defaultStatus?: string;
-}): Item {
+}: BuildNewItemOptions): Item {
   const base = {
     id,
     title: payload.title,
@@ -85,7 +96,7 @@ export function applyItemPatch(
   {
     defaultStatus = DEFAULT_STATUS,
     updated_at,
-  }: { defaultStatus?: string; updated_at?: string } = {}
+  }: ApplyItemPatchOptions = {}
 ): Item {
   const next: Item = { ...item };
 

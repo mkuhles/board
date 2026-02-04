@@ -3,7 +3,7 @@ import { DndContext, DragOverlay, closestCenter } from "@dnd-kit/core";
 import { STATUSES } from "../../constants/statuses";
 import { Column } from "../Column";
 import { ItemCard } from "../ItemCard/ItemCard";
-import css from "../Board.module.css";
+import css from "./Board.module.css";
 
 export function BoardColumns({
   sensors,

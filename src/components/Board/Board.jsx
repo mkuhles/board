@@ -2,7 +2,7 @@ import React, { useMemo, useState } from "react";
 import { PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { STATUSES } from "../../constants/statuses";
 import { useHashHighlight } from "../../hooks/useHashHighlight";
-import css from "../Board.module.css";
+import css from "./Board.module.css";
 import { ItemModal } from "../ItemModal/ItemModal";
 import { BoardActionsProvider } from "../../context/BoardActionsContext";
 import { useBoardModal } from "../../hooks/useBoardModal";

@@ -8,6 +8,16 @@ const DEFAULT_TYPE = "task";
 type Status = { id: string };
 type TypeCodes = Record<string, TypeCode>;
 
+type UseItemDraftOptions = {
+  isOpen: boolean;
+  isEdit: boolean;
+  initialItem?: Item | null;
+  areas?: Area[];
+  typeCodes?: TypeCodes;
+  sprints?: Sprint[];
+  statuses?: Status[];
+};
+
 export function ensureDefaults(item: Item) {
   return normalizeItem(item, { defaultStatus: DEFAULT_STATUS });
 }
@@ -34,15 +44,7 @@ export function useItemDraft({
   typeCodes,
   sprints,
   statuses,
-}: {
-  isOpen: boolean;
-  isEdit: boolean;
-  initialItem?: Item | null;
-  areas?: Area[];
-  typeCodes?: TypeCodes;
-  sprints?: Sprint[];
-  statuses?: Status[];
-}) {
+}: UseItemDraftOptions) {
   const fallbackType = useMemo(
     () => Object.keys(typeCodes ?? {})[0] ?? DEFAULT_TYPE,
     [typeCodes]

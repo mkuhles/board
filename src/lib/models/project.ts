@@ -39,9 +39,13 @@ export type ProjectValidation = {
   errors: string[];
 };
 
+type ProjectOptions = {
+  defaultStatus?: string;
+};
+
 export function normalizeProject(
   project: Project = {},
-  { defaultStatus = DEFAULT_STATUS }: { defaultStatus?: string } = {}
+  { defaultStatus = DEFAULT_STATUS }: ProjectOptions = {}
 ): Project {
   const next: Project = { ...project };
 
@@ -60,7 +64,7 @@ export function normalizeProject(
 
 export function sanitizeProject(
   project: Project = {},
-  { defaultStatus = DEFAULT_STATUS }: { defaultStatus?: string } = {}
+  { defaultStatus = DEFAULT_STATUS }: ProjectOptions = {}
 ): ProjectValidation {
   const warnings: string[] = [];
   const errors: string[] = [];

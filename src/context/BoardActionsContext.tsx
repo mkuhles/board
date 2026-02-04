@@ -9,15 +9,17 @@ export type BoardActions = {
   canAddItemToSprint?: boolean;
 };
 
+type BoardActionsProviderProps = {
+  value: BoardActions;
+  children: React.ReactNode;
+};
+
 const BoardActionsContext = createContext<BoardActions | null>(null);
 
 export function BoardActionsProvider({
   value,
   children,
-}: {
-  value: BoardActions;
-  children: React.ReactNode;
-}) {
+}: BoardActionsProviderProps) {
   return (
     <BoardActionsContext.Provider value={value}>
       {children}

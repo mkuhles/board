@@ -1,5 +1,5 @@
 import React from "react";
-import css from "../Board.module.css";
+import css from "./Board.module.css";
 import { SprintFilter } from "../Scrum/SprintFilter";
 
 export function BoardToolbar({

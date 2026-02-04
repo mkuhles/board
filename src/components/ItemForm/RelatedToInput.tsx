@@ -6,6 +6,15 @@ function norm(s: unknown) {
   return String(s || "").toLowerCase().trim();
 }
 
+type RelatedToInputProps = {
+  allItems?: Item[];
+  valueIds?: string[];
+  onChangeIds: (nextIds: string[]) => void;
+  excludeId?: string;
+  placeholder?: string;
+  [key: string]: unknown;
+};
+
 export function RelatedToInput({
   allItems,          // [{ id, title, _cid, ... }]
   valueIds,          // string[]
@@ -13,14 +22,7 @@ export function RelatedToInput({
   excludeId,         // current item id (so you can't relate to yourself)
   placeholder = "Type to search by ID or title…",
   ...inputProps
-}: {
-  allItems?: Item[];
-  valueIds?: string[];
-  onChangeIds: (nextIds: string[]) => void;
-  excludeId?: string;
-  placeholder?: string;
-  [key: string]: unknown;
-}) {
+}: RelatedToInputProps) {
   const [q, setQ] = useState("");
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);

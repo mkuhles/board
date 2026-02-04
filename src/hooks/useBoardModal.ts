@@ -11,6 +11,10 @@ type SubmitOptions = {
   keepOpen?: boolean;
 };
 
+type OpenEditOptions = {
+  focusTime?: boolean;
+};
+
 export function useBoardModal({
   allItems,
   onCreateItem,
@@ -31,7 +35,7 @@ export function useBoardModal({
     setModalOpen(true);
   };
 
-  const openEdit = (item: Item, { focusTime = false }: { focusTime?: boolean } = {}) => {
+  const openEdit = (item: Item, { focusTime = false }: OpenEditOptions = {}) => {
     setEditCid(item?._cid ?? null);
     setTimeOpen(Boolean(focusTime));
     setModalOpen(true);

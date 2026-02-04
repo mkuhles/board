@@ -7,15 +7,17 @@ export type ProjectContextValue = {
   typeCodes?: Record<string, TypeCode>;
 };
 
+type ProjectProviderProps = {
+  value: ProjectContextValue;
+  children: React.ReactNode;
+};
+
 const ProjectContext = createContext<ProjectContextValue | null>(null);
 
 export function ProjectProvider({
   value,
   children,
-}: {
-  value: ProjectContextValue;
-  children: React.ReactNode;
-}) {
+}: ProjectProviderProps) {
   return <ProjectContext.Provider value={value}>{children}</ProjectContext.Provider>;
 }
 
