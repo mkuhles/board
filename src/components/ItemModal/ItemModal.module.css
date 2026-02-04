@@ -144,6 +144,25 @@
   min-height: 0;          /* wichtig */
 }
 
+.previewBody :global(code) {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 2px 6px;
+}
+
+.previewBody :global(pre) {
+  background: #0f1216;
+  border: 1px solid #2a2a2a;
+  padding: 8px;
+  overflow: auto;
+}
+
+.previewBody :global(pre code) {
+  background: transparent;
+  padding: 0;
+  display: block;
+  white-space: pre;
+}
+
 .timeWrap {
   grid-column: 1 / -1;
   margin-top: 8px;

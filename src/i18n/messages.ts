@@ -17,6 +17,16 @@ export const messages: Record<Language, MessageDict> = {
     empty: {
       openFilePrefix: "Click",
       openFileSuffix: "and choose your",
+      title: "What this app does",
+      description:
+        "A lightweight Kanban board that reads and writes a local JSON file. You can drag items, edit details, track time, and keep everything in one file.",
+      howtoTitle: "How to use",
+      howtoStep1: "Open a JSON file or create a new one from the example below.",
+      howtoStep2: "Move cards by drag & drop and edit them in the modal.",
+      howtoStep3: "Save to write changes back to your JSON file.",
+      exampleTitle: "Minimal JSON example",
+      exampleHint:
+        "You can give this to an AI to fill it with items.",
       multiFiles: "Later you can select multiple project files.",
     },
     toolbar: {
@@ -153,6 +163,16 @@ export const messages: Record<Language, MessageDict> = {
     empty: {
       openFilePrefix: "Klick auf",
       openFileSuffix: "und wähle deine",
+      title: "Was diese App macht",
+      description:
+        "Ein leichtgewichtiges Kanban‑Board, das eine lokale JSON‑Datei liest und schreibt. Du kannst Items verschieben, Details bearbeiten, Zeit erfassen und alles in einer Datei halten.",
+      howtoTitle: "So benutzt du es",
+      howtoStep1: "Öffne eine JSON‑Datei oder erstelle eine neue anhand des Beispiels unten.",
+      howtoStep2: "Verschiebe Karten per Drag & Drop und bearbeite sie im Modal.",
+      howtoStep3: "Speichern schreibt die Änderungen zurück in die JSON‑Datei.",
+      exampleTitle: "Minimales JSON‑Beispiel",
+      exampleHint:
+        "Das kannst du einer KI geben, damit sie Items ergänzt.",
       multiFiles: "Später kannst du mehrere Projektdateien auswählen.",
     },
     toolbar: {
