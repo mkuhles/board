@@ -5,7 +5,12 @@ import { useAreas } from "../../context/ProjectContext";
 import { AnchorLink } from "../AnchorLink";
 import { getAreaById } from "../../lib/project";
 import { Markdown } from "../Markdown";
-import { AddTimeButton, AddToSprintButton, DeleteButton } from "./ItemCardActionButtons";
+import {
+  AddTimeButton,
+  AddToSprintButton,
+  ArchiveButton,
+  DeleteButton,
+} from "./ItemCardActionButtons";
 import { Chip } from "../Chip";
 import { formatRelativeTime, summarizeTimeEntries } from "../../lib/time";
 import { useBoardActions } from "../../context/BoardActionsContext";
@@ -17,6 +22,7 @@ export function ItemCard({ item }: ItemProp) {
     onEditItem,
     onAddTime,
     onAddItemToSprint,
+    onArchiveItem,
     canAddItemToSprint,
   } = useBoardActions();
   const areas = useAreas();
@@ -38,6 +44,9 @@ export function ItemCard({ item }: ItemProp) {
           {canAddItemToSprint && !item.sprintId ? (
             <AddToSprintButton item={item} />
           ) : null }
+          {item.status === "done" && onArchiveItem ? (
+            <ArchiveButton item={item} />
+          ) : null}
         </div>
       </div>
 

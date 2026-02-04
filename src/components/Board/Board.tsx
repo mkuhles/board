@@ -22,6 +22,7 @@ type BoardProps = {
   sprints?: Sprint[];
   onSprintChange?: (id: string) => void;
   onAddItemToSprint?: (item: Item) => void;
+  onArchiveItem?: (item: Item) => void;
   canAddItemToSprint?: boolean;
   activeSprintId?: string;
 };
@@ -37,12 +38,16 @@ export function Board({
   sprints,
   onSprintChange,
   onAddItemToSprint,
+  onArchiveItem,
   canAddItemToSprint,
   activeSprintId,
 }: BoardProps) {
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 6 } }));
 
-  const [collapsed, setCollapsed] = useState({ backlog: false });
+  const [collapsed, setCollapsed] = useState({
+    backlog: true,
+    archived: true,
+  });
   useHashHighlight();
   
   const allItems = useMemo(() => Object.values(columns).flat(), [columns]);
@@ -75,6 +80,7 @@ export function Board({
         onAddTime: openAddTime,
         onDeleteItem,
         onAddItemToSprint,
+        onArchiveItem,
         canAddItemToSprint,
       }}
     >

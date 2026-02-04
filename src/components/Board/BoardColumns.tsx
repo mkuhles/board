@@ -35,8 +35,8 @@ export function BoardColumns({
     >
       <div className={css.board}>
         {STATUSES.map((s) => {
-          const isBacklog = s.id === "backlog";
-          const isCollapsed = isBacklog && collapsed.backlog;
+          const isCollapsible = s.id === "backlog" || s.id === "archived";
+          const isCollapsed = Boolean(collapsed[s.id]);
 
           return (
             <div
@@ -48,9 +48,9 @@ export function BoardColumns({
                 statusId={s.id}
                 title={s.title}
                 items={columns[s.id] || []}
-                collapsible={s.id === "backlog"}
-                collapsed={Boolean(collapsed.backlog) && s.id === "backlog"}
-                onToggleCollapse={() => onToggleCollapse("backlog")}
+                collapsible={isCollapsible}
+                collapsed={isCollapsible ? isCollapsed : false}
+                onToggleCollapse={() => onToggleCollapse(s.id)}
               />
             </div>
           );

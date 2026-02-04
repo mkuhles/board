@@ -33,6 +33,10 @@ export default function App() {
   });
 
   const nextOrderToDo = (board.columns.todo?.reduce((m, it) => Math.max(m, it.order ?? 0), -1) ?? -1) + 1;
+  const handleArchiveItem = (item: Item) => {
+    if (!item._cid) return;
+    board.updateItem(item._cid, { status: "archived" });
+  };
 
   return (
     <div className={css.page}>
@@ -73,6 +77,7 @@ export default function App() {
                   order: nextOrderToDo,
                 });
               }}
+              onArchiveItem={handleArchiveItem}
               canAddItemToSprint={canAddItemToSprint}
             />
           </ProjectProvider>

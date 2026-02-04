@@ -69,7 +69,7 @@ export function Column({
           className={css.collapseBtn}
           onClick={onToggleCollapse}
           type="button"
-          title="Backlog anzeigen"
+          title={`${title} anzeigen`}
           >
             ›
           </button>

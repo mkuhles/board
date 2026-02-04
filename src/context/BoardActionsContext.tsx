@@ -6,6 +6,7 @@ export type BoardActions = {
   onAddTime?: (item: Item) => void;
   onDeleteItem?: (item: Item) => void;
   onAddItemToSprint?: (item: Item) => void;
+  onArchiveItem?: (item: Item) => void;
   canAddItemToSprint?: boolean;
 };
 

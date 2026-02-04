@@ -57,6 +57,16 @@ function ClockIcon() {
   );
 }
 
+function ArchiveIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M4 7h16v3H4z" />
+      <path d="M6 10v8h12v-8" />
+      <path d="M10 14h4" />
+    </svg>
+  );
+}
+
 export function DeleteButton({ item }: ItemButtonProps) {
   const { onDeleteItem } = useBoardActions();
   return (
@@ -93,6 +103,20 @@ export function AddTimeButton({ item }: ItemButtonProps) {
       }}
     >
       <ClockIcon />
+    </IconButton>
+  );
+}
+
+export function ArchiveButton({ item }: ItemButtonProps) {
+  const { onArchiveItem } = useBoardActions();
+  return (
+    <IconButton
+      title="Archivieren"
+      onClick={() => {
+        onArchiveItem?.(item);
+      }}
+    >
+      <ArchiveIcon />
     </IconButton>
   );
 }
