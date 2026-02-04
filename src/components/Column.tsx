@@ -9,6 +9,8 @@ type ColumnProps = {
   statusId: string;
   title: string;
   items: Item[];
+  accentColor?: string;
+  accentTextColor?: string;
   collapsible?: boolean;
   collapsed?: boolean;
   onToggleCollapse: () => void;
@@ -18,6 +20,8 @@ export function Column({
   statusId,
   title,
   items,
+  accentColor,
+  accentTextColor,
   collapsible = false,
   collapsed = false,
   onToggleCollapse,
@@ -25,7 +29,11 @@ export function Column({
   const droppableId = `col:${statusId}`;
   const { setNodeRef, isOver } = useDroppable({ id: droppableId });
 
-  
+  const style = {
+    "--column-accent": accentColor || "#4b5563",
+    "--column-accent-text": accentTextColor || "#f8fafc",
+  } as React.CSSProperties;
+
   const columnClass = [
     css.column,
     isOver ? css.columnOver : "",
@@ -35,7 +43,7 @@ export function Column({
     .join(" ");
 
   return (
-    <div ref={setNodeRef} className={columnClass}>
+    <div ref={setNodeRef} className={columnClass} style={style}>
       <div className={css.header}>
         <div className={css.titleRow}>
           <div className={css.title}>{title}</div>

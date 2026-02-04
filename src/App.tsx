@@ -66,21 +66,23 @@ export default function App() {
           <EmptyState />
         ) : (
           <ProjectProvider value={projectMeta}>
-            <Board
-              columns={visibleColumns}
-              activeItem={board.activeItem}
-              onDragStart={board.dnd.onDragStart}
-              onDragEnd={board.dnd.onDragEnd}
-              onDeleteItem={board.deleteItem}
-              onCreateItem={board.createItem}
-              onUpdateItem={board.updateItem}
-              sprints={sprints}
-              activeSprintId={activeSprintId}
-              onSprintChange={handleSprintChange}
-              onAddItemToSprint={handleAddItemToSprint}
-              onArchiveItem={handleArchiveItem}
-              canAddItemToSprint={canAddItemToSprint}
-            />
+            <div className={css.boardWrap}>
+              <Board
+                columns={visibleColumns}
+                activeItem={board.activeItem}
+                onDragStart={board.dnd.onDragStart}
+                onDragEnd={board.dnd.onDragEnd}
+                onDeleteItem={board.deleteItem}
+                onCreateItem={board.createItem}
+                onUpdateItem={board.updateItem}
+                sprints={sprints}
+                activeSprintId={activeSprintId}
+                onSprintChange={handleSprintChange}
+                onAddItemToSprint={handleAddItemToSprint}
+                onArchiveItem={handleArchiveItem}
+                canAddItemToSprint={canAddItemToSprint}
+              />
+            </div>
           </ProjectProvider>
           
         )}

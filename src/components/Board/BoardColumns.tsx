@@ -47,6 +47,8 @@ export function BoardColumns({
                 key={s.id}
                 statusId={s.id}
                 title={s.title}
+                accentColor={s.color}
+                accentTextColor={s.textColor}
                 items={columns[s.id] || []}
                 collapsible={isCollapsible}
                 collapsed={isCollapsible ? isCollapsed : false}
