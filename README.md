@@ -6,6 +6,8 @@ All changes are written back into the opened JSON file.
 
 The goal of the project is to keep project planning simple, transparent, and fully local without requiring a backend or cloud service.
 
+Live demo: https://my-board.statichost.page/
+
 ## Quickstart
 
 1. Install dependencies:
