@@ -26,14 +26,17 @@ export function TopBar({
 
   return (
     <header className={css.header}>
-      <div>
-        <div className={css.title}>
-          {t("topbar.title", { name: projectName ?? "Board" })}
-        </div>
+      <div className={css.brand}>
+        <img className={css.logo} src="/logo.svg" alt="My Board logo" />
+        <div>
+          <div className={css.title}>
+            {projectName ? t("topbar.title", { name: projectName}) : "My Board" }
+          </div>
         <div className={css.sub}>{t("topbar.subtitle")}</div>
         {!supportOk ? (
           <div className={css.subError}>{t("topbar.unsupported")}</div>
         ) : null}
+        </div>
       </div>
 
       <div className={css.actions}>

@@ -1,6 +1,8 @@
-# Board
+# My Board
 
-Board is a lightweight, local-first Kanban board for managing projects using JSON files.  
+Kurzbeschreibung: Agiles Board mit Drag & Drop und lokalem JSON-Datei-Backend.
+
+DS Board is a lightweight, local-first Kanban board for managing projects using JSON files.  
 Items are displayed as cards and can be moved between columns or reordered via drag & drop.  
 All changes are written back into the opened JSON file.
 
