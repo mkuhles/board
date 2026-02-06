@@ -10,10 +10,14 @@ import { EmptyState } from "./components/EmptyState";
 import { Board } from "./components/Board/Board";
 import { ProjectProvider } from "./context/ProjectContext";
 import { Notifications } from "./components/Notifications";
+import { LegalPage } from "./components/LegalPage";
+import { Footer } from "./components/Footer";
 import type { Item, ItemPayload } from "./lib/models";
 import { I18nProvider } from "./i18n";
+import { useRoute } from "./hooks/useRoute";
 
 function AppContent() {
+  const route = useRoute();
   const file = useProjectFile();
   const {
     importedItems,
@@ -91,7 +95,11 @@ function AppContent() {
           onDismissImport={onDismissImport}
         />
 
-        {!file.project ? (
+        {route !== "app" ? (
+          <div className={css.legalWrap}>
+            <LegalPage page={route} />
+          </div>
+        ) : !file.project ? (
           <EmptyState />
         ) : (
           <ProjectProvider value={projectMeta}>
@@ -114,8 +122,8 @@ function AppContent() {
               />
             </div>
           </ProjectProvider>
-          
         )}
+        <Footer />
       </div>
     </div>
   );

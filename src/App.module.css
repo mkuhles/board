@@ -29,6 +29,12 @@
   overflow-y: auto;
 }
 
+.legalWrap {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
 .alertError {
   background: #3b1515;
   border: 1px solid #6a2a2a;

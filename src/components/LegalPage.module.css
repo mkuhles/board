@@ -1,0 +1,53 @@
+.wrap {
+  border: 1px solid #2f3944;
+  background: #1f252b;
+  padding: 18px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.22);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 0;
+}
+
+.header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 8px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.back {
+  color: #cfe6ff;
+  text-decoration: underline;
+  font-size: 13px;
+}
+
+.content {
+  line-height: 1.6;
+  color: #e7edf4;
+}
+
+.content h1 {
+  font-size: 20px;
+  margin: 0 0 8px;
+}
+
+.content h2 {
+  font-size: 16px;
+  margin: 16px 0 6px;
+}
+
+.content p {
+  margin: 8px 0;
+}
+
+.content strong {
+  color: #ffffff;
+}

@@ -1,0 +1,27 @@
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border: 1px solid #2f3944;
+  background: #1f252b;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: #b6c0cb;
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.18);
+  margin-top: auto;
+}
+
+.links {
+  display: flex;
+  gap: 12px;
+}
+
+.links a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.text {
+  opacity: 0.85;
+}

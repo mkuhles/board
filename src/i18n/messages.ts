@@ -1,6 +1,8 @@
 export type Language = "en" | "de";
 
-export type MessageDict = Record<string, string | MessageDict>;
+export interface MessageDict {
+  [key: string]: string | MessageDict;
+}
 
 export const messages: Record<Language, MessageDict> = {
   en: {
@@ -147,6 +149,51 @@ export const messages: Record<Language, MessageDict> = {
         "Your browser does not support the File System Access API. Use Chrome/Edge/Brave or later Electron/Tauri.",
       noHandle: "No file opened.",
       noSavePicker: "showSaveFilePicker is not supported by your browser.",
+    },
+    legal: {
+      linkImprint: "Imprint",
+      linkPrivacy: "Privacy",
+      titleImprint: "Imprint",
+      titlePrivacy: "Privacy Policy",
+      backToApp: "Back to app",
+      imprint: `# Imprint
+
+**Information according to § 5 TMG**
+
+{{contact}}
+
+**Responsible for content (according to § 18 Abs. 2 MStV)**
+
+{{name}}
+
+**Liability for content**
+
+As a service provider, we are responsible for our own content on these pages according to § 7 Abs. 1 TMG and general laws. According to §§ 8 to 10 TMG, we are not obligated to monitor transmitted or stored third-party information or investigate circumstances that indicate illegal activity.
+
+**Liability for links**
+
+This site currently contains no external links. If that changes, the following applies: We assume no liability for the content of external websites. The respective provider or operator is always responsible for the content of linked pages.`,
+      privacy: `# Privacy Policy
+
+**Controller**
+
+{{contact}}
+
+**Hosting**
+
+This website is hosted on statichost.eu. When you visit the site, the hosting provider processes technical access data (e.g. IP address, timestamp, requested URL, user agent) in server log files to ensure operation and security.
+
+**No analytics or tracking**
+
+This website uses no cookies, no analytics tools, and no tracking.
+
+**Local processing**
+
+The app processes project files locally in your browser. No project data is sent to any server.
+
+**Your rights**
+
+You have the right to access, rectification, erasure, restriction of processing, and data portability. You also have the right to lodge a complaint with a data protection authority.`,
     },
   },
   de: {
@@ -295,6 +342,51 @@ export const messages: Record<Language, MessageDict> = {
         "Dein Browser unterstützt die File System Access API nicht. Nutze Chrome/Edge/Brave oder später Electron/Tauri.",
       noHandle: "Keine Datei geöffnet.",
       noSavePicker: "showSaveFilePicker wird von deinem Browser nicht unterstützt.",
+    },
+    legal: {
+      linkImprint: "Impressum",
+      linkPrivacy: "Datenschutz",
+      titleImprint: "Impressum",
+      titlePrivacy: "Datenschutz",
+      backToApp: "Zurück zur App",
+      imprint: `# Impressum
+
+**Angaben gemäß § 5 TMG**
+
+{{contact}}
+
+**Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV**
+
+{{name}}
+
+**Haftung für Inhalte**
+
+Als Diensteanbieter sind wir gemäß § 7 Abs. 1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.
+
+**Haftung für Links**
+
+Unser Angebot enthält keine externen Links. Sollte sich das ändern, gilt: Für Inhalte externer Seiten übernehmen wir keine Gewähr. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich.`,
+      privacy: `# Datenschutzerklärung
+
+**Verantwortliche Stelle**
+
+{{contact}}
+
+**Hosting**
+
+Diese Website wird bei statichost.eu gehostet. Beim Aufruf der Website verarbeitet der Hosting-Anbieter technische Zugriffsdaten (z. B. IP-Adresse, Zeitpunkt, aufgerufene URL, User-Agent) in Server-Logfiles, um den Betrieb und die Sicherheit zu gewährleisten.
+
+**Keine Analyse- oder Tracking-Tools**
+
+Diese Website verwendet keine Cookies, keine Analytics-Tools und kein Tracking.
+
+**Lokale Verarbeitung**
+
+Die Anwendung verarbeitet Projektdateien lokal im Browser. Es werden keine Projektinhalte an einen Server übertragen.
+
+**Ihre Rechte**
+
+Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung sowie Datenübertragbarkeit. Außerdem haben Sie das Recht auf Beschwerde bei einer Datenschutzaufsichtsbehörde.`,
     },
   },
 };
