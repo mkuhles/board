@@ -1,5 +1,12 @@
 import React from "react";
-import { DndContext, DragOverlay, closestCenter } from "@dnd-kit/core";
+import {
+  DndContext,
+  DragOverlay,
+  closestCenter,
+  pointerWithin,
+  rectIntersection,
+  type CollisionDetection,
+} from "@dnd-kit/core";
 import { STATUSES } from "../../constants/statuses";
 import { Column } from "../Column";
 import { ItemCard } from "../ItemCard/ItemCard";
@@ -28,10 +35,19 @@ export function BoardColumns({
   onDragEnd,
 }: BoardColumnsProps) {
   const { t } = useI18n();
+  const collisionDetection: CollisionDetection = (args) => {
+    const pointer = pointerWithin(args);
+    if (pointer.length) return pointer;
+
+    const rects = rectIntersection(args);
+    if (rects.length) return rects;
+
+    return closestCenter(args);
+  };
   return (
     <DndContext
       sensors={sensors}
-      collisionDetection={closestCenter}
+      collisionDetection={collisionDetection}
       onDragStart={onDragStart}
       onDragEnd={onDragEnd}
     >
