@@ -16,12 +16,6 @@
   gap: 12px;
 }
 
-.logo {
-  width: 60px;
-  height: 60px;
-  flex: 0 0 auto;
-}
-
 .title {
   font-size: 22px;
   font-weight: 800;

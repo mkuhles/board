@@ -24,9 +24,14 @@ export function EmptyState() {
 
   return (
     <div className={css.empty}>
-      <div className={css.heading}>{t("empty.title")}</div>
-      <p className={css.lead}>{t("empty.description")}</p>
-
+      <div className={css.logoRow}>
+        <img className={css.logo} src="/logo.svg" alt="My Board logo" />
+        <div>
+          <div className={css.logoText}>My Board</div>
+          <div className={css.heading}>{t("empty.title")}</div>
+          <p className={css.lead}>{t("empty.description")}</p>
+        </div>
+      </div>
       <div className={css.sectionTitle}>{t("empty.howtoTitle")}</div>
       <ol className={css.list}>
         <li>{t("empty.howtoStep1")}</li>

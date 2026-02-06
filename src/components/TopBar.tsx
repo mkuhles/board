@@ -27,7 +27,6 @@ export function TopBar({
   return (
     <header className={css.header}>
       <div className={css.brand}>
-        <img className={css.logo} src="/logo.svg" alt="My Board logo" />
         <div>
           <div className={css.title}>
             {projectName ? t("topbar.title", { name: projectName}) : "My Board" }
