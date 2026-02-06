@@ -1,8 +1,6 @@
 # My Board
 
-Kurzbeschreibung: Agiles Board mit Drag & Drop und lokalem JSON-Datei-Backend.
-
-DS Board is a lightweight, local-first Kanban board for managing projects using JSON files.  
+My Board is a lightweight, local-first agile board for managing projects using JSON files.  
 Items are displayed as cards and can be moved between columns or reordered via drag & drop.  
 All changes are written back into the opened JSON file.
 
@@ -20,7 +18,7 @@ Live demo: https://my-board.statichost.page/
 
 ## Features
 
-- Kanban board with drag & drop
+- Agile board with drag & drop
 - Reordering cards within columns
 - Moving cards between status columns
 - Automatic saving back to the project JSON

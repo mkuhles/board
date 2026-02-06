@@ -1,6 +1,6 @@
 # Projektkontext: Board
 
-Ich arbeite an einer lokalen, leichtgewichtigen Kanban-Board-Anwendung namens **Board** zur Verwaltung von Projekten über JSON-Dateien. Ziel ist ein einfaches, lokal nutzbares Planungstool ohne Backend oder Cloud.
+Ich arbeite an einer lokalen, leichtgewichtigen agilen Board-Anwendung namens **My Board** zur Verwaltung von Projekten über JSON-Dateien. Ziel ist ein einfaches, lokal nutzbares Planungstool ohne Backend oder Cloud.
 
 Die Anwendung läuft im Browser (React) und speichert Änderungen direkt in lokalen JSON-Dateien über die File System Access API.
 
@@ -222,4 +222,3 @@ Bei Code-Unterstützung:
 * Default type fallback
 * bessere Item Detail View
 * Multi-Project Handling
-

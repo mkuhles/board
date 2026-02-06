@@ -21,7 +21,7 @@ export const messages: Record<Language, MessageDict> = {
       openFileSuffix: "and choose your",
       title: "What this app does",
       description:
-        "A lightweight Kanban board that reads and writes a local JSON file. You can drag items, edit details, track time, and keep everything in one file.",
+        "A lightweight agile board that reads and writes a local JSON file. You can drag items, edit details, track time, and keep everything in one file.",
       howtoTitle: "How to use",
       howtoStep1: "Open a JSON file or create a new one from the example below.",
       howtoStep2: "Move cards by drag & drop and edit them in the modal.",
@@ -212,7 +212,7 @@ You have the right to access, rectification, erasure, restriction of processing,
       openFileSuffix: "und wähle deine",
       title: "Was diese App macht",
       description:
-        "Ein leichtgewichtiges Kanban‑Board, das eine lokale JSON‑Datei liest und schreibt. Du kannst Items verschieben, Details bearbeiten, Zeit erfassen und alles in einer Datei halten.",
+        "Ein leichtgewichtiges agiles Board, das eine lokale JSON‑Datei liest und schreibt. Du kannst Items verschieben, Details bearbeiten, Zeit erfassen und alles in einer Datei halten.",
       howtoTitle: "So benutzt du es",
       howtoStep1: "Öffne eine JSON‑Datei oder erstelle eine neue anhand des Beispiels unten.",
       howtoStep2: "Verschiebe Karten per Drag & Drop und bearbeite sie im Modal.",
