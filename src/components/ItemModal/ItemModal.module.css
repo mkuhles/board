@@ -222,7 +222,19 @@
 
 .timeWhen { color: #bdbdbd; }
 .timeMinutes { font-weight: 700; }
-.timeComment { color: #eaeaea; }
+.timeCommentRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.timeComment {
+  color: #eaeaea;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 .timeTags {
   grid-column: 1 / -1;
@@ -240,6 +252,9 @@
 }
 
 .timeBillable {
+  display: inline-flex;
+  width: max-content;
+  white-space: nowrap;
   font-size: 11px;
   color: #ffd0a8;
   border: 1px solid #6a4a2a;
