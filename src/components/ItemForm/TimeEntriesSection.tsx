@@ -66,23 +66,23 @@ export function TimeEntriesSection({
               <div key={`${entry.start_at || "t"}-${idx}`} className={css.timeRow}>
                 <div className={css.timeWhen}>{formatLocalDateTime(entry.start_at)}</div>
                 <div className={css.timeMinutes}>{entry.minutes} {t("card.min")}</div>
-                {entry.billable || entry.comment ? (
+                {entry.billable || entry.comment || (entry.tags ?? []).length ? (
                   <div className={css.timeCommentRow}>
-                    {entry.billable ? (
-                      <span className={css.timeBillable}>{t("time.billableTag")}</span>
-                    ) : null}
                     {entry.comment ? (
                       <div className={css.timeComment}>{entry.comment}</div>
                     ) : null}
-                  </div>
-                ) : null}
-                {(entry.tags ?? []).length ? (
-                  <div className={css.timeTags}>
-                    {(entry.tags ?? []).map((tag) => (
-                      <span key={`${tag}-${idx}`} className={css.timeTag}>
-                        {tag}
-                      </span>
-                    ))}
+                    {entry.billable ? (
+                      <span className={css.timeBillable}>{t("time.billableTag")}</span>
+                    ) : null}
+                    {(entry.tags ?? []).length ? (
+                      <div className={css.timeTags}>
+                        {(entry.tags ?? []).map((tag) => (
+                          <span key={`${tag}-${idx}`} className={css.timeTag}>
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    ) : null}
                   </div>
                 ) : null}
               </div>
