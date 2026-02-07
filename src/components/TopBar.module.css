@@ -6,8 +6,8 @@
 
   padding: 12px;
   border-radius: 0;
-  background: #111;
-  border: 1px solid #2a2a2a;
+  background: var(--surface-raised);
+  border: 1px solid var(--border-strong);
 }
 
 .brand {
@@ -19,18 +19,18 @@
 .title {
   font-size: 22px;
   font-weight: 800;
-  color: #fff;
+  color: var(--text-on-dark-strong);
 }
 
 .sub {
   font-size: 13px;
-  color: #bdbdbd;
+  color: var(--text-muted);
   margin-top: 4px;
 }
 
 .subError {
   font-size: 13px;
-  color: #ffb3b3;
+  color: var(--error-text);
   margin-top: 6px;
 }
 
@@ -44,9 +44,9 @@
 .btn {
   padding: 10px 12px;
   border-radius: 0;
-  border: 1px solid #3a3a3a;
-  background: #fff;
-  color: #111;
+  border: 1px solid var(--border-default);
+  background: var(--surface-light-strong);
+  color: var(--text-on-light);
   cursor: pointer;
 }
 
@@ -56,6 +56,6 @@
 }
 
 .btnPrimary {
-  border: 1px solid #111;
+  border: 1px solid var(--text-on-light);
   font-weight: 800;
 }

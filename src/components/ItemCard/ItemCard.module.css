@@ -1,10 +1,10 @@
 .card {
-  background: #f7f8fb;
-  border: 1px solid #d9dee6;
+  background: var(--card-bg);
+  border: 1px solid var(--border-light-panel);
   border-radius: 0;
   padding: 12px;
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
-  color: #1a1f26;
+  color: var(--card-text);
 }
 
 .meta {
@@ -17,28 +17,28 @@
 
 .badge {
   font-size: 12px;
-  color: #1a1f26;
-  border: 1px solid #d0d6df;
+  color: var(--card-text);
+  border: 1px solid var(--border-light);
   border-radius: 0;
   padding: 2px 8px;
-  background: #eef1f6;
+  background: var(--card-bg-muted);
 }
 
 .muted {
   font-size: 12px;
-  color: #647084;
+  color: var(--text-on-light-muted);
 }
 
 .title {
   font-size: 15px;
   font-weight: 900;
   margin-bottom: 6px;
-  color: #1a1f26;
+  color: var(--card-text);
 }
 
 .desc {
   font-size: 13px;
-  color: #333;
+  color: var(--text-on-light-body);
   line-height: 1.35;
 }
 
@@ -51,7 +51,7 @@
 
 .timeMeta {
   font-size: 12px;
-  color: #6b7688;
+  color: var(--text-on-light-muted);
 }
 
 .timeRow {
@@ -65,11 +65,11 @@
 
 .chip {
   font-size: 12px;
-  color: #1a1f26;
-  border: 1px solid #d0d6df;
+  color: var(--card-text);
+  border: 1px solid var(--border-light);
   border-radius: 0;
   padding: 2px 8px;
-  background: #eef1f6;
+  background: var(--card-bg-muted);
 }
 
 .metaRight {
@@ -79,9 +79,9 @@
 }
 
 .actionBtn {
-  border: 1px solid #d0d6df;
-  background: #f7f8fb;
-  color: #2b3240;
+  border: 1px solid var(--border-light);
+  background: var(--card-bg);
+  color: var(--card-text-strong);
   border-radius: 0;
   min-width: 34px;
   height: 34px;
@@ -90,8 +90,8 @@
 }
 
 .actionBtn:hover {
-  background: #e9edf4;
-  border-color: #c6ceda;
+  background: var(--card-bg-strong);
+  border-color: var(--border-light-strong);
 }
 
 .actionBtn svg {
@@ -107,9 +107,9 @@
 
 /* anchor click highlight */
 @keyframes highlightBg {
-  0%   { background: #fff9c4; }
-  60%  { background: #fff3a6; }
-  100% { background: #f7f8fb; }
+  0%   { background: var(--accent-highlight-1); }
+  60%  { background: var(--accent-highlight-2); }
+  100% { background: var(--card-bg); }
 }
 
 :global(.highlight) {

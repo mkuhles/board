@@ -1,6 +1,6 @@
 .wrap {
-  border: 1px solid #2f3944;
-  background: #1f252b;
+  border: 1px solid var(--border-strong);
+  background: var(--surface-raised);
   padding: 18px;
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.22);
   display: flex;
@@ -24,14 +24,14 @@
 }
 
 .back {
-  color: #cfe6ff;
+  color: var(--info-text);
   text-decoration: underline;
   font-size: 13px;
 }
 
 .content {
   line-height: 1.6;
-  color: #e7edf4;
+  color: var(--text-on-dark);
 }
 
 .content h1 {
@@ -49,5 +49,5 @@
 }
 
 .content strong {
-  color: #ffffff;
+  color: var(--text-on-dark-strong);
 }

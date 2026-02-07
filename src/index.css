@@ -1,2 +1,51 @@
 html, body, #root { height: 100%; }
 body { margin: 0; }
+
+:root {
+  --bg-page-1: #242b33; /* app page gradient top */
+  --bg-page-2: #1c2228; /* app page gradient middle */
+  --bg-page-3: #161b20; /* app page gradient bottom */
+
+  /* Semantic surfaces */
+  --surface-base: var(--bg-page-3); /* primary dark UI surfaces */
+  --surface-raised: var(--bg-page-2); /* panels and elevated containers */
+  --surface-subtle: #12171c; /* controls/pre/accordion on dark UI */
+  --surface-input: #0d1115; /* form fields on dark UI */
+  --surface-light: #f3f3f3; /* light hover background */
+  --surface-light-strong: #fafafa; /* light filled chips/buttons */
+
+  /* Semantic borders */
+  --border-default: #2a2a2a; /* default dark border */
+  --border-strong: #2f3944; /* panel/container border */
+  --border-light: #d0d6df; /* default border on light cards */
+  --border-light-strong: #c6ceda; /* hover border on light cards */
+  --border-light-soft: #ddd; /* light chip/select border */
+  --border-light-panel: #d9dee6; /* card outer border */
+
+  /* Semantic text */
+  --text-on-dark: #f2f2f2; /* primary dark-theme text */
+  --text-on-dark-strong: #ffffff; /* strongest dark-theme text */
+  --text-muted: #bdbdbd; /* helper/meta text on dark UI */
+  --text-on-light: #111; /* text on light controls/surfaces */
+  --text-on-light-body: #333; /* body text on light cards */
+  --text-on-light-muted: #647084; /* muted text on light cards */
+
+  --outline-0: #6b6b6b; /* drag-over and dashed outlines */
+
+  --info-bg: #10253c; /* info toast/banner background */
+  --info-border: #1b4670; /* info toast/banner border */
+  --info-text: #cfe6ff; /* info text and legal back-link color */
+
+  --error-bg: #3b1515; /* error toast/banner background */
+  --error-border: #6a2a2a; /* error toast/banner border */
+  --error-text: #ffd0d0; /* error text */
+
+  --card-bg: #f7f8fb; /* default item card background */
+  --card-bg-muted: #eef1f6; /* item card badges/chips */
+  --card-bg-strong: #e9edf4; /* item card button hover */
+  --card-text: #1a1f26; /* primary text on item cards */
+  --card-text-strong: #2b3240; /* stronger icon/button text on cards */
+
+  --accent-highlight-1: #fff9c4; /* item anchor flash start */
+  --accent-highlight-2: #fff3a6; /* item anchor flash mid */
+}
