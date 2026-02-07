@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import css from "../ItemModal/ItemModal.module.css";
 import { Markdown } from "../Markdown";
 import { useTimeEntryDraft } from "../../hooks/useTimeEntryDraft";
@@ -51,6 +51,7 @@ export function ItemForm({
   sprints = [],
 }: ItemFormProps) {
   const { t } = useI18n();
+  const [showDescriptionEditor, setShowDescriptionEditor] = useState(false);
   const {
     title, setTitle,
     description, setDescription,
@@ -92,8 +93,6 @@ export function ItemForm({
       <ItemFields
         title={title}
         setTitle={setTitle}
-        description={description}
-        setDescription={setDescription}
         type={type}
         setType={setType}
         areaId={areaId}
@@ -108,12 +107,33 @@ export function ItemForm({
         sprints={sprints}
       />
 
-      {description?.trim() ? (
-        <div className={css.preview}>
+      <div className={css.preview}>
+        <div className={css.previewHeader}>
           <div className={css.previewLabel}>{t("fields.preview")}</div>
-          <Markdown className={css.previewBody}>{description}</Markdown>
+          <button
+            className={css.previewToggle}
+            type="button"
+            onClick={() => setShowDescriptionEditor((v) => !v)}
+          >
+            {showDescriptionEditor ? t("fields.hideEditor") : t("fields.editDescription")}
+          </button>
         </div>
-      ) : null}
+        {showDescriptionEditor ? (
+          <textarea
+            id="item-desc"
+            className={css.previewEditor}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder={t("fields.description")}
+            aria-label={t("fields.description")}
+          />
+        ) : null}
+        {description?.trim() ? (
+          <Markdown className={css.previewBody}>{description}</Markdown>
+        ) : (
+          <div className={css.previewEmpty}>{t("fields.previewEmpty")}</div>
+        )}
+      </div>
 
       <RelatesToSection
         allItems={allItems}

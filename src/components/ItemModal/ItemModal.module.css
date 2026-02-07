@@ -149,10 +149,48 @@
   margin-bottom: 6px;
 }
 
+.previewHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.previewToggle {
+  border: 1px solid var(--border-default);
+  background: var(--surface-input);
+  color: var(--text-on-dark);
+  padding: 4px 8px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.previewToggle:hover {
+  background: var(--surface-subtle);
+}
+
 .previewBody {
   overflow: auto;
   max-height: 45vh;       /* feinjustieren */
   min-height: 0;          /* wichtig */
+}
+
+.previewEditor {
+  border: 1px solid var(--border-default);
+  background: var(--surface-input);
+  color: var(--text-on-dark);
+  padding: 10px;
+  font-size: 13px;
+  line-height: 1.45;
+  min-height: 180px;
+  resize: vertical;
+  margin-top: 8px;
+}
+
+.previewEmpty {
+  color: var(--text-muted);
+  font-size: 13px;
 }
 
 .previewBody :global(code) {

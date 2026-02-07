@@ -7,8 +7,6 @@ import { useI18n } from "../../i18n";
 type ItemFieldsProps = {
   title: string;
   setTitle: (value: string) => void;
-  description: string;
-  setDescription: (value: string) => void;
   type: string;
   setType: (value: string) => void;
   areaId: string;
@@ -22,8 +20,6 @@ type ItemFieldsProps = {
 export function ItemFields({
   title,
   setTitle,
-  description,
-  setDescription,
   type,
   setType,
   areaId,
@@ -95,13 +91,6 @@ export function ItemFields({
         </Field>
       )}
 
-      <Field label={t("fields.description")} inputId="item-desc" wide>
-        <textarea
-          className={css.textarea}
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-      </Field>
     </>
   );
 }
