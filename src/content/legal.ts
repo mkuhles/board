@@ -8,7 +8,7 @@ export function getLegalVars() {
   const contact = [
     LEGAL_CONTACT.name,
     ...LEGAL_CONTACT.addressLines,
-    `E-Mail: ${LEGAL_CONTACT.email}`,
+    `E-Mail: [${LEGAL_CONTACT.email}](mailto:${LEGAL_CONTACT.email})`,
   ].join("  \n");
 
   return {

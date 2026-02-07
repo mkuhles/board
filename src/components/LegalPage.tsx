@@ -17,7 +17,7 @@ export function LegalPage({ page }: LegalPageProps) {
   return (
     <section className={css.wrap}>
       <div className={css.header}>
-        <div className={css.title}>{title}</div>
+        <h1 className={css.title}>{title}</h1>
         <a
           className={css.back}
           href="/"

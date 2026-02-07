@@ -159,44 +159,66 @@ export const messages: Record<Language, MessageDict> = {
       titleImprint: "Imprint",
       titlePrivacy: "Privacy Policy",
       backToApp: "Back to app",
-      imprint: `# Imprint
-
-**Information according to § 5 TMG**
+      imprint: `## Information according to § 5 DDG (German Digital Services Act)
 
 {{contact}}
 
-**Responsible for content (according to § 18 Abs. 2 MStV)**
+## Responsible for content according to § 18 para. 2 MStV (German Interstate Media Treaty)
 
 {{name}}
 
-**Liability for content**
+## Liability for content
 
-As a service provider, we are responsible for our own content on these pages according to § 7 Abs. 1 TMG and general laws. According to §§ 8 to 10 TMG, we are not obligated to monitor transmitted or stored third-party information or investigate circumstances that indicate illegal activity.
+The contents of this website have been created with due care.
+However, no guarantee can be given for the accuracy, completeness, or timeliness of the content.
 
-**Liability for links**
+As a service provider, I am responsible for my own content on these pages in accordance with general laws.
+There is no obligation to monitor transmitted or stored third-party information.
 
-This site currently contains no external links. If that changes, the following applies: We assume no liability for the content of external websites. The respective provider or operator is always responsible for the content of linked pages.`,
-      privacy: `# Privacy Policy
+## Liability for links
 
-**Controller**
+This website currently contains no external links.
+If links to external websites are added in the future, the following applies:
+I have no influence over the content of external websites and therefore assume no liability for them.
+The respective provider or operator is always responsible for the content of linked pages.`,
+      privacy: `## Controller
 
 {{contact}}
 
-**Hosting**
+## Hosting
 
-This website is hosted on statichost.eu. When you visit the site, the hosting provider processes technical access data (e.g. IP address, timestamp, requested URL, user agent) in server log files to ensure operation and security.
+This website is hosted on statichost.eu.
 
-**No analytics or tracking**
+When you visit the site, the hosting provider processes technical access data
+(e.g. IP address, date and time of access, requested URL, user agent)
+in server log files to ensure the secure and reliable operation of the website.
+
+**Legal basis:**  
+Art. 6(1)(f) GDPR (legitimate interest).
+
+## Data processing within the European Union
+
+Personal data is processed exclusively within the European Union.
+No transfer of data to third countries takes place.
+
+## No analytics or tracking
 
 This website uses no cookies, no analytics tools, and no tracking.
 
-**Local processing**
+## Local processing
 
-The app processes project files locally in your browser. No project data is sent to any server.
+The app processes project files locally in your browser.
+No project data is transmitted to or stored on any server.
 
-**Your rights**
+## Your rights
 
-You have the right to access, rectification, erasure, restriction of processing, and data portability. You also have the right to lodge a complaint with a data protection authority.`,
+You have the right to:
+
+- access your personal data  
+- rectification or erasure  
+- restriction of processing  
+- data portability  
+- lodge a complaint with a data protection authority`,
     },
   },
   de: {
@@ -355,44 +377,67 @@ You have the right to access, rectification, erasure, restriction of processing,
       titleImprint: "Impressum",
       titlePrivacy: "Datenschutz",
       backToApp: "Zurück zur App",
-      imprint: `# Impressum
-
-**Angaben gemäß § 5 TMG**
+      imprint: `## Angaben gemäß § 5 DDG (Digitale-Dienste-Gesetz)**
 
 {{contact}}
 
-**Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV**
+## Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV**
 
 {{name}}
 
-**Haftung für Inhalte**
+## Haftung für Inhalte
 
-Als Diensteanbieter sind wir gemäß § 7 Abs. 1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.
+Die Inhalte dieser App bzw. Website wurden mit größtmöglicher Sorgfalt erstellt.
+Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte kann jedoch keine Gewähr übernommen werden.
 
-**Haftung für Links**
+Als Diensteanbieter bin ich für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich.
+Eine Verpflichtung zur Überwachung übermittelter oder gespeicherter fremder Informationen besteht jedoch nicht.
 
-Unser Angebot enthält keine externen Links. Sollte sich das ändern, gilt: Für Inhalte externer Seiten übernehmen wir keine Gewähr. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich.`,
-      privacy: `# Datenschutzerklärung
+## Haftung für Links
 
-**Verantwortliche Stelle**
+Dieses Angebot enthält derzeit keine externen Links.
+Sollte das Angebot künftig Links zu externen Websites enthalten, gilt:
+Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber verantwortlich.`,
+      privacy: `## Verantwortliche Stelle
 
 {{contact}}
 
 **Hosting**
 
-Diese Website wird bei statichost.eu gehostet. Beim Aufruf der Website verarbeitet der Hosting-Anbieter technische Zugriffsdaten (z. B. IP-Adresse, Zeitpunkt, aufgerufene URL, User-Agent) in Server-Logfiles, um den Betrieb und die Sicherheit zu gewährleisten.
+Diese Website wird bei statichost.eu gehostet. 
 
-**Keine Analyse- oder Tracking-Tools**
+Beim Aufruf der Website verarbeitet der Hosting-Anbieter technische Zugriffsdaten
+(z. B. IP-Adresse, Datum und Uhrzeit des Zugriffs, aufgerufene URL, User-Agent)
+in Server-Logfiles, um den technischen Betrieb und die Sicherheit der Website
+zu gewährleisten.
 
-Diese Website verwendet keine Cookies, keine Analytics-Tools und kein Tracking.
+Die Verarbeitung erfolgt auf Grundlage von  
+**Art. 6 Abs. 1 lit. f DSGVO** (berechtigtes Interesse an einem sicheren und stabilen Betrieb).
 
-**Lokale Verarbeitung**
+## Datenverarbeitung innerhalb der Europäischen Union
 
-Die Anwendung verarbeitet Projektdateien lokal im Browser. Es werden keine Projektinhalte an einen Server übertragen.
+Die Verarbeitung personenbezogener Daten erfolgt ausschließlich innerhalb der Europäischen Union.
+Eine Übermittlung in Drittländer findet nicht statt.
 
-**Ihre Rechte**
+## Keine Analyse- oder Tracking-Tools
 
-Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung sowie Datenübertragbarkeit. Außerdem haben Sie das Recht auf Beschwerde bei einer Datenschutzaufsichtsbehörde.`,
+Diese Website verwendet keine Cookies, keine Analyse-Tools und kein Tracking.
+
+## Lokale Verarbeitung
+
+Die Anwendung verarbeitet Projektdateien ausschließlich lokal im Browser.
+Es werden keine Projektinhalte an einen Server übertragen oder gespeichert.
+
+## Ihre Rechte
+
+Sie haben das Recht auf:
+
+- Auskunft über Ihre personenbezogenen Daten  
+- Berichtigung oder Löschung  
+- Einschränkung der Verarbeitung  
+- Datenübertragbarkeit  
+- Widerspruch gegen die Verarbeitung  
+- Beschwerde bei einer Datenschutzaufsichtsbehörde`,
     },
   },
 };

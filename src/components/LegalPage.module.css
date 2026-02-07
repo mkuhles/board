@@ -51,3 +51,10 @@
 .content strong {
   color: var(--text-on-dark-strong);
 }
+
+.content a {
+  color: var(--info-text);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  word-break: break-word;
+}
