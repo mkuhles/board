@@ -6,13 +6,18 @@ import { useI18n } from "../i18n";
 import { navigateTo } from "../hooks/useRoute";
 
 type LegalPageProps = {
-  page: "imprint" | "privacy";
+  page: "imprint" | "privacy" | "guide";
 };
 
 export function LegalPage({ page }: LegalPageProps) {
   const { t } = useI18n();
   const content = t(`legal.${page}`, getLegalVars());
-  const title = page === "imprint" ? t("legal.titleImprint") : t("legal.titlePrivacy");
+  const title =
+    page === "imprint"
+      ? t("legal.titleImprint")
+      : page === "privacy"
+        ? t("legal.titlePrivacy")
+        : t("legal.titleGuide");
 
   return (
     <section className={css.wrap}>
@@ -29,6 +34,17 @@ export function LegalPage({ page }: LegalPageProps) {
           {t("legal.backToApp")}
         </a>
       </div>
+      {page === "guide" ? (
+        <div className={css.actions}>
+          <a
+            className={css.actionBtn}
+            href="/board-complex-example.json"
+            download="board-complex-example.json"
+          >
+            {t("legal.downloadExampleJson")}
+          </a>
+        </div>
+      ) : null}
       <Markdown className={css.content}>{content}</Markdown>
     </section>
   );

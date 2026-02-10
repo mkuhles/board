@@ -58,3 +58,25 @@
   text-underline-offset: 2px;
   word-break: break-word;
 }
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.actionBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-strong);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-on-dark-strong);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 13px;
+  padding: 8px 12px;
+}
+
+.actionBtn:hover {
+  background: rgba(255, 255, 255, 0.12);
+}

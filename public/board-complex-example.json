@@ -1,0 +1,385 @@
+{
+  "name": "Board Showcase Project",
+  "meta": {
+    "activeSprintId": "sprint-2026-03",
+    "owner": "Team Aurora",
+    "timezone": "Europe/Berlin",
+    "version": "1.0"
+  },
+  "typeCodes": {
+    "user_story": {
+      "slug": "user-story",
+      "prefix": "US",
+      "label": "User Story",
+      "color": "#2f6ce0"
+    },
+    "bug": {
+      "slug": "bug",
+      "prefix": "BUG",
+      "label": "Bug",
+      "color": "#cf2e2e"
+    },
+    "tech_task": {
+      "slug": "tech-task",
+      "prefix": "TECH",
+      "label": "Tech Task",
+      "color": "#1f9f93"
+    },
+    "research": {
+      "slug": "research",
+      "prefix": "R",
+      "label": "Research",
+      "color": "#7c4dff"
+    }
+  },
+  "areas": [
+    {
+      "id": "core",
+      "title": "Core Platform",
+      "number": 1,
+      "color": "#4f46e5"
+    },
+    {
+      "id": "auth",
+      "title": "Authentication",
+      "number": 2,
+      "color": "#0f766e"
+    },
+    {
+      "id": "ui",
+      "title": "Frontend UI",
+      "number": 3,
+      "color": "#c2410c"
+    },
+    {
+      "id": "reporting",
+      "title": "Reporting",
+      "number": 4,
+      "color": "#be185d"
+    }
+  ],
+  "sprints": [
+    {
+      "id": "sprint-2026-02",
+      "title": "Sprint Feb 2026",
+      "start": "2026-02-01",
+      "end": "2026-02-14"
+    },
+    {
+      "id": "sprint-2026-03",
+      "title": "Sprint Mar 2026",
+      "start": "2026-02-15",
+      "end": "2026-02-28"
+    },
+    {
+      "id": "sprint-hardening",
+      "title": "Hardening & Release",
+      "start": "2026-03-01"
+    }
+  ],
+  "items": [
+    {
+      "id": "US101",
+      "type": "user_story",
+      "title": "As a user I can sign in with email and password",
+      "description": "## Goal\\nImplement sign-in flow with validation and error states.\\n\\n### Acceptance Criteria\\n- valid credentials log in\\n- invalid credentials show a message\\n- keyboard accessible form",
+      "area_id": "auth",
+      "relates_to": [
+        "TECH201",
+        "BUG301"
+      ],
+      "status": "doing",
+      "order": 0,
+      "sprintId": "sprint-2026-03",
+      "created_at": "2026-02-10T08:10:00.000Z",
+      "updated_at": "2026-02-10T14:20:00.000Z",
+      "time_entries": [
+        {
+          "start_at": "2026-02-10T09:00:00.000Z",
+          "minutes": 45,
+          "comment": "Form states and validation",
+          "tags": [
+            "frontend",
+            "auth"
+          ],
+          "billable": true
+        },
+        {
+          "start_at": "2026-02-10T12:30:00.000Z",
+          "minutes": 30,
+          "comment": "Error handling",
+          "tags": [
+            "frontend"
+          ],
+          "billable": false
+        }
+      ]
+    },
+    {
+      "id": "TECH201",
+      "type": "tech_task",
+      "title": "Create session token middleware",
+      "description": "Add middleware for token lifecycle and refresh handling.",
+      "area_id": "core",
+      "relates_to": [
+        "US101"
+      ],
+      "status": "todo",
+      "order": 0,
+      "sprintId": "sprint-2026-03",
+      "created_at": "2026-02-09T10:00:00.000Z",
+      "updated_at": "2026-02-10T11:45:00.000Z",
+      "time_entries": [
+        {
+          "start_at": "2026-02-09T10:30:00.000Z",
+          "minutes": 60,
+          "comment": "Draft middleware contract",
+          "tags": [
+            "backend",
+            "architecture"
+          ],
+          "billable": true
+        }
+      ]
+    },
+    {
+      "id": "BUG301",
+      "type": "bug",
+      "title": "Login spinner remains visible on timeout",
+      "description": "If the request times out, loading state is not reset.",
+      "area_id": "auth",
+      "relates_to": [
+        "US101"
+      ],
+      "status": "todo",
+      "order": 1,
+      "sprintId": "sprint-2026-03",
+      "created_at": "2026-02-08T15:20:00.000Z",
+      "updated_at": "2026-02-10T13:10:00.000Z",
+      "time_entries": []
+    },
+    {
+      "id": "R401",
+      "type": "research",
+      "title": "Evaluate markdown renderer for item descriptions",
+      "description": "Compare 2 renderers and document XSS handling.",
+      "area_id": "ui",
+      "relates_to": [],
+      "status": "backlog",
+      "order": 0,
+      "sprintId": "",
+      "created_at": "2026-02-05T08:00:00.000Z",
+      "updated_at": "2026-02-05T08:00:00.000Z",
+      "time_entries": [
+        {
+          "start_at": "2026-02-05T08:15:00.000Z",
+          "minutes": 25,
+          "comment": "Created comparison matrix",
+          "tags": [
+            "research",
+            "security"
+          ],
+          "billable": false
+        }
+      ]
+    },
+    {
+      "id": "US102",
+      "type": "user_story",
+      "title": "As a manager I can filter board by sprint",
+      "description": "Sprint filter should only show items assigned to the selected sprint.",
+      "area_id": "ui",
+      "relates_to": [
+        "TECH202"
+      ],
+      "status": "done",
+      "order": 0,
+      "sprintId": "sprint-2026-02",
+      "created_at": "2026-02-01T09:00:00.000Z",
+      "updated_at": "2026-02-07T16:40:00.000Z",
+      "time_entries": [
+        {
+          "start_at": "2026-02-02T09:15:00.000Z",
+          "minutes": 90,
+          "comment": "Implemented filter state",
+          "tags": [
+            "frontend"
+          ],
+          "billable": true
+        },
+        {
+          "start_at": "2026-02-03T10:00:00.000Z",
+          "minutes": 40,
+          "comment": "QA fixes",
+          "tags": [
+            "qa"
+          ],
+          "billable": true
+        }
+      ]
+    },
+    {
+      "id": "TECH202",
+      "type": "tech_task",
+      "title": "Refactor board grouping logic",
+      "description": "Simplify `groupByStatus` and keep strict fallback to backlog.",
+      "area_id": "core",
+      "relates_to": [
+        "US102"
+      ],
+      "status": "archived",
+      "order": 0,
+      "sprintId": "sprint-2026-02",
+      "created_at": "2026-01-30T11:00:00.000Z",
+      "updated_at": "2026-02-08T10:10:00.000Z",
+      "time_entries": [
+        {
+          "start_at": "2026-02-01T13:00:00.000Z",
+          "minutes": 55,
+          "comment": "Refactor and tests",
+          "tags": [
+            "backend",
+            "refactor"
+          ],
+          "billable": false
+        }
+      ]
+    },
+    {
+      "id": "BUG302",
+      "type": "bug",
+      "title": "Time entry list overflows on mobile",
+      "description": "Row layout breaks below 380px width.",
+      "area_id": "ui",
+      "relates_to": [
+        "US103"
+      ],
+      "status": "doing",
+      "order": 1,
+      "sprintId": "sprint-2026-03",
+      "created_at": "2026-02-10T07:30:00.000Z",
+      "updated_at": "2026-02-10T13:00:00.000Z",
+      "time_entries": [
+        {
+          "start_at": "2026-02-10T11:00:00.000Z",
+          "minutes": 35,
+          "comment": "Reproduced and isolated CSS issue",
+          "tags": [
+            "frontend",
+            "mobile"
+          ],
+          "billable": true
+        }
+      ]
+    },
+    {
+      "id": "US103",
+      "type": "user_story",
+      "title": "As a user I can log time directly from card",
+      "description": "Quick-add time from board card should prefill current timestamp.",
+      "area_id": "ui",
+      "relates_to": [
+        "BUG302"
+      ],
+      "status": "todo",
+      "order": 2,
+      "sprintId": "sprint-2026-03",
+      "created_at": "2026-02-09T08:40:00.000Z",
+      "updated_at": "2026-02-10T10:20:00.000Z",
+      "time_entries": []
+    },
+    {
+      "id": "R402",
+      "type": "research",
+      "title": "Investigate offline-first merge conflicts",
+      "description": "Document conflict patterns for local JSON edits by multiple people.",
+      "area_id": "core",
+      "relates_to": [],
+      "status": "backlog",
+      "order": 1,
+      "sprintId": "",
+      "created_at": "2026-02-04T12:10:00.000Z",
+      "updated_at": "2026-02-04T12:10:00.000Z",
+      "time_entries": []
+    },
+    {
+      "id": "US104",
+      "type": "user_story",
+      "title": "As finance I can export billable effort summary",
+      "description": "Use `time_entries.billable` and tags to produce monthly totals.",
+      "area_id": "reporting",
+      "relates_to": [
+        "TECH203",
+        "BUG303"
+      ],
+      "status": "done",
+      "order": 1,
+      "sprintId": "sprint-2026-02",
+      "created_at": "2026-01-29T14:20:00.000Z",
+      "updated_at": "2026-02-06T17:00:00.000Z",
+      "time_entries": [
+        {
+          "start_at": "2026-02-05T14:00:00.000Z",
+          "minutes": 120,
+          "comment": "Implemented aggregation",
+          "tags": [
+            "reporting",
+            "backend"
+          ],
+          "billable": true
+        },
+        {
+          "start_at": "2026-02-06T09:00:00.000Z",
+          "minutes": 30,
+          "comment": "Validation and rounding fixes",
+          "tags": [
+            "qa"
+          ],
+          "billable": false
+        }
+      ]
+    },
+    {
+      "id": "TECH203",
+      "type": "tech_task",
+      "title": "Add CSV serializer for reporting",
+      "description": "Create helper to convert summary data into CSV.",
+      "area_id": "reporting",
+      "relates_to": [
+        "US104"
+      ],
+      "status": "archived",
+      "order": 1,
+      "sprintId": "sprint-2026-02",
+      "created_at": "2026-01-28T10:30:00.000Z",
+      "updated_at": "2026-02-07T15:10:00.000Z",
+      "time_entries": [
+        {
+          "start_at": "2026-01-29T09:30:00.000Z",
+          "minutes": 70,
+          "comment": "Serializer + edge case escaping",
+          "tags": [
+            "backend"
+          ],
+          "billable": true
+        }
+      ]
+    },
+    {
+      "id": "BUG303",
+      "type": "bug",
+      "title": "Billable count shows wrong value in card summary",
+      "description": "Card footer currently sums all entries instead of billable only.",
+      "area_id": "reporting",
+      "relates_to": [
+        "US104"
+      ],
+      "status": "backlog",
+      "order": 2,
+      "sprintId": "",
+      "created_at": "2026-02-06T11:50:00.000Z",
+      "updated_at": "2026-02-10T09:05:00.000Z",
+      "time_entries": []
+    }
+  ]
+}

@@ -17,19 +17,21 @@ export const messages: Record<Language, MessageDict> = {
       language: "Language",
     },
     empty: {
-      openFilePrefix: "Click",
-      openFileSuffix: "and choose your",
       title: "What this app does",
       description:
         "A lightweight agile board that reads and writes a local JSON file. You can drag items, edit details, track time, and keep everything in one file.",
       howtoTitle: "How to use",
-      howtoStep1: "Open a JSON file or create a new one from the example below.",
+      howtoStep1: "Open a JSON file or start with one of the examples below.",
       howtoStep2: "Move cards by drag & drop and edit them in the modal.",
-      howtoStep3: "Save to write changes back to your JSON file.",
-      exampleTitle: "Minimal JSON example",
+      howtoStep3: "Changes are written to your file automatically (Auto-save).",
+      starterTitle: "Choose your start",
+      starterHint:
+        "Both templates work immediately. The full example shows more board behavior right away.",
+      downloadQuickstart: "Download quickstart JSON",
+      downloadComplex: "Download full example JSON",
+      quickstartTitle: "Quickstart JSON template",
       exampleHint:
-        "You can give this to an AI to fill it with items.",
-      multiFiles: "Later you can select multiple project files.",
+        "A compact overview for a quick start. For more options, use the full example.",
     },
     toolbar: {
       bulkImport: "Bulk import",
@@ -154,11 +156,35 @@ export const messages: Record<Language, MessageDict> = {
       noSavePicker: "showSaveFilePicker is not supported by your browser.",
     },
     legal: {
+      linkGuide: "Guide",
       linkImprint: "Imprint",
       linkPrivacy: "Privacy",
+      titleGuide: "Getting started",
       titleImprint: "Imprint",
       titlePrivacy: "Privacy Policy",
       backToApp: "Back to app",
+      downloadExampleJson: "Download example JSON",
+      guide: `## Starter documentation
+
+This page gives you a practical entry point for using My Board with a complete sample project.
+
+## Included sample file
+
+- File: \`board-complex-example.json\`
+- Contains: project meta, type codes, areas, sprints, item links, and time entries
+- Covers all standard board columns: backlog, todo, doing, done, archived
+
+## Recommended onboarding flow
+
+1. Download the sample JSON using the button above  
+2. Open it in the app via **Open file**  
+3. Move cards with drag and drop  
+4. Edit cards, add time entries, and save
+
+## Notes
+
+- My Board stores changes back to the opened JSON file.
+- Internal client fields are not required in JSON files.`,
       imprint: `## Information according to § 5 DDG (German Digital Services Act)
 
 {{contact}}
@@ -233,19 +259,21 @@ You have the right to:
       language: "Sprache",
     },
     empty: {
-      openFilePrefix: "Klick auf",
-      openFileSuffix: "und wähle deine",
       title: "Was diese App macht",
       description:
         "Ein leichtgewichtiges agiles Board, das eine lokale JSON‑Datei liest und schreibt. Du kannst Items verschieben, Details bearbeiten, Zeit erfassen und alles in einer Datei halten.",
       howtoTitle: "So benutzt du es",
-      howtoStep1: "Öffne eine JSON‑Datei oder erstelle eine neue anhand des Beispiels unten.",
+      howtoStep1: "Öffne eine JSON-Datei oder starte mit einem der Beispiele unten.",
       howtoStep2: "Verschiebe Karten per Drag & Drop und bearbeite sie im Modal.",
-      howtoStep3: "Speichern schreibt die Änderungen zurück in die JSON‑Datei.",
-      exampleTitle: "Minimales JSON‑Beispiel",
+      howtoStep3: "Änderungen werden automatisch in die geöffnete Datei geschrieben (Auto-Save).",
+      starterTitle: "Wähle deinen Einstieg",
+      starterHint:
+        "Beide Vorlagen funktionieren direkt. Beim komplexen Beispiel siehst du von Anfang an mehr Board-Verhalten.",
+      downloadQuickstart: "Quickstart-JSON laden",
+      downloadComplex: "Vollständiges Beispiel-JSON laden",
+      quickstartTitle: "Quickstart-JSON-Vorlage",
       exampleHint:
-        "Das kannst du einer KI geben, damit sie Items ergänzt.",
-      multiFiles: "Später kannst du mehrere Projektdateien auswählen.",
+        "Ein kompakter Überblick für den schnellen Einstieg. Für komplexere Projekte nutze das vollständige Beispiel.",
     },
     toolbar: {
       bulkImport: "Bulk import",
@@ -372,11 +400,35 @@ You have the right to:
       noSavePicker: "showSaveFilePicker wird von deinem Browser nicht unterstützt.",
     },
     legal: {
+      linkGuide: "Einstieg",
       linkImprint: "Impressum",
       linkPrivacy: "Datenschutz",
+      titleGuide: "Einstieg",
       titleImprint: "Impressum",
       titlePrivacy: "Datenschutz",
       backToApp: "Zurück zur App",
+      downloadExampleJson: "Beispiel-JSON herunterladen",
+      guide: `## Einstiegsdokumentation
+
+Hier bekommst du einen praktischen Einstieg mit einer vollständigen Beispiel-Projektdatei für My Board.
+
+## Enthaltene Beispieldatei
+
+- Datei: \`board-complex-example.json\`
+- Enthält: Projekt-Meta, Type-Codes, Areas, Sprints, Item-Verknüpfungen und Zeiterfassungen
+- Deckt alle Standard-Spalten ab: backlog, todo, doing, done, archived
+
+## Empfohlener Einstieg
+
+1. Beispiel-JSON über den Button oben herunterladen  
+2. In der App über **Datei öffnen** laden  
+3. Karten per Drag & Drop verschieben  
+4. Karten bearbeiten, Zeiterfassung ergänzen und speichern
+
+## Hinweise
+
+- My Board schreibt Änderungen zurück in die geöffnete JSON-Datei.
+- Interne Client-Felder werden in JSON-Dateien nicht benötigt.`,
       imprint: `## Angaben gemäß § 5 DDG (Digitale-Dienste-Gesetz)**
 
 {{contact}}
@@ -402,7 +454,7 @@ Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Bet
 
 {{contact}}
 
-**Hosting**
+## Hosting
 
 Diese Website wird bei statichost.eu gehostet. 
 
