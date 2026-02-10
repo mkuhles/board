@@ -11,6 +11,13 @@ export function Footer() {
       <div className={css.text}>© {new Date().getFullYear()} My Board</div>
       <div className={css.links}>
         <a
+          href="https://github.com/mkuhles/board"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {t("legal.linkGithub")}
+        </a>
+        <a
           href={`${base}imprint`}
           onClick={(event) => {
             event.preventDefault();

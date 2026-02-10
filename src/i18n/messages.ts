@@ -156,6 +156,7 @@ export const messages: Record<Language, MessageDict> = {
       noSavePicker: "showSaveFilePicker is not supported by your browser.",
     },
     legal: {
+      linkGithub: "GitHub",
       linkGuide: "Guide",
       linkImprint: "Imprint",
       linkPrivacy: "Privacy",
@@ -407,6 +408,7 @@ You have the right to:
       noSavePicker: "showSaveFilePicker wird von deinem Browser nicht unterstützt.",
     },
     legal: {
+      linkGithub: "GitHub",
       linkGuide: "Einstieg",
       linkImprint: "Impressum",
       linkPrivacy: "Datenschutz",
@@ -436,11 +438,11 @@ Hier bekommst du einen praktischen Einstieg mit einer vollständigen Beispiel-Pr
 
 - My Board schreibt Änderungen zurück in die geöffnete JSON-Datei.
 - Interne Client-Felder werden in JSON-Dateien nicht benötigt.`,
-      imprint: `## Angaben gemäß § 5 DDG (Digitale-Dienste-Gesetz)**
+      imprint: `## Angaben gemäß § 5 DDG (Digitale-Dienste-Gesetz)
 
 {{contact}}
 
-## Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV**
+## Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV
 
 {{name}}
 
