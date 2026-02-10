@@ -4,6 +4,7 @@ import { useI18n } from "../i18n";
 
 export function EmptyState() {
   const { t } = useI18n();
+  const base = import.meta.env.BASE_URL;
   const example = `{
   "name": "Quickstart Board",
   "meta": { "activeSprintId": "all" },
@@ -40,7 +41,7 @@ export function EmptyState() {
   return (
     <div className={css.empty}>
       <div className={css.logoRow}>
-        <img className={css.logo} src="/logo.svg" alt="My Board logo" />
+        <img className={css.logo} src={`${base}logo.svg`} alt="My Board logo" />
         <div>
           <div className={css.logoText}>My Board</div>
           <div className={css.heading}>{t("empty.title")}</div>
@@ -60,14 +61,14 @@ export function EmptyState() {
         <div className={css.ctaRow}>
           <a
             className={css.btn}
-            href="/board-quickstart-example.json"
+            href={`${base}board-quickstart-example.json`}
             download="board-quickstart-example.json"
           >
             {t("empty.downloadQuickstart")}
           </a>
           <a
             className={css.btn}
-            href="/board-complex-example.json"
+            href={`${base}board-complex-example.json`}
             download="board-complex-example.json"
           >
             {t("empty.downloadComplex")}

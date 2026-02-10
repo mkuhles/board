@@ -11,6 +11,7 @@ type LegalPageProps = {
 
 export function LegalPage({ page }: LegalPageProps) {
   const { t } = useI18n();
+  const base = import.meta.env.BASE_URL;
   const content = t(`legal.${page}`, getLegalVars());
   const title =
     page === "imprint"
@@ -25,7 +26,7 @@ export function LegalPage({ page }: LegalPageProps) {
         <h1 className={css.title}>{title}</h1>
         <a
           className={css.back}
-          href="/"
+          href={base}
           onClick={(event) => {
             event.preventDefault();
             navigateTo("app");
@@ -38,7 +39,7 @@ export function LegalPage({ page }: LegalPageProps) {
         <div className={css.actions}>
           <a
             className={css.actionBtn}
-            href="/board-complex-example.json"
+            href={`${base}board-complex-example.json`}
             download="board-complex-example.json"
           >
             {t("legal.downloadExampleJson")}

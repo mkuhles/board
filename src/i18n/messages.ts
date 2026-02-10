@@ -213,11 +213,18 @@ The respective provider or operator is always responsible for the content of lin
 
 ## Hosting
 
-This website is hosted on statichost.eu.
+This website is hosted by the STRATO AG, Otto-Ostrowski-Straße 7, 10249 Berlin, Germany.
 
-When you visit the site, the hosting provider processes technical access data
-(e.g. IP address, date and time of access, requested URL, user agent)
-in server log files to ensure the secure and reliable operation of the website.
+STRATO provides the technical infrastructure required to operate and deliver this website.
+
+When visiting the website, the following technical data is processed automatically:
+
+* IP address
+* date and time of access
+* browser and operating system information
+* accessed pages / files
+
+This data is technically necessary to ensure the secure and reliable operation of the website and to protect against misuse.
 
 **Legal basis:**  
 Art. 6(1)(f) GDPR (legitimate interest).
@@ -456,15 +463,21 @@ Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Bet
 
 ## Hosting
 
-Diese Website wird bei statichost.eu gehostet. 
+Diese Website wird bei der STRATO AG, Otto-Ostrowski-Straße 7, 10249 Berlin, Deutschland, gehostet.
 
-Beim Aufruf der Website verarbeitet der Hosting-Anbieter technische Zugriffsdaten
-(z. B. IP-Adresse, Datum und Uhrzeit des Zugriffs, aufgerufene URL, User-Agent)
-in Server-Logfiles, um den technischen Betrieb und die Sicherheit der Website
-zu gewährleisten.
+STRATO stellt die technische Infrastruktur zur Verfügung, um die Website auszuliefern.
 
-Die Verarbeitung erfolgt auf Grundlage von  
-**Art. 6 Abs. 1 lit. f DSGVO** (berechtigtes Interesse an einem sicheren und stabilen Betrieb).
+Beim Aufruf der Website werden durch STRATO automatisch folgende technische Daten verarbeitet:
+
+* IP-Adresse
+* Datum und Uhrzeit des Zugriffs
+* Informationen zum verwendeten Browser und Betriebssystem
+* abgerufene Seiten / Dateien
+
+Diese Daten sind technisch erforderlich, um die Website bereitzustellen, die Systemsicherheit zu gewährleisten und Angriffe abzuwehren.
+
+Die Verarbeitung erfolgt auf Grundlage von
+Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einem sicheren und zuverlässigen Betrieb der Website).
 
 ## Datenverarbeitung innerhalb der Europäischen Union
 

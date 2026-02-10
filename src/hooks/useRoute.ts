@@ -2,6 +2,13 @@ import { useEffect, useState } from "react";
 
 export type RouteId = "app" | "imprint" | "privacy" | "guide";
 
+function withBase(path = "") {
+  const base = (import.meta.env.BASE_URL || "/").replace(/\/+$/, "");
+  const suffix = path.replace(/^\/+/, "");
+  if (!suffix) return `${base}/`;
+  return `${base}/${suffix}`;
+}
+
 function parseRoute(): RouteId {
   if (typeof window === "undefined") return "app";
 
@@ -42,7 +49,7 @@ export function useRoute(): RouteId {
 
 export function navigateTo(route: RouteId) {
   if (typeof window === "undefined") return;
-  const nextPath = route === "app" ? "/" : `/${route}`;
+  const nextPath = route === "app" ? withBase() : withBase(route);
   window.history.pushState({}, "", nextPath);
   window.dispatchEvent(new PopStateEvent("popstate"));
 }
