@@ -1,0 +1,12 @@
+RewriteEngine On
+
+# HTTPS erzwingen
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# SPA-Fallback (Subdir /my-board)
+RewriteBase /my-board/
+RewriteRule ^index\.html$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /my-board/index.html [L]

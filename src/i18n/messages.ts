@@ -10,7 +10,7 @@ export const messages: Record<Language, MessageDict> = {
       title: "Project {{name}}",
       subtitle: "Open local JSON → drag → save",
       unsupported:
-        "Browser support missing. Use Chrome/Edge/Brave or later Electron/Tauri.",
+        "Browser support missing. This feature requires HTTPS (or localhost) in Chrome/Edge/Brave, or later Electron/Tauri.",
       open: "Open file",
       save: "Save",
       saveAs: "Save as…",
@@ -151,7 +151,7 @@ export const messages: Record<Language, MessageDict> = {
     },
     file: {
       noOpenPicker:
-        "Your browser does not support the File System Access API. Use Chrome/Edge/Brave or later Electron/Tauri.",
+        "Your browser does not support the File System Access API in this context. Use HTTPS (or localhost) in Chrome/Edge/Brave, or later Electron/Tauri.",
       noHandle: "No file opened.",
       noSavePicker: "showSaveFilePicker is not supported by your browser.",
     },
@@ -260,7 +260,7 @@ You have the right to:
       title: "Projekt {{name}}",
       subtitle: "Lokales JSON öffnen → verschieben → speichern",
       unsupported:
-        "Browser-Support fehlt. Nutze Chrome/Edge/Brave oder später Electron/Tauri.",
+        "Browser-Support fehlt. Diese Funktion benötigt HTTPS (oder localhost) in Chrome/Edge/Brave oder später Electron/Tauri.",
       open: "Datei öffnen",
       save: "Speichern",
       saveAs: "Speichern unter…",
@@ -403,7 +403,7 @@ You have the right to:
     },
     file: {
       noOpenPicker:
-        "Dein Browser unterstützt die File System Access API nicht. Nutze Chrome/Edge/Brave oder später Electron/Tauri.",
+        "Dein Browser unterstützt die File System Access API in diesem Kontext nicht. Nutze HTTPS (oder localhost) in Chrome/Edge/Brave oder später Electron/Tauri.",
       noHandle: "Keine Datei geöffnet.",
       noSavePicker: "showSaveFilePicker wird von deinem Browser nicht unterstützt.",
     },
